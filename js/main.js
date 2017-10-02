@@ -60,6 +60,7 @@ function create() {
     //create the player with animation
     player = game.add.sprite(240, 70, 'sprite');
     game.physics.arcade.enable(player);
+    player.body.setSize(16, 32, 16, 16);
     player.enableBody = true;
     player.body.bounce.set(0.6);
     player.body.tilePadding.set(32);
