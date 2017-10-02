@@ -15,7 +15,7 @@ function preload() {
 
 var map;
 var layer;
-var Layer2;
+var layer2;
 var cursors;
 var player;
 
@@ -68,7 +68,7 @@ function create() {
     player.animations.add('left', [4,5,6,7], 10, true);
     player.animations.add('up', [12,13,14,15], 10, true);
     player.animations.add('down', [8,9,10,11], 10, true);
-//    player.body.setSize(18,18);
+    //player.body.setSize(18,18);
     game.camera.follow(player);
     player.HP = 2;
     
