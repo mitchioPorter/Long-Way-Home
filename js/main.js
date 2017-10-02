@@ -3,8 +3,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: p
 
 function preload() {
 
-    game.load.tilemap('map', 'assets/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('ground_1x1', 'assets/ground_1x1.png');
+    game.load.tilemap('room1', 'assets/maps/room1.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('tileset1', 'assets/maps/tileset1.png');
     game.load.image('bullet', 'assets/bullet.png');
     game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
     game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
@@ -15,6 +15,7 @@ function preload() {
 
 var map;
 var layer;
+var Layer2;
 var cursors;
 var player;
 
@@ -33,15 +34,17 @@ var music;
 
 function create() {
 
-    map = game.add.tilemap('map');
+    map = game.add.tilemap('room1');
 
-    map.addTilesetImage('ground_1x1');
+    map.addTilesetImage('tileset1');
     
-    layer = map.createLayer('Tile Layer 1');
-
+    
+    layer2 = map.createLayer('Floor')
+    layer = map.createLayer('Walls');
+    
     layer.resizeWorld();
 
-    map.setCollisionBetween(1, 12);
+    map.setCollisionBetween(1, 2000, true, 'Walls');
 
     // layer.debug = true;
     
@@ -55,7 +58,7 @@ function create() {
     music.play();
     
     //create the player with animation
-    player = game.add.sprite(260, 70, 'sprite');
+    player = game.add.sprite(240, 70, 'sprite');
     game.physics.arcade.enable(player);
     player.enableBody = true;
     player.body.bounce.set(0.6);
@@ -87,7 +90,7 @@ function create() {
     enemy.HP = 100;
         
     //Create another enemy
-    var enemy2 = game.add.sprite(800, 370, 'enemy');
+    var enemy2 = game.add.sprite(900, 900, 'enemy');
     enemies.add(enemy2);
     enemy2.enableBody = true;
     enemy2.body.collideWorldBounds = true;
