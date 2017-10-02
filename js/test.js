@@ -17,13 +17,13 @@ function create() {
 
     map = game.add.tilemap('map');
 
-    //map.addTilesetImage('ground_1x1');
+    map.addTilesetImage('ground_1x1');
     
-    //layer = map.createLayer('MyTerrain');
+    layer = map.createLayer('MyTerrain');
 
-    //layer.resizeWorld();
+    layer.resizeWorld();
 
-    //map.setCollisionBetween(1, 12);
+    map.setCollisionBetween(1, 12);
 }
 function update(){
     
