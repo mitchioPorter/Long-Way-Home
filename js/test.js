@@ -8,7 +8,6 @@ function preload() {
     game.load.image('bullet', 'assets/bullet.png');
     game.load.image('enemy', 'assets/phaser-dude.png');
     game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
-
 }
 
 var map;

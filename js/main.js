@@ -5,7 +5,6 @@ function preload() {
 
     game.load.tilemap('map', 'assets/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('ground_1x1', 'assets/ground_1x1.png');
-    //game.load.image('phaser', 'assets/phaser-dude.png');
     game.load.image('bullet', 'assets/bullet.png');
     game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
     game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
@@ -26,6 +25,8 @@ var lastPress = 'up';
 var enemies;
 var endText;
 var enemyNum;
+var lastAttackTime = 0;
+var HPText;
 
 function create() {
 
@@ -41,9 +42,10 @@ function create() {
 
     // layer.debug = true;
     
-    
+    //create the player with animation
     player = game.add.sprite(260, 70, 'sprite');
     game.physics.arcade.enable(player);
+    player.enableBody = true;
     player.body.bounce.set(0.6);
     player.body.tilePadding.set(32);
     player.body.collideWorldBounds = true;
@@ -51,24 +53,40 @@ function create() {
     player.animations.add('left', [4,5,6,7], 10, true);
     player.animations.add('up', [12,13,14,15], 10, true);
     player.animations.add('down', [8,9,10,11], 10, true);
+//    player.body.setSize(18,18);
     game.camera.follow(player);
-    //game.physics.arcade.gravity.y = 0;
+    player.HP = 2;
     
+    //Create a group of enemies
     enemies = game.add.group();
     enemies.enableBody = true;
+    enemyNum = 2;
+    
+    //create an enemy with animation
     var enemy = game.add.sprite(660, 270, 'enemy');
     enemies.add(enemy);
-    enemyNum = 1;
     enemy.enableBody = true;
     enemy.body.collideWorldBounds = true;
     enemy.animations.add('left', [0,1,2,3], 10, true);
     enemy.animations.add('right', [4,5,6,7], 10, true);
-    
-    //enemy = game.add.sprite(660, 270, 'enemy');
     game.physics.enable(enemy);
     enemy.body.bounce.set(0.6);
     enemy.body.tilePadding.set(32);
     enemy.HP = 100;
+        
+    //Create another enemy
+    var enemy2 = game.add.sprite(800, 370, 'enemy');
+    enemies.add(enemy2);
+    enemy2.enableBody = true;
+    enemy2.body.collideWorldBounds = true;
+    enemy2.animations.add('left', [0,1,2,3], 10, true);
+    enemy2.animations.add('right', [4,5,6,7], 10, true);
+    game.physics.enable(enemy2);
+    enemy2.body.bounce.set(0.6);
+    enemy2.body.tilePadding.set(32);
+    enemy2.HP = 100;
+    
+    game.physics.arcade.collide(enemy, enemy2);
     
     //  Our bullet group
     bullets = game.add.group();
@@ -80,9 +98,13 @@ function create() {
     bullets.setAll('outOfBoundsKill', true);
     bullets.setAll('checkWorldBounds', true);
     
-
+    //Access the keyboard input
     cursors = game.input.keyboard.createCursorKeys();
-    attack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    attack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    
+    HPText = game.add.text(game.camera.x, game.camera.y, 'HP: ' + player.HP, { fontSize: '32px', fill: '#fff' } );
+    HPText.fixedToCamera = true;
+    
 
 }
 
@@ -107,7 +129,6 @@ function update() {
         lastPress = 'down';
         player.animations.play('down');
     }
-
     else if (cursors.left.isDown)
     {
         player.body.velocity.x = -150;
@@ -135,18 +156,27 @@ function update() {
     }
     enemies.forEachAlive(function(enemy){
         if (enemy.visible && enemy.inCamera) {
-            game.physics.arcade.moveToObject(enemy, player, 100);
-            if(enemy.body.velocity.x>0){
-                enemy.animations.play('right');
+            if (game.physics.arcade.distanceBetween(player, enemy) > 30){
+                game.physics.arcade.moveToObject(enemy, player, 100);
+                if(enemy.body.velocity.x>0){
+                    enemy.animations.play('right');
+                }
+                else {
+                    enemy.animations.play('left');
+                }
             }
             else {
-                enemy.animations.play('left');
+                enemy.body.velocity.x = 0;
+                enemy.body.velocity.y = 0;
             }
         }
         game.physics.arcade.collide(enemy, layer);
         game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this);
     });
-    game.physics.arcade.overlap(player, enemies, playerKilled, null, this);
+    if (game.time.now > lastAttackTime + 3000){
+        game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
+    }
+
     if (enemyNum <= 0){
         endText = game.add.text((game.camera.x + game.camera.width/2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
         player.kill();
@@ -156,17 +186,25 @@ function update() {
             game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
         }
     })
-
+    if (player.HP <= 0){
+        playerKilled();
+    }
+    
+    //updating HP of the player
+    //HPText.forEach(updateHP, this, true, player.HP);
+    //HPTxt.,children[0].text = 'HP: ' + player.HP;
+    HPText.text = 'HP: ' + player.HP;
 }
+
 
 function render() {
 
     //  Useful debug things you can turn on to see what's happening
 
-    // game.debug.spriteBounds(sprite);
-    // game.debug.cameraInfo(game.camera, 32, 32);
-    // game.debug.body(sprite);
-    //game.debug.bodyInfo(sprite, 32, 32);
+//     game.debug.spriteBounds(player);
+//     game.debug.cameraInfo(game.camera, 32, 32);
+//     game.debug.body(player);
+//     game.debug.bodyInfo(player, 32, 32);
 
 }
 function fire () {
@@ -192,10 +230,10 @@ function fire () {
                 bullet.reset(player.x+12, player.y+50);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 500);break;
             case 'left':
-                bullet.reset(player.x-5, player.y+35);
+                bullet.reset(player.x-8, player.y+35);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 500);break;
             case 'right':
-                bullet.reset(player.x+32, player.y+35);
+                bullet.reset(player.x+38, player.y+35);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 500);break;
         }
         //bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
@@ -208,7 +246,12 @@ function hitEnemy(enemy, bullet){
         enemyNum=enemyNum-1;
     }
 }
-function playerKilled(player, enemy){
+function playerAttacked(player, enemy){
+    //enemy.kill();
+    player.HP -= 1;
+    lastAttackTime = game.time.now;
+}
+function playerKilled(){
     player.kill();
     enemies.forEachAlive(function(enemy){
         enemy.kill();
@@ -217,4 +260,7 @@ function playerKilled(player, enemy){
 }
 function bulletKilled (bullet, layer){
     bullet.kill();
+}
+function updateHP (text, HP){
+    text = 'HP: ' + HP;
 }
