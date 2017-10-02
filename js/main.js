@@ -8,6 +8,8 @@ function preload() {
     game.load.image('bullet', 'assets/bullet.png');
     game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
     game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
+    game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
+    game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
 
 }
 
@@ -27,6 +29,7 @@ var endText;
 var enemyNum;
 var lastAttackTime = 0;
 var HPText;
+var music;
 
 function create() {
 
@@ -41,6 +44,15 @@ function create() {
     map.setCollisionBetween(1, 12);
 
     // layer.debug = true;
+    
+    // Sound
+    fx = game.add.audio('crunch');
+    fx.allowMultiple = true;
+    fx.addMarker('player_hit', 0, 0.5);
+    
+    // Music
+    music = game.add.audio('dungeon');
+    music.play();
     
     //create the player with animation
     player = game.add.sprite(260, 70, 'sprite');
@@ -200,7 +212,7 @@ function update() {
 function render() {
 
     //  Useful debug things you can turn on to see what's happening
-
+//     game.debug.soundInfo(music, 20, 32);
 //     game.debug.spriteBounds(player);
 //     game.debug.cameraInfo(game.camera, 32, 32);
 //     game.debug.body(player);
@@ -248,6 +260,7 @@ function hitEnemy(enemy, bullet){
 }
 function playerAttacked(player, enemy){
     //enemy.kill();
+    fx.play("player_hit")
     player.HP -= 1;
     lastAttackTime = game.time.now;
 }
