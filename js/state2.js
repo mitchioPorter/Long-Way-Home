@@ -24,9 +24,11 @@ var door;
 var keys;
 var key;
 var lastGemTime = 0;
+var tinyGems;
+var boss;
 demo.state2.prototype = {
     preload: function(){
-        game.load.tilemap('bossRoom', 'assets/maps/BossRoom.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('BossRoom', 'assets/maps/BossRoom.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tileset1', 'assets/maps/tileset1.png');
         game.load.image('bullet', 'assets/fireball.png');
         game.load.image('door', 'assets/door.png');
@@ -39,14 +41,16 @@ demo.state2.prototype = {
         game.load.image('tinyGem', 'assets/tinygem.png');
     },
     create: function(){
-        map = game.add.tilemap('bossRoom');
-        map.addTilesetImage('tileset1');  
+        map = game.add.tilemap('BossRoom');
+
+        map.addTilesetImage('tileset1');
+    
+    
         layer2 = map.createLayer('Floor')
         layer = map.createLayer('Walls');
-
+    
         layer.resizeWorld();
         map.setCollisionBetween(1, 2000, true, 'Walls');
-        
         // Sound
         fx = game.add.audio('crunch');
         fx.allowMultiple = true;
@@ -54,6 +58,9 @@ demo.state2.prototype = {
         // Music
         music = game.add.audio('dungeon');
         music.play();
+
+        //create the player with animation
+
 
         //create the player with animation
         player = game.add.sprite(240, 70, 'sprite');
@@ -76,7 +83,7 @@ demo.state2.prototype = {
         enemyNum = 1;
         
         //Create a boss
-        var boss = game.add.sprite(380, 360, 'boss');
+        boss = game.add.sprite(380, 360, 'boss');
         enemies.add(boss);
         boss.enableBody = true;
         boss.body.collideWorldBounds = true;
@@ -87,6 +94,7 @@ demo.state2.prototype = {
         boss.body.tilePadding.set(32);
         boss.HP = 100;
         
+                //  Our bullet group
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
@@ -95,6 +103,15 @@ demo.state2.prototype = {
         bullets.setAll('anchor.y', 0.5);
         bullets.setAll('outOfBoundsKill', true);
         bullets.setAll('checkWorldBounds', true);
+        
+        tinyGems = game.add.group();
+        tinyGems.enableBody = true;
+        tinyGems.physicsBodyType = Phaser.Physics.ARCADE;
+        tinyGems.createMultiple(30, 'tinyGem', 0, false);
+        tinyGems.setAll('anchor.x', 0.5);
+        tinyGems.setAll('anchor.y', 0.5);
+        tinyGems.setAll('outOfBoundsKill', true);
+        tinyGems.setAll('checkWorldBounds', true);
     
         HPText = game.add.text(game.camera.x, game.camera.y, 'HP: ' + player.HP, { fontSize: '32px', fill: '#fff' } );
         HPText.fixedToCamera = true;
@@ -149,14 +166,12 @@ demo.state2.prototype = {
         enemies.forEachAlive(function(enemy){
             if (enemy.visible && enemy.inCamera) {
                 if (game.physics.arcade.distanceBetween(player, enemy) > 30){
-                    game.physics.arcade.moveToObject(enemy, player, 100);
+                    game.physics.arcade.moveToObject(enemy, player, 30);
                     if(enemy.body.velocity.x>0){
                         enemy.animations.play('right');
-                        fireGem(1);
                     }
                     else {
                         enemy.animations.play('left');
-                        fireGem(0);
                     }
                 }
                 else {
@@ -174,7 +189,7 @@ demo.state2.prototype = {
             if (bullet.visible && bullet.inCamera){
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
-        })
+        });
         if (player.HP <= 0){
             playerKilled();
         }
@@ -182,24 +197,73 @@ demo.state2.prototype = {
         //updating HP of the player
         HPText.text = 'HP: ' + player.HP;
 
-        game.physics.arcade.overlap(player, key, pickupKey,null, this);
-
-        game.physics.arcade.overlap(player, door, openDoor,
-            // ignore if there is no key or the player is on air
-            function (player, door) {
-                return hasKey;
-            }, this);
+        //boss handler
+        if (boss.visible && boss.inCamera){
+            fireGem ();
+        }
+        boss.body.velocity.x = 0;
+        game.physics.arcade.overlap(player, tinyGems, hitByGem, null, this);
+        tinyGems.forEachAlive(function(gem){
+            if (gem.visible && gem.inCamera){
+                game.physics.arcade.overlap(gem, layer, gemKilled, null, this);
+            }
+        });
+        if (enemyNum <= 0){
+            endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
+            player.kill();
+        }
     }
 };
-function fireGem(num){
-    if (game.time.now > lastGemTime + 1000){
-        if (num == 0){
-            
+function fire () {
+
+    if (game.time.now > nextFire && bullets.countDead() > 0)
+    {
+        nextFire = game.time.now + fireRate;
+
+        var bullet = bullets.getFirstExists(false);
+        bullet.enableBody =true;
+        bullet.physicsBodyType = Phaser.Physics.ARCADE;
+        
+        switch(lastPress){
+            case 'up':
+                bullet.reset(player.x+12, player.y);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 500);break;              
+            case 'down':
+                bullet.reset(player.x+12, player.y+50);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 500);break;
+            case 'left':
+                bullet.reset(player.x-8, player.y+35);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 500);break;
+            case 'right':
+                bullet.reset(player.x+38, player.y+35);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 500);break;
         }
-        else if (num == 1){
-            
+        //bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
+    }
+}
+function fireGem (){
+    if (game.time.now > lastGemTime + 2000){
+        var gem = tinyGems.getFirstExists(false);
+        gem.enableBody =true;
+        gem.physicsBodyType = Phaser.Physics.ARCADE;
+        //left
+        if (boss.body.velocity.x < 0){
+            gem.reset(boss.x, boss.y+55);
+            gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x-500, gem.body.position.y, 1000, 5000);
+        }
+        //right
+        else if (boss.body.velocity.x >= 0){
+            gem.reset(boss.x, boss.y+55);
+            gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x+500, gem.body.position.y, 1000, 5000);
         }
         lastGemTime = game.time.now;
     }
-
+}
+function hitByGem(player, gem){
+    player.HP -=1;
+    fx.play("player_hit");
+    gem.kill();
+}
+function gemKilled (bullet, layer){
+    bullet.kill();
 }

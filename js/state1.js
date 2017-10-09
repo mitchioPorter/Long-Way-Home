@@ -86,17 +86,6 @@ demo.state1.prototype = {
         createEnemy(660, 240, 0);
         createEnemy(900, 900, 1);
 
-//        Create a boss
-//        var boss = game.add.sprite(980, 1000, 'boss');
-//        enemies.add(boss);
-//        boss.enableBody = true;
-//        boss.body.collideWorldBounds = true;
-//        boss.animations.add('left', [0,1], 10, true);
-//        boss.animations.add('right', [0,1], 10, true);
-//        game.physics.enable(boss);
-//        boss.body.bounce.set(0.6);
-//        boss.body.tilePadding.set(32);
-//        boss.HP = 100;
 
         //game.physics.arcade.collide(enemy, enemy2);
         //check collide among enemies
@@ -140,7 +129,7 @@ demo.state1.prototype = {
         //Access the keyboard input
         cursors = game.input.keyboard.createCursorKeys();
         attack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        game.input.keyboard.addKey(Phaser.Keyboard.TWO).onDown.add(changeState2, null, null, 2);
+        //game.input.keyboard.addKey(Phaser.Keyboard.TWO).onDown.add(changeState2, null, null, 2);
 
         HPText = game.add.text(game.camera.x, game.camera.y, 'HP: ' + player.HP, { fontSize: '32px', fill: '#fff' } );
         HPText.fixedToCamera = true;
@@ -277,7 +266,7 @@ function hitEnemy(enemy, bullet){
 }
 function playerAttacked(player, enemy){
     enemy.kill();
-    fx.play("player_hit")
+    fx.play("player_hit");
     player.HP -= 1;
     lastAttackTime = game.time.now;
     //console.log(lastAttackTime);
