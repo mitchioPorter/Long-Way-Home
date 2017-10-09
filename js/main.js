@@ -5,7 +5,9 @@ function preload() {
 
     game.load.tilemap('room1', 'assets/maps/room1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tileset1', 'assets/maps/tileset1.png');
-    game.load.image('bullet', 'assets/bullet.png');
+    game.load.image('bullet', 'assets/fireball.png');
+    game.load.image('door', 'assets/door.png');
+    game.load.image('key', 'assets/key.png');
     game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
     game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
     game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
@@ -32,6 +34,12 @@ var enemyNum;
 var lastAttackTime = 0;
 var HPText;
 var music;
+var hasKey = false;
+
+var doors;
+var door;
+var keys;
+var key;
 
 function create() {
 
@@ -76,7 +84,7 @@ function create() {
     //Create a group of enemies
     enemies = game.add.group();
     enemies.enableBody = true;
-    enemyNum = 2;
+    enemyNum = 3;
     
     createEnemy(660, 240, 0);
     createEnemy(900, 900, 1);
@@ -113,6 +121,27 @@ function create() {
     bullets.setAll('outOfBoundsKill', true);
     bullets.setAll('checkWorldBounds', true);
     
+    // Door and Keys
+    doors = game.add.group();
+    door = game.add.sprite(1120, 880, 'door');
+    doors.add(door);
+    door.anchor.setTo(0.5, 1);
+    game.physics.enable(door);
+    door.body.allowGravity = false;
+    door.body.immovable = true;
+    door.body.moves = false;
+    door.body.setSize(48,48);
+    
+    keys = game.add.group();
+    //key = game.add.sprite(1160, 1180, 'key');
+    key = game.add.sprite(860, 240, 'key');
+    keys.add(key);
+    key.anchor.setTo(0.5, 1);
+    game.physics.enable(key);
+    key.body.allowGravity = false;
+
+    
+    
     //Access the keyboard input
     cursors = game.input.keyboard.createCursorKeys();
     attack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -124,7 +153,9 @@ function create() {
 }
 
 function update() {
-
+    if (!hasKey){
+        game.physics.arcade.collide(player, door);
+    }
     game.physics.arcade.collide(player, layer);
 
     //  Un-comment these to gain full control over the sprite
@@ -188,13 +219,10 @@ function update() {
         game.physics.arcade.collide(enemy, layer);
         game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this);
     });
-    if (game.time.now > lastAttackTime + 3000){
-        game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
-    }
-    if (enemyNum <= 0){
-        endText = game.add.text((game.camera.x + game.camera.width/2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
-        player.kill();
-    }
+//    if (game.time.now > lastAttackTime + 3000){
+//        game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
+//    }
+    game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
     bullets.forEachAlive(function(bullet){
         if (bullet.visible && bullet.inCamera){
             game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
@@ -206,6 +234,14 @@ function update() {
     
     //updating HP of the player
     HPText.text = 'HP: ' + player.HP;
+    
+    game.physics.arcade.overlap(player, key, pickupKey,null, this);
+    
+    game.physics.arcade.overlap(player, door, openDoor,
+        // ignore if there is no key or the player is on air
+        function (player, door) {
+            return hasKey;
+        }, this);
 }
 
 
@@ -285,4 +321,13 @@ function createEnemy (posX, posY, id){
     enemy.body.tilePadding.set(32);
     enemy.HP = 100;
     enemy.i = id;
+}
+function pickupKey(player, key){
+    key.kill();
+    hasKey = true;
+}
+function openDoor (player, door){
+    door.kill();
+    endText = game.add.text((game.camera.x + game.camera.width/2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
+    player.kill();
 }
