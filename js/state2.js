@@ -23,9 +23,10 @@ var doors;
 var door;
 var keys;
 var key;
+
 demo.state2.prototype = {
     preload: function(){
-        game.load.tilemap('bossRoom', 'assets/maps/BossRoom.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('BossRoom', 'assets/maps/BossRoom.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tileset1', 'assets/maps/tileset1.png');
         game.load.image('bullet', 'assets/fireball.png');
         game.load.image('door', 'assets/door.png');
@@ -37,14 +38,18 @@ demo.state2.prototype = {
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
     },
     create: function(){
-        map = game.add.tilemap('bossRoom');
-        map.addTilesetImage('tileset1');  
+        map = game.add.tilemap('BossRoom');
+
+        map.addTilesetImage('tileset1');
+    
+    
         layer2 = map.createLayer('Floor')
         layer = map.createLayer('Walls');
-
+    
         layer.resizeWorld();
 
         map.setCollisionBetween(1, 2000, true, 'Walls');
+
             //create the player with animation
         player = game.add.sprite(240, 70, 'sprite');
         game.physics.arcade.enable(player);

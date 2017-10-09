@@ -40,7 +40,7 @@ demo.state1.prototype = {
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
     },
     create: function(){
-            map = game.add.tilemap('room1');
+        map = game.add.tilemap('room1');
 
         map.addTilesetImage('tileset1');
     
