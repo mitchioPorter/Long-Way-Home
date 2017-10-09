@@ -33,7 +33,6 @@ demo.state2.prototype = {
         game.load.image('bullet', 'assets/fireball.png');
         game.load.image('door', 'assets/door.png');
         game.load.image('key', 'assets/key.png');
-        game.load.image('potion', 'assets/potion.png');
         game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
         game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');

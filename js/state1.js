@@ -28,6 +28,7 @@ var keys;
 var key;
 var potions;
 var health_potion;
+
 demo.state1.prototype = {
     preload: function(){
         game.load.tilemap('room1', 'assets/maps/room1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -308,10 +309,12 @@ function createEnemy (posX, posY, id){
     enemy.HP = 100;
     enemy.i = id;
 }
+
 function pickupHealth(player, health_potion){
     health_potion.kill();
     player.HP += 1;
 }
+
 function pickupKey(player, key){
     key.kill();
     hasKey = true;
