@@ -5,7 +5,9 @@ function preload() {
 
     game.load.tilemap('room1', 'assets/maps/room1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tileset1', 'assets/maps/tileset1.png');
-    game.load.image('bullet', 'assets/bullet.png');
+    game.load.image('bullet', 'assets/fireball.png');
+    game.load.image('door', 'assets/door.png');
+    game.load.image('key', 'assets/key.png');
     game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
     game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
     game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
@@ -31,6 +33,7 @@ var enemyNum;
 var lastAttackTime = 0;
 var HPText;
 var music;
+var hasKey = false;
 
 function create() {
 
@@ -113,6 +116,24 @@ function create() {
     bullets.setAll('anchor.y', 0.5);
     bullets.setAll('outOfBoundsKill', true);
     bullets.setAll('checkWorldBounds', true);
+    
+    // Door and Keys
+    doors = game.add.group();
+    door = game.add.sprite(175, 400, 'door');
+    doors.add(door);
+    door.anchor.setTo(0.5, 1);
+    game.physics.enable(door);
+    door.body.allowGravity = false;
+    door.body.immovable = true;
+    door.body.moves = false;
+    
+    keys = game.add.group();
+    key = game.add.sprite(160, 270, 'key');
+    keys.add(key);
+    key.anchor.setTo(0.5, 1);
+    game.physics.enable(key);
+    key.body.allowGravity = false;
+    
     
     //Access the keyboard input
     cursors = game.input.keyboard.createCursorKeys();
@@ -210,6 +231,14 @@ function update() {
     //HPText.forEach(updateHP, this, true, player.HP);
     //HPTxt.,children[0].text = 'HP: ' + player.HP;
     HPText.text = 'HP: ' + player.HP;
+    
+    game.physics.arcade.overlap(player, key, pickupKey,null, this);
+    
+    game.physics.arcade.overlap(player, door, openDoor,
+        // ignore if there is no key or the player is on air
+        function (player, door) {
+            return hasKey;
+        }, this);
 }
 
 
@@ -280,4 +309,11 @@ function bulletKilled (bullet, layer){
 }
 function updateHP (text, HP){
     text = 'HP: ' + HP;
+}
+function pickupKey(player, key){
+    key.kill();
+    hasKey = true;
+}
+function openDoor (player, door){
+    door.kill();
 }
