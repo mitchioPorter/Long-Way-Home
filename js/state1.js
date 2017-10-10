@@ -76,7 +76,9 @@ demo.state1.prototype = {
         player.animations.add('up', [12,13,14,15], 10, true);
         player.animations.add('down', [8,9,10,11], 10, true);
         game.camera.follow(player);
+        //player stats
         player.HP = 2;
+        player.Damage = 3.0;
     
         //Create a group of enemies
         enemies = game.add.group();
@@ -258,7 +260,7 @@ function fire () {
     }
 }
 function hitEnemy(enemy, bullet){
-    enemy.HP = enemy.HP-50;
+    enemy.HP = enemy.HP-(1*player.Damage);
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
