@@ -1,28 +1,11 @@
 demo.state2 = function(){};
-var map;
-var layer;
-var layer2;
-var cursors;
-var player;
 
 
-var bullets;
-var fireRate = 100;
-var nextFire = 0;
-var attack;
-var lastPress = 'up';
-var enemies;
-var endText;
-var enemyNum;
-var lastAttackTime = 0;
-var HPText;
-var music;
-var hasKey = false;
 
-var doors;
-var door;
-var keys;
-var key;
+
+lastPress = 'right';
+lastAttackTime = 0;
+hasKey = false;
 var lastGemTime = 0;
 var tinyGems;
 var boss;
@@ -214,33 +197,33 @@ demo.state2.prototype = {
         }
     }
 };
-function fire () {
-
-    if (game.time.now > nextFire && bullets.countDead() > 0)
-    {
-        nextFire = game.time.now + fireRate;
-
-        var bullet = bullets.getFirstExists(false);
-        bullet.enableBody =true;
-        bullet.physicsBodyType = Phaser.Physics.ARCADE;
-        
-        switch(lastPress){
-            case 'up':
-                bullet.reset(player.x+12, player.y);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 500);break;              
-            case 'down':
-                bullet.reset(player.x+12, player.y+50);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 500);break;
-            case 'left':
-                bullet.reset(player.x-8, player.y+35);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 500);break;
-            case 'right':
-                bullet.reset(player.x+38, player.y+35);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 500);break;
-        }
-        //bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
-    }
-}
+//function fire () {
+//
+//    if (game.time.now > nextFire && bullets.countDead() > 0)
+//    {
+//        nextFire = game.time.now + fireRate;
+//
+//        var bullet = bullets.getFirstExists(false);
+//        bullet.enableBody =true;
+//        bullet.physicsBodyType = Phaser.Physics.ARCADE;
+//        
+//        switch(lastPress){
+//            case 'up':
+//                bullet.reset(player.x+12, player.y);
+//                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 500);break;              
+//            case 'down':
+//                bullet.reset(player.x+12, player.y+50);
+//                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 500);break;
+//            case 'left':
+//                bullet.reset(player.x-8, player.y+35);
+//                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 500);break;
+//            case 'right':
+//                bullet.reset(player.x+38, player.y+35);
+//                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 500);break;
+//        }
+//        //bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
+//    }
+//}
 function fireGem (){
     if (game.time.now > lastGemTime + 2000){
         var gem = tinyGems.getFirstExists(false);
