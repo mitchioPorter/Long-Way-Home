@@ -18,6 +18,7 @@ demo.state2.prototype = {
         game.load.image('key', 'assets/key.png');
         game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
         game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
+        game.load.spritesheet('char2', 'assets/player2.png', 48, 48, 16);
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
         game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
@@ -46,7 +47,7 @@ demo.state2.prototype = {
 
 
         //create the player with animation
-        player = game.add.sprite(240, 70, 'sprite');
+        player = game.add.sprite(200, 70, 'sprite');
         game.physics.arcade.enable(player);
         player.body.setSize(16, 32, 16, 16);
         player.enableBody = true;
@@ -57,8 +58,24 @@ demo.state2.prototype = {
         player.animations.add('left', [4,5,6,7], 10, true);
         player.animations.add('up', [12,13,14,15], 10, true);
         player.animations.add('down', [8,9,10,11], 10, true);
+        player.id = 1;
+        
+        player2 = game.add.sprite(250, 70, 'player2');
+        game.physics.arcade.enable(player2);
+        player2.body.setSize(16, 32, 16, 16);
+        player2.enableBody = true;
+        player2.body.bounce.set(0.6);
+        player2.body.tilePadding.set(32);
+        player2.body.collideWorldBounds = true;
+        player2.animations.add('right', [0,1,2,3], 10, true);
+        player2.animations.add('left', [4,5,6,7], 10, true);
+        player2.animations.add('up', [12,13,14,15], 10, true);
+        player2.animations.add('down', [8,9,10,11], 10, true);
+        player2.id=2;
+        
         game.camera.follow(player);
         player.HP = 2;
+        player2.HP = 2;
         
         //Create a group of enemies
         enemies = game.add.group();
@@ -81,7 +98,7 @@ demo.state2.prototype = {
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(30, 'bullet', 0, false);
+        bullets.createMultiple(3, 'bullet', 0, false);
         bullets.setAll('anchor.x', 0.5);
         bullets.setAll('anchor.y', 0.5);
         bullets.setAll('outOfBoundsKill', true);
@@ -101,12 +118,20 @@ demo.state2.prototype = {
 
         //Access the keyboard input
         cursors = game.input.keyboard.createCursorKeys();
-        attack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        w = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        a = game.input.keyboard.addKey(Phaser.Keyboard.A);
+        s = game.input.keyboard.addKey(Phaser.Keyboard.S);
+        d = game.input.keyboard.addKey(Phaser.Keyboard.D);
+        attack = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        attack2 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
     update: function(){
         game.physics.arcade.collide(player, layer);
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
+        game.physics.arcade.collide(player2, layer);
+        player2.body.velocity.x = 0;
+        player2.body.velocity.y = 0;
 
         //control the player
         if (cursors.up.isDown)
@@ -141,11 +166,55 @@ demo.state2.prototype = {
             }
         }
         
+        if (w.isDown)
+        {
+            player2.body.velocity.y = -150;
+            lastPress2 = 'up';
+            player2.animations.play('up');
+        }
+        else if (s.isDown)
+        {
+            player2.body.velocity.y = 150;
+            lastPress2 = 'down';
+            player2.animations.play('down');
+        }
+        else if (a.isDown)
+        {
+            player2.body.velocity.x = -150;
+            lastPress2 = 'left';
+            player2.animations.play('left');
+        }
+        else if (d.isDown)
+        {
+            player2.body.velocity.x = 150;
+            lastPress2 = 'right';
+            player2.animations.play('right');
+        }
+        else {
+            player2.animations.stop();
+            player2.frame = 8;
+            if (lastPress2 == 'left'){
+                player2.frame = 12;
+            }
+            else if (lastPress2 == 'up'){
+                player2.frame = 0;
+            }
+            else if (lastPress2 == 'down'){
+                player2.frame = 4;
+            }
+        }
+        
         if (attack.isDown && player.visible)
         {
             //  Boom!
-            fire();
+            fire(player);
         }
+        if (attack2.isDown && player2.visible)
+        {
+            //  Boom!
+            fire(player2);
+        }        
+
         enemies.forEachAlive(function(enemy){
             if (enemy.visible && enemy.inCamera) {
                 if (game.physics.arcade.distanceBetween(player, enemy) > 30){
@@ -162,19 +231,39 @@ demo.state2.prototype = {
                     enemy.body.velocity.y = 0;
                 }
             }
+            if (enemy.visible && enemy.inCamera) {
+                if (game.physics.arcade.distanceBetween(player2, enemy) > 30){
+                    game.physics.arcade.moveToObject(enemy, player2, 100);
+                    if(enemy.body.velocity.x>0){
+                        enemy.animations.play('right');
+                    }
+                    else {
+                        enemy.animations.play('left');
+                    }
+                }
+                else {
+                    enemy.body.velocity.x = 0;
+                    enemy.body.velocity.y = 0;
+                }
+            }
+            
             game.physics.arcade.collide(enemy, layer);
             game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this);
 
         });
         
         game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
+        game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
         bullets.forEachAlive(function(bullet){
             if (bullet.visible && bullet.inCamera){
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
         });
         if (player.HP <= 0){
-            playerKilled();
+            playerKilled(player);
+        }
+        if (player2.HP <= 0){
+            playerKilled(player2);
         }
         
         //updating HP of the player
@@ -186,6 +275,7 @@ demo.state2.prototype = {
         }
         boss.body.velocity.x = 0;
         game.physics.arcade.overlap(player, tinyGems, hitByGem, null, this);
+        game.physics.arcade.overlap(player2, tinyGems, hitByGem, null, this);
         tinyGems.forEachAlive(function(gem){
             if (gem.visible && gem.inCamera){
                 game.physics.arcade.overlap(gem, layer, gemKilled, null, this);
@@ -197,33 +287,6 @@ demo.state2.prototype = {
         }
     }
 };
-//function fire () {
-//
-//    if (game.time.now > nextFire && bullets.countDead() > 0)
-//    {
-//        nextFire = game.time.now + fireRate;
-//
-//        var bullet = bullets.getFirstExists(false);
-//        bullet.enableBody =true;
-//        bullet.physicsBodyType = Phaser.Physics.ARCADE;
-//        
-//        switch(lastPress){
-//            case 'up':
-//                bullet.reset(player.x+12, player.y);
-//                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 500);break;              
-//            case 'down':
-//                bullet.reset(player.x+12, player.y+50);
-//                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 500);break;
-//            case 'left':
-//                bullet.reset(player.x-8, player.y+35);
-//                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 500);break;
-//            case 'right':
-//                bullet.reset(player.x+38, player.y+35);
-//                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 500);break;
-//        }
-//        //bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
-//    }
-//}
 function fireGem (){
     if (game.time.now > lastGemTime + 2000){
         var gem = tinyGems.getFirstExists(false);
