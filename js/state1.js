@@ -333,7 +333,7 @@ demo.state1.prototype = {
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
         });
-        if (player.HP <= 0 || player2 <=0){
+        if (player.HP <= 0 || player2.HP <=0){
             playerKilled(player);
             player2.kill();        
         }
@@ -342,7 +342,7 @@ demo.state1.prototype = {
 //        }
 
         //updating HP of the player
-        HPText.text = 'HP: ' + player.HP;
+        HPText.text = 'HP1: ' + player.HP+' HP2: '+player2.HP ;
 
         game.physics.arcade.overlap(player, health_potion, pickupHealth, null, this);
         game.physics.arcade.overlap(player, key, pickupKey,null, this);
