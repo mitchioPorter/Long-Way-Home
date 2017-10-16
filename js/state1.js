@@ -26,6 +26,7 @@ var doors;
 var door;
 var keys;
 var key;
+var boulder;
 demo.state1.prototype = {
     preload: function(){
         game.load.tilemap('room1', 'assets/maps/room1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -38,6 +39,7 @@ demo.state1.prototype = {
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
         game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
+        game.load.spritesheet('boulder','assets/boulder.png', 32,32,4);
     },
     create: function(){
         map = game.add.tilemap('room1');
@@ -125,6 +127,18 @@ demo.state1.prototype = {
         key.anchor.setTo(0.5, 1);
         game.physics.enable(key);
         key.body.allowGravity = false;
+        
+        //Create a boulder
+        boulder = game.add.sprite(240, 470, 'boulder');
+        game.physics.arcade.enable(boulder);
+        boulder.enableBody = true;
+        boulder.body.bounce.set(1);
+        boulder.body.tilePadding.set(32);
+        boulder.animations.add('boulder-u', [0,1,2,3], 10, true);
+        boulder.animations.add('boulder-d', [3,2,1,0], 10, true);
+        boulder.body.velocity.y=150;
+        boulder.immoveable=true;
+        
     
         //Access the keyboard input
         cursors = game.input.keyboard.createCursorKeys();
@@ -234,16 +248,28 @@ demo.state1.prototype = {
                 return hasKey;
             }, this);
         
+        
+        //boulder handler
+        game.physics.arcade.collide(boulder, layer);
+        var hitplayer = game.physics.arcade.collide(player, boulder);
+        boulder.body.velocity.x=0;
+        if (boulder.body.velocity.y!=-150){
+            boulder.body.velocity.y=150;
+        }
+        if (hitplayer){
+            player.HP-=1;
+            fx.play("player_hit");
+        }
     }
 };
 function fire () {
-    console.log(game.time.now);
-    console.log(nextFire);
+//    console.log(game.time.now);
+//    console.log(nextFire);
     if ((game.time.now > nextFire) && (bullets.countDead() > 0))
     {
         
         nextFire = game.time.now + fireRate;
-        console.log(fireRate);
+//        console.log(fireRate);
 
         var bullet = bullets.getFirstExists(false);
         bullet.enableBody =true;
@@ -269,7 +295,7 @@ function fire () {
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
         });
-        console.log("1");
+//        console.log("1");
     }
 }
 function hitEnemy(enemy, bullet){
@@ -278,6 +304,7 @@ function hitEnemy(enemy, bullet){
         enemy.kill();
         enemyNum=enemyNum-1;
     }
+    //enemy.reset(enemy.body.position.x+20,enemy.body.position.y);
 }
 function playerAttacked(player, enemy){
     enemy.kill();
@@ -290,6 +317,7 @@ function playerKilled(){
     enemies.forEachAlive(function(enemy){
         enemy.kill();
     });
+    boulder.kill();
     endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Lose!', { fontSize: '32px', fill: '#fff' });
 }
 function bulletKilled (bullet, layer){
