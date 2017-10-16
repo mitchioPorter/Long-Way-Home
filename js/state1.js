@@ -39,6 +39,7 @@ demo.state1.prototype = {
         game.load.image('potion', 'assets/potion.png');
         game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
         game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
+        game.load.spritesheet('player2', 'assets/char2.png', 48, 48, 16);
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
         game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
@@ -68,7 +69,7 @@ demo.state1.prototype = {
         music.play();
 
         //create the player with animation
-        player = game.add.sprite(240, 70, 'sprite');
+        player = game.add.sprite(230, 70, 'sprite');
         game.physics.arcade.enable(player);
         player.body.setSize(16, 32, 16, 16);
         player.enableBody = true;
@@ -79,8 +80,23 @@ demo.state1.prototype = {
         player.animations.add('left', [4,5,6,7], 10, true);
         player.animations.add('up', [12,13,14,15], 10, true);
         player.animations.add('down', [8,9,10,11], 10, true);
+  
+        player2 = game.add.sprite(250, 70, 'player2');
+        game.physics.arcade.enable(player2);
+        player2.body.setSize(16, 32, 16, 16);
+        player2.enableBody = true;
+        player2.body.bounce.set(0.6);
+        player2.body.tilePadding.set(32);
+        player2.body.collideWorldBounds = true;
+        player2.animations.add('right', [0,1,2,3], 10, true);
+        player2.animations.add('left', [4,5,6,7], 10, true);
+        player2.animations.add('up', [12,13,14,15], 10, true);
+        player2.animations.add('down', [8,9,10,11], 10, true);
+        
         game.camera.follow(player);
+        //player stats
         player.HP = 2;
+        player2.HP = 2;
     
         //Create a group of enemies
         enemies = game.add.group();
@@ -140,7 +156,12 @@ demo.state1.prototype = {
         
         //Access the keyboard input
         cursors = game.input.keyboard.createCursorKeys();
-        attack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        w = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        a = game.input.keyboard.addKey(Phaser.Keyboard.A);
+        s = game.input.keyboard.addKey(Phaser.Keyboard.S);
+        d = game.input.keyboard.addKey(Phaser.Keyboard.D);
+        attack = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        attack2 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         game.input.keyboard.addKey(Phaser.Keyboard.TWO).onDown.add(changeState2, null, null, 2);
 
         HPText = game.add.text(game.camera.x, game.camera.y, 'HP: ' + player.HP, { fontSize: '32px', fill: '#fff' } );
@@ -149,12 +170,16 @@ demo.state1.prototype = {
     update: function(){
         if (!hasKey){
             game.physics.arcade.collide(player, door);
+            game.physics.arcade.collide(player2, door);
         }
         game.physics.arcade.collide(player, layer);
+        game.physics.arcade.collide(player2, layer);
 
         //  Un-comment these to gain full control over the sprite
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
+        player2.body.velocity.x = 0;
+        player2.body.velocity.y = 0;        
 
 
         if (cursors.up.isDown)
@@ -194,16 +219,75 @@ demo.state1.prototype = {
                 player.frame = 8;
             }
         }
-
+        
+        if (w.isDown)
+        {
+            player2.body.velocity.y = -150;
+            lastPress = 'up';
+            player2.animations.play('up');
+        }
+        else if (s.isDown)
+        {
+            player2.body.velocity.y = 150;
+            lastPress = 'down';
+            player2.animations.play('down');
+        }
+        else if (a.isDown)
+        {
+            player2.body.velocity.x = -150;
+            lastPress = 'left';
+            player2.animations.play('left');
+        }
+        else if (d.isDown)
+        {
+            player2.body.velocity.x = 150;
+            lastPress = 'right';
+            player2.animations.play('right');
+        }
+        else {
+            player2.animations.stop();
+            player2.frame = 0;
+            if (lastPress == 'left'){
+                player2.frame = 4;
+            }
+            else if (lastPress == 'up'){
+                player2.frame = 12;
+            }
+            else if (lastPress == 'down'){
+                player2.frame = 8;
+            }
+        }
+        
         if (attack.isDown && player.visible)
         {
             //  Boom!
-            fire();
+            fire(player);
         }
+        if (attack2.isDown && player2.visible)
+        {
+            //  Boom!
+            fire(player2);
+        }
+        
         enemies.forEachAlive(function(enemy){
             if (enemy.visible && enemy.inCamera) {
                 if (game.physics.arcade.distanceBetween(player, enemy) > 30){
                     game.physics.arcade.moveToObject(enemy, player, 100);
+                    if(enemy.body.velocity.x>0){
+                        enemy.animations.play('right');
+                    }
+                    else {
+                        enemy.animations.play('left');
+                    }
+                }
+                else {
+                    enemy.body.velocity.x = 0;
+                    enemy.body.velocity.y = 0;
+                }
+            }
+            if (enemy.visible && enemy.inCamera) {
+                if (game.physics.arcade.distanceBetween(player2, enemy) > 30){
+                    game.physics.arcade.moveToObject(enemy, player2, 100);
                     if(enemy.body.velocity.x>0){
                         enemy.animations.play('right');
                     }
@@ -223,13 +307,17 @@ demo.state1.prototype = {
     //        game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
     //    }
         game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
+        game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
         bullets.forEachAlive(function(bullet){
             if (bullet.visible && bullet.inCamera){
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
         });
         if (player.HP <= 0){
-            playerKilled();
+            playerKilled(player);
+        }
+        if (player2.HP <= 0){
+            playerKilled(player2);
         }
 //        if (enemyNum<=0){
 //            endText = game.add.text((game.camera.x + game.camera.width/2)-80, (game.camera.y + game.camera.height/2)-100, 'You have killed all enemies.\nOpen the door the unlock next level!', { fontSize: '32px', fill: '#fff' });
@@ -240,7 +328,14 @@ demo.state1.prototype = {
 
         game.physics.arcade.overlap(player, health_potion, pickupHealth, null, this);
         game.physics.arcade.overlap(player, key, pickupKey,null, this);
+        game.physics.arcade.overlap(player2, key, pickupKey,null, this);
         game.physics.arcade.overlap(player, door, openDoor,
+            // ignore if there is no key or the player is on air
+            function (player, door) {
+                return hasKey;
+            }, this);
+        
+        game.physics.arcade.overlap(player2, door, openDoor,
             // ignore if there is no key or the player is on air
             function (player, door) {
                 return hasKey;
@@ -248,7 +343,7 @@ demo.state1.prototype = {
         
     }
 };
-function fire () {
+function fire (player) {
     console.log(game.time.now);
     console.log(nextFire);
     if ((game.time.now > nextFire) && (bullets.countDead() > 0))
@@ -285,7 +380,7 @@ function fire () {
     }
 }
 function hitEnemy(enemy, bullet){
-    enemy.HP = enemy.HP-50;
+    enemy.HP = enemy.HP-(1*player.Damage);
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
@@ -297,7 +392,7 @@ function playerAttacked(player, enemy){
     player.HP -= 1;
     lastAttackTime = game.time.now;
 }
-function playerKilled(){
+function playerKilled(player){
     player.kill();
     enemies.forEachAlive(function(enemy){
         enemy.kill();
