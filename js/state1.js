@@ -92,11 +92,7 @@ demo.state1.prototype = {
         game.camera.follow(player);
         //player stats
         player.HP = 2;
-<<<<<<< Updated upstream
-        player.Damage = 3.0;
-=======
         player2.HP = 2;
->>>>>>> Stashed changes
     
         //Create a group of enemies
         enemies = game.add.group();
@@ -148,10 +144,6 @@ demo.state1.prototype = {
     
         //Access the keyboard input
         cursors = game.input.keyboard.createCursorKeys();
-<<<<<<< Updated upstream
-        attack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        //game.input.keyboard.addKey(Phaser.Keyboard.TWO).onDown.add(changeState2, null, null, 2);
-=======
         w = game.input.keyboard.addKey(Phaser.Keyboard.W);
         a = game.input.keyboard.addKey(Phaser.Keyboard.A);
         s = game.input.keyboard.addKey(Phaser.Keyboard.S);
@@ -159,7 +151,6 @@ demo.state1.prototype = {
         attack = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         attack2 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         game.input.keyboard.addKey(Phaser.Keyboard.TWO).onDown.add(changeState2, null, null, 2);
->>>>>>> Stashed changes
 
         HPText = game.add.text(game.camera.x, game.camera.y, 'HP: ' + player.HP, { fontSize: '32px', fill: '#fff' } );
         HPText.fixedToCamera = true;
@@ -334,16 +325,10 @@ demo.state1.prototype = {
         
     }
 };
-<<<<<<< Updated upstream
-function fire () {
-
-    if (game.time.now > nextFire && bullets.countDead() > 0)
-=======
 function fire (player) {
     console.log(game.time.now);
     console.log(nextFire);
     if ((game.time.now > nextFire) && (bullets.countDead() > 0))
->>>>>>> Stashed changes
     {
         nextFire = game.time.now + fireRate;
 
