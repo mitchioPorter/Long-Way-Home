@@ -1,28 +1,11 @@
 demo.state2 = function(){};
-var map;
-var layer;
-var layer2;
-var cursors;
-var player;
 
 
-var bullets;
-var fireRate = 100;
-var nextFire = 0;
-var attack;
-var lastPress = 'up';
-var enemies;
-var endText;
-var enemyNum;
-var lastAttackTime = 0;
-var HPText;
-var music;
-var hasKey = false;
 
-var doors;
-var door;
-var keys;
-var key;
+
+lastPress = 'right';
+lastAttackTime = 0;
+hasKey = false;
 var lastGemTime = 0;
 var tinyGems;
 var boss;
@@ -329,6 +312,7 @@ function fire (player) {
         //bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
     }
 }
+
 function fireGem (){
     if (game.time.now > lastGemTime + 2000){
         var gem = tinyGems.getFirstExists(false);

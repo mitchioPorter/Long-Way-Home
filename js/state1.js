@@ -13,7 +13,7 @@ var bullets;
 var fireRate = 100;
 var nextFire = 0;
 var attack;
-var lastPress = 'up';
+var lastPress = 'right';
 var enemies;
 var endText;
 var enemyNum;
@@ -117,7 +117,7 @@ demo.state1.prototype = {
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(30, 'bullet', 0, false);
+        bullets.createMultiple(3, 'bullet', 0, false);
         bullets.setAll('anchor.x', 0.5);
         bullets.setAll('anchor.y', 0.5);
         bullets.setAll('outOfBoundsKill', true);
@@ -199,6 +199,12 @@ demo.state1.prototype = {
             player.frame = 0;
             if (lastPress == 'left'){
                 player.frame = 4;
+            }
+            else if (lastPress == 'up'){
+                player.frame = 12;
+            }
+            else if (lastPress == 'down'){
+                player.frame = 8;
             }
         }
         
@@ -294,7 +300,7 @@ demo.state1.prototype = {
             if (bullet.visible && bullet.inCamera){
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
-        })
+        });
         if (player.HP <= 0){
             playerKilled(player);
         }
@@ -330,27 +336,35 @@ function fire (player) {
     console.log(nextFire);
     if ((game.time.now > nextFire) && (bullets.countDead() > 0))
     {
+        
         nextFire = game.time.now + fireRate;
+        console.log(fireRate);
 
         var bullet = bullets.getFirstExists(false);
         bullet.enableBody =true;
         bullet.physicsBodyType = Phaser.Physics.ARCADE;
+        bullet.body.setSize(16, 16);
         
         switch(lastPress){
             case 'up':
-                bullet.reset(player.x+12, player.y);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 500);break;              
+                bullet.reset(player.x+30, player.y+30);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 1000);break;              
             case 'down':
-                bullet.reset(player.x+12, player.y+50);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 500);break;
+                bullet.reset(player.x+30, player.y+30);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 1000);break;
             case 'left':
-                bullet.reset(player.x-8, player.y+35);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 500);break;
+                bullet.reset(player.x+20, player.y+32);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 1000);break;
             case 'right':
-                bullet.reset(player.x+38, player.y+35);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 500);break;
+                bullet.reset(player.x+22, player.y+32);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 1000);break;
         }
-        //bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
+        bullets.forEachAlive(function(bullet){
+            if (bullet.visible && bullet.inCamera){
+                game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
+            }
+        });
+        console.log("1");
     }
 }
 function hitEnemy(enemy, bullet){
@@ -365,7 +379,6 @@ function playerAttacked(player, enemy){
     fx.play("player_hit");
     player.HP -= 1;
     lastAttackTime = game.time.now;
-    //console.log(lastAttackTime);
 }
 function playerKilled(player){
     player.kill();
