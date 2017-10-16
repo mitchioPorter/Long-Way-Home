@@ -26,6 +26,9 @@ var doors;
 var door;
 var keys;
 var key;
+var potions;
+var health_potion;
+
 demo.state1.prototype = {
     preload: function(){
         game.load.tilemap('room1', 'assets/maps/room1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -33,6 +36,7 @@ demo.state1.prototype = {
         game.load.image('bullet', 'assets/fireball.png');
         game.load.image('door', 'assets/door.png');
         game.load.image('key', 'assets/key.png');
+        game.load.image('potion', 'assets/potion.png');
         game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
         game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
@@ -126,6 +130,14 @@ demo.state1.prototype = {
         game.physics.enable(key);
         key.body.allowGravity = false;
     
+        //Potion
+        potions = game.add.group();
+        health_potion = game.add.sprite(800,200,'potion');
+        potions.add(health_potion)
+        health_potion.anchor.setTo(0.5, 1);
+        game.physics.enable(health_potion);
+        health_potion.body.allowGravity = false;
+        
         //Access the keyboard input
         cursors = game.input.keyboard.createCursorKeys();
         attack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -226,8 +238,8 @@ demo.state1.prototype = {
         //updating HP of the player
         HPText.text = 'HP: ' + player.HP;
 
+        game.physics.arcade.overlap(player, health_potion, pickupHealth, null, this);
         game.physics.arcade.overlap(player, key, pickupKey,null, this);
-
         game.physics.arcade.overlap(player, door, openDoor,
             // ignore if there is no key or the player is on air
             function (player, door) {
@@ -311,6 +323,12 @@ function createEnemy (posX, posY, id){
     enemy.HP = 100;
     enemy.i = id;
 }
+
+function pickupHealth(player, health_potion){
+    health_potion.kill();
+    player.HP += 1;
+}
+
 function pickupKey(player, key){
     key.kill();
     hasKey = true;
