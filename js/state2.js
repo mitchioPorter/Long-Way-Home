@@ -59,6 +59,7 @@ demo.state2.prototype = {
         player.animations.add('up', [12,13,14,15], 10, true);
         player.animations.add('down', [8,9,10,11], 10, true);
         player.id = 1;
+        player.damage = 50;
         
         player2 = game.add.sprite(250, 70, 'player2');
         game.physics.arcade.enable(player2);
@@ -72,6 +73,7 @@ demo.state2.prototype = {
         player2.animations.add('up', [12,13,14,15], 10, true);
         player2.animations.add('down', [8,9,10,11], 10, true);
         player2.id=2;
+        player2.damage = 50;
         
         game.camera.follow(player);
         player.HP = 2;
@@ -94,7 +96,7 @@ demo.state2.prototype = {
         boss.body.tilePadding.set(32);
         boss.HP = 100;
         
-                //  Our bullet group
+        //  Our bullet group
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
@@ -124,16 +126,23 @@ demo.state2.prototype = {
         d = game.input.keyboard.addKey(Phaser.Keyboard.D);
         attack = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         attack2 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        
+        hintText = game.add.text(300, game.camera.y,'Fight the boss', { fontSize: '32px', fill: '#fff' });
+        hintText.fixedToCamera = true;
     },
     update: function(){
+        //Check collisions
         game.physics.arcade.collide(player, layer);
+        game.physics.arcade.collide(player2, layer);
+        game.physics.arcade.collide(player, player2);
+        
+        //  Un-comment these to gain full control over the sprite
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
-        game.physics.arcade.collide(player2, layer);
         player2.body.velocity.x = 0;
         player2.body.velocity.y = 0;
 
-        //control the player
+        //Player1's control
         if (cursors.up.isDown)
         {
             player.body.velocity.y = -150;
@@ -166,6 +175,7 @@ demo.state2.prototype = {
             }
         }
         
+        //Player2's control
         if (w.isDown)
         {
             player2.body.velocity.y = -150;
@@ -204,17 +214,17 @@ demo.state2.prototype = {
             }
         }
         
+        //Attack
         if (attack.isDown && player.visible)
         {
-            //  Boom!
             fire(player);
         }
         if (attack2.isDown && player2.visible)
         {
-            //  Boom!
             fire(player2);
         }        
 
+        //Enemy handler
         enemies.forEachAlive(function(enemy){
             if (enemy.visible && enemy.inCamera) {
                 if (game.physics.arcade.distanceBetween(player, enemy) > 30){
@@ -252,24 +262,27 @@ demo.state2.prototype = {
 
         });
         
+        //Player attacked
         game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
         game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
+        
+        //Bullet handler
         bullets.forEachAlive(function(bullet){
             if (bullet.visible && bullet.inCamera){
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
         });
-        if (player.HP <= 0){
+        
+        //Player killed
+        if (player.HP <= 0 || player2.HP <=0){
             playerKilled(player);
-        }
-        if (player2.HP <= 0){
-            playerKilled(player2);
+            player2.kill();        
         }
         
-        //updating HP of the player
-        HPText.text = 'HP: ' + player.HP;
+        //Update HP of the player
+        HPText.text = 'HP1: ' + player.HP+'\nHP2: '+player2.HP ;
 
-        //boss handler
+        //Boss handler
         if (boss.visible && boss.inCamera){
             fireGem ();
         }
@@ -281,9 +294,12 @@ demo.state2.prototype = {
                 game.physics.arcade.overlap(gem, layer, gemKilled, null, this);
             }
         });
+        
+        //Win the game
         if (enemyNum <= 0){
             endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
             player.kill();
+            player2.kill();
         }
     }
 };

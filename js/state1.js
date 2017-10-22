@@ -31,6 +31,8 @@ var boulder;
 var potions;
 var health_potion;
 
+var hintText;
+
 demo.state1.prototype = {
     preload: function(){
         game.load.tilemap('room1', 'assets/maps/room1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -185,8 +187,12 @@ demo.state1.prototype = {
 
         HPText = game.add.text(game.camera.x, game.camera.y, 'HP: ' + player.HP, { fontSize: '32px', fill: '#fff' } );
         HPText.fixedToCamera = true;
+        
+        hintText = game.add.text(300, game.camera.y,'Please find the key', { fontSize: '32px', fill: '#fff' });
+        hintText.fixedToCamera = true;
     },
     update: function(){
+        //Check collisions
         if (!hasKey){
             game.physics.arcade.collide(player, door);
             game.physics.arcade.collide(player2, door);
@@ -201,7 +207,7 @@ demo.state1.prototype = {
         player2.body.velocity.x = 0;
         player2.body.velocity.y = 0;        
 
-
+        //Player1's control
         if (cursors.up.isDown)
         {
             player.body.velocity.y = -150;
@@ -240,6 +246,7 @@ demo.state1.prototype = {
             }
         }
         
+        //Player2's control
         if (w.isDown)
         {
             player2.body.velocity.y = -150;
@@ -278,17 +285,17 @@ demo.state1.prototype = {
             }
         }
         
+        //Attack
         if (attack.isDown && player.visible)
         {
-            //  Boom!
             fire(player);
         }
         if (attack2.isDown && player2.visible)
         {
-            //  Boom!
             fire(player2);
         }
         
+        //Enemy handler
         enemies.forEachAlive(function(enemy){
             if (enemy.visible && enemy.inCamera) {
                 if (game.physics.arcade.distanceBetween(player, enemy) > 30){
@@ -323,27 +330,33 @@ demo.state1.prototype = {
             game.physics.arcade.collide(enemy, layer);
             game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this);
         });
-    //    if (game.time.now > lastAttackTime + 3000){
-    //        game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
-    //    }
+        
+        //Escape from attack for 3 seconds after being attacked once
+//        if (game.time.now > lastAttackTime + 3000){
+//            game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
+//        }
+        
+        //Player attacked
         game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
         game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
+        
+        //Bullet handler
         bullets.forEachAlive(function(bullet){
             if (bullet.visible && bullet.inCamera){
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
         });
+        
+        //Player killed
         if (player.HP <= 0 || player2.HP <=0){
             playerKilled(player);
             player2.kill();        
         }
-//        if (enemyNum<=0){
-//            endText = game.add.text((game.camera.x + game.camera.width/2)-80, (game.camera.y + game.camera.height/2)-100, 'You have killed all enemies.\nOpen the door the unlock next level!', { fontSize: '32px', fill: '#fff' });
-//        }
-
+        
         //updating HP of the player
-        HPText.text = 'HP1: ' + player.HP+' HP2: '+player2.HP ;
-
+        HPText.text = 'HP1: ' + player.HP+'\nHP2: '+player2.HP ;
+        
+        //Pick up items in the world
         game.physics.arcade.overlap(player, health_potion, pickupHealth, null, this);
         game.physics.arcade.overlap(player, key, pickupKey,null, this);
         game.physics.arcade.overlap(player2, key, pickupKey,null, this);
@@ -357,7 +370,6 @@ demo.state1.prototype = {
             function (player, door) {
                 return hasKey;
             }, this);
-        
         
         //boulder handler
         game.physics.arcade.collide(boulder, layer);
@@ -374,6 +386,11 @@ demo.state1.prototype = {
         if (hitplayer2){
             player2.HP-=1;
             fx.play("player_hit");
+        }
+        
+        //Update hintText
+        if (hasKey){
+            hintText.text = 'Please open the door';
         }
     }
 };
@@ -462,9 +479,7 @@ function pickupKey(player, key){
     hasKey = true;
 }
 function openDoor (player, door){
-    door.kill();
-//    endText = game.add.text((game.camera.x + game.camera.width/2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
-    
+    door.kill();    
     player.kill();
     changeState2();
 }
