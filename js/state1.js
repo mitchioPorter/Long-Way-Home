@@ -75,6 +75,7 @@ demo.state1.prototype = {
         // Music
         music = game.add.audio('dungeon');
         music.play();
+        music.loop = true;
 
         //create the player with animation
         player = game.add.sprite(200, 70, 'sprite');
@@ -497,7 +498,8 @@ function openDoor (player, door){
 }
 function changeState2(){
     //console.log(i);
+    
     game.state.start('state2');
-
+    music.stop();
 
 }

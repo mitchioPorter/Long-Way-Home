@@ -1,4 +1,4 @@
-demo.state2 = function(){};
+demo.state3 = function(){};
 
 
 
@@ -9,10 +9,10 @@ hasKey = false;
 var lastGemTime = 0;
 var tinyGems;
 var boss;
-demo.state2.prototype = {
+demo.state3.prototype = {
     preload: function(){
-        game.load.tilemap('BossRoom', 'assets/maps/BossRoom.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tileset1', 'assets/maps/tileset1.png');
+        game.load.tilemap('room2_1', 'assets/maps/room2_1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('tileset22', 'assets/maps/tileset22.png');
         game.load.image('bullet', 'assets/fireball.png');
         game.load.image('door', 'assets/door.png');
         game.load.image('key', 'assets/key.png');
@@ -20,14 +20,14 @@ demo.state2.prototype = {
         game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
         game.load.spritesheet('char2', 'assets/char2.png', 48, 48, 16);
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
-        game.load.audio('dungeon',['assets/ogg/DungeonBoss.mp3','assets/ogg/DungeonBoss.ogg']);
+        game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
         game.load.image('tinyGem', 'assets/tinygem.png');
     },
     create: function(){
-        map = game.add.tilemap('BossRoom');
+        map = game.add.tilemap('room2_1');
 
-        map.addTilesetImage('tileset1');
+        map.addTilesetImage('tileset22');
     
     
         layer2 = map.createLayer('noCollide')
@@ -62,7 +62,7 @@ demo.state2.prototype = {
         player.id = 1;
         player.damage = 50;
         
-        player2 = game.add.sprite(200, 240, 'player2');
+        player2 = game.add.sprite(200, 150, 'char2');
         game.physics.arcade.enable(player2);
         player2.body.setSize(16, 32, 16, 16);
         player2.enableBody = true;
@@ -298,11 +298,9 @@ demo.state2.prototype = {
         
         //Win the game
         if (enemyNum <= 0){
-           // endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
-           // player.kill();
+            //endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + //game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
+            //player.kill();
             //player2.kill();
-            music.play();
-            game.state.start('state3');
         }
     }
 };
