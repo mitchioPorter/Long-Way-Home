@@ -48,6 +48,9 @@ demo.state1.prototype = {
         game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
         game.load.spritesheet('boulder','assets/boulder.png', 32,32,4);
+        
+//        game.load.tilemap('room1', 'assets/MapSet1/map1.json', null, Phaser.Tilemap.TILED_JSON);
+//        game.load.image('tileset1', 'assets/MapSet1/newLevel1.png');
     },
     create: function(){
         map = game.add.tilemap('room1');
