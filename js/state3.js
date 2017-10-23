@@ -41,8 +41,9 @@ demo.state3.prototype = {
         fx.addMarker('player_hit', 0, 0.5);
         // Music
         music = game.add.audio('dungeon');
-        music.play();
         music.loop = true;
+        music.play();
+        
 
         //create the player with animation
 

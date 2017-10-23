@@ -41,8 +41,9 @@ demo.state2.prototype = {
         fx.addMarker('player_hit', 0, 0.5);
         // Music
         music = game.add.audio('dungeon');
-        music.play();
         music.loop = true;
+        music.play();
+        
 
         //create the player with animation
 
@@ -301,7 +302,7 @@ demo.state2.prototype = {
            // endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
            // player.kill();
             //player2.kill();
-            music.play();
+            music.stop();
             game.state.start('state3');
         }
     }
