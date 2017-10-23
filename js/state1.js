@@ -58,12 +58,12 @@ demo.state1.prototype = {
         map.addTilesetImage('tileset1');
     
     
-        layer2 = map.createLayer('Floor')
-        layer = map.createLayer('Walls');
+        layer2 = map.createLayer('noCollide')
+        layer = map.createLayer('collide');
     
         layer.resizeWorld();
 
-        map.setCollisionBetween(1, 2000, true, 'Walls');
+        map.setCollisionBetween(1, 50, true, 'collide');
 
         // layer.debug = true;
         
