@@ -171,9 +171,17 @@ demo.state2.prototype = {
         }
         else {
             player.animations.stop();
-            player.frame = 0;
+             if (lastPress == 'right'){
+                player.frame = 0;
+             }
             if (lastPress == 'left'){
                 player.frame = 4;
+            }
+            else if (lastPress == 'up'){
+                player.frame = 12;
+            }
+            else if (lastPress == 'down'){
+                player.frame = 8;
             }
         }
         
