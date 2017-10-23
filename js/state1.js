@@ -117,8 +117,13 @@ demo.state1.prototype = {
         enemies.enableBody = true;
         enemyNum = 2;
 
-        createEnemy(660, 240, 0);
+        createEnemy(600, 240, 0);
+        createEnemy(900, 260, 6);
         createEnemy(900, 900, 1);
+        createEnemy(1000, 1000, 5);
+        createEnemy(200, 1240, 2);
+        createEnemy(200, 1640, 3);
+        createEnemy(200, 1740, 4);
 
 
         //game.physics.arcade.collide(enemy, enemy2);
@@ -312,21 +317,6 @@ demo.state1.prototype = {
             if (enemy.visible && enemy.inCamera) {
                 if (game.physics.arcade.distanceBetween(player, enemy) > 30){
                     game.physics.arcade.moveToObject(enemy, player, 100);
-                    if(enemy.body.velocity.x>0){
-                        enemy.animations.play('right');
-                    }
-                    else {
-                        enemy.animations.play('left');
-                    }
-                }
-                else {
-                    enemy.body.velocity.x = 0;
-                    enemy.body.velocity.y = 0;
-                }
-            }
-            if (enemy.visible && enemy.inCamera) {
-                if (game.physics.arcade.distanceBetween(player2, enemy) > 30){
-                    game.physics.arcade.moveToObject(enemy, player2, 100);
                     if(enemy.body.velocity.x>0){
                         enemy.animations.play('right');
                     }
