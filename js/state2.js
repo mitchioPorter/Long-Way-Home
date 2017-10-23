@@ -20,7 +20,7 @@ demo.state2.prototype = {
         game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
         game.load.spritesheet('char2', 'assets/player2.png', 48, 48, 16);
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
-        game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
+        game.load.audio('dungeon',['assets/ogg/DungeonBoss.mp3','assets/ogg/DungeonBoss.ogg']);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
         game.load.image('tinyGem', 'assets/tinygem.png');
     },

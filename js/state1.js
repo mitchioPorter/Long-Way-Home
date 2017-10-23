@@ -45,7 +45,7 @@ demo.state1.prototype = {
         game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
         game.load.spritesheet('player2', 'assets/char2.png', 48, 48, 16);
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
-        game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
+        game.load.audio('dungeon',['assets/ogg/dungeon3_loop.mp3','assets/ogg/dungeon3_loop.ogg']);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
         game.load.spritesheet('boulder','assets/boulder.png', 32,32,4);
         
@@ -433,6 +433,7 @@ function fire (p) {
             if (bullet.visible && bullet.inCamera){
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
+            
         });
 //        console.log("1");
     }
