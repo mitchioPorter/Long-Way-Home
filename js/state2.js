@@ -61,19 +61,19 @@ demo.state2.prototype = {
         player.id = 1;
         player.damage = 50;
         
-        player2 = game.add.sprite(250, 70, 'player2');
+        player2 = game.add.sprite(200, 240, 'player2');
         game.physics.arcade.enable(player2);
         player2.body.setSize(16, 32, 16, 16);
         player2.enableBody = true;
-        player2.body.bounce.set(0.6);
+        player2.body.bounce.set(0);
         player2.body.tilePadding.set(32);
         player2.body.collideWorldBounds = true;
-        player2.animations.add('right', [0,1,2,3], 10, true);
-        player2.animations.add('left', [4,5,6,7], 10, true);
-        player2.animations.add('up', [12,13,14,15], 10, true);
-        player2.animations.add('down', [8,9,10,11], 10, true);
+        player2.animations.add('up', [0,1,2,3], 10, true);
+        player2.animations.add('down', [4,5,6,7], 10, true);
+        player2.animations.add('left', [12,13,14,15], 10, true);
+        player2.animations.add('right', [8,9,10,11], 10, true);
         player2.id=2;
-        player2.damage = 50;
+        player2.damage =50;
         
         game.camera.follow(player);
         player.HP = 2;

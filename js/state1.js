@@ -159,14 +159,14 @@ demo.state1.prototype = {
         key.body.allowGravity = false;
         
         //Create a boulder
-        boulder = game.add.sprite(240, 470, 'boulder');
+        boulder = game.add.sprite(240, 420, 'boulder');
         game.physics.arcade.enable(boulder);
         boulder.enableBody = true;
         boulder.body.bounce.set(1);
         boulder.body.tilePadding.set(32);
-        boulder.animations.add('boulder-u', [0,1,2,3], 10, true);
-        boulder.animations.add('boulder-d', [3,2,1,0], 10, true);
-        boulder.body.velocity.y=150;
+        boulder.animations.add('boulder-l', [0,1,2,3], 10, true);
+        boulder.animations.add('boulder-r', [3,2,1,0], 10, true);
+        boulder.body.velocity.x=150;
         boulder.immoveable=true;
         
     
@@ -378,9 +378,9 @@ demo.state1.prototype = {
         game.physics.arcade.collide(boulder, layer);
         var hitplayer = game.physics.arcade.collide(player, boulder);
         var hitplayer2 = game.physics.arcade.collide(player2, boulder);
-        boulder.body.velocity.x=0;
-        if (boulder.body.velocity.y!=-150){
-            boulder.body.velocity.y=150;
+        boulder.body.velocity.y=0;
+        if (boulder.body.velocity.x!=-150){
+            boulder.body.velocity.x=150;
         }
         if (hitplayer){
             player.HP-=1;
@@ -398,7 +398,7 @@ demo.state1.prototype = {
     }
 };
 
-function fire (player) {
+function fire (p) {
     if ((game.time.now > nextFire) && (bullets.countDead() > 0))
     {
         nextFire = game.time.now + fireRate;
@@ -407,19 +407,19 @@ function fire (player) {
         bullet.enableBody =true;
         bullet.physicsBodyType = Phaser.Physics.ARCADE;
         bullet.body.setSize(16, 16);
-        var i = (player.id==1)?lastPress:lastPress2;
+        var i = (p.id==1)?lastPress:lastPress2;
         switch(i){
             case 'up':
-                bullet.reset(player.x+30, player.y+30);
+                bullet.reset(p.x+30, p.y+30);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 1000);break;              
             case 'down':
-                bullet.reset(player.x+30, player.y+30);
+                bullet.reset(p.x+30, p.y+30);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 1000);break;
             case 'left':
-                bullet.reset(player.x+20, player.y+32);
+                bullet.reset(p.x+20, p.y+32);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 1000);break;
             case 'right':
-                bullet.reset(player.x+22, player.y+32);
+                bullet.reset(p.x+22, p.y+32);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 1000);break;
         }
         bullets.forEachAlive(function(bullet){
