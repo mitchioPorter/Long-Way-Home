@@ -10,7 +10,7 @@ var player;
 
 
 var bullets;
-var fireRate = 100;
+var fireRate = 1000;
 var nextFire = 0;
 var attack;
 var lastPress = 'right';
@@ -133,7 +133,7 @@ demo.state1.prototype = {
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(3, 'bullet', 0, false);
+        bullets.createMultiple(100, 'bullet', 0, false);
         bullets.setAll('anchor.x', 0.5);
         bullets.setAll('anchor.y', 0.5);
         bullets.setAll('outOfBoundsKill', true);
@@ -356,6 +356,7 @@ demo.state1.prototype = {
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
         });
+        
         
         //Player killed
         if (player.HP <= 0 || player2.HP <=0){
