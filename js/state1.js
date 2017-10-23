@@ -102,7 +102,7 @@ demo.state1.prototype = {
         player2.animations.add('down', [4,5,6,7], 10, true);
         player2.animations.add('left', [12,13,14,15], 10, true);
         player2.animations.add('right', [8,9,10,11], 10, true);
-        player2.id=2;
+        player2.id = 2;
         player2.damage =50;
         
         game.camera.follow(player);
@@ -150,6 +150,7 @@ demo.state1.prototype = {
         door.body.moves = false;
         door.body.setSize(48,48);
 
+        //keys
         keys = game.add.group();
         //key = game.add.sprite(1160, 1180, 'key');
         key = game.add.sprite(860, 240, 'key');
@@ -237,7 +238,9 @@ demo.state1.prototype = {
         }
         else {
             player.animations.stop();
-            player.frame = 0;
+             if (lastPress == 'right'){
+                player.frame = 0;
+             }
             if (lastPress == 'left'){
                 player.frame = 4;
             }
@@ -276,9 +279,9 @@ demo.state1.prototype = {
         }
         else {
             player2.animations.stop();
-            player2.frame = 8;
+            
             if (lastPress2 == 'left'){
-                player2.frame = 12;
+                player2.frame = 13;
             }
             else if (lastPress2 == 'up'){
                 player2.frame = 0;
@@ -286,6 +289,10 @@ demo.state1.prototype = {
             else if (lastPress2 == 'down'){
                 player2.frame = 4;
             }
+            else {
+                player2.frame = 8;
+            }
+            
         }
         
         //Attack
