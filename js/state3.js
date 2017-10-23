@@ -86,16 +86,16 @@ demo.state3.prototype = {
         enemyNum = 1;
         
         //Create a boss
-        boss = game.add.sprite(380, 360, 'boss');
-        enemies.add(boss);
-        boss.enableBody = true;
-        boss.body.collideWorldBounds = true;
-        boss.animations.add('left', [0,1], 10, true);
-        boss.animations.add('right', [0,1], 10, true);
-        game.physics.enable(boss);
-        boss.body.bounce.set(0.6);
-        boss.body.tilePadding.set(32);
-        boss.HP = 100;
+//        boss = game.add.sprite(380, 360, 'boss');
+//        enemies.add(boss);
+//        boss.enableBody = true;
+//        boss.body.collideWorldBounds = true;
+//        boss.animations.add('left', [0,1], 10, true);
+//        boss.animations.add('right', [0,1], 10, true);
+//        game.physics.enable(boss);
+//        boss.body.bounce.set(0.6);
+//        boss.body.tilePadding.set(32);
+//        boss.HP = 100;
         
         //  Our bullet group
         bullets = game.add.group();
@@ -170,9 +170,17 @@ demo.state3.prototype = {
         }
         else {
             player.animations.stop();
-            player.frame = 0;
+             if (lastPress == 'right'){
+                player.frame = 0;
+             }
             if (lastPress == 'left'){
                 player.frame = 4;
+            }
+            else if (lastPress == 'up'){
+                player.frame = 12;
+            }
+            else if (lastPress == 'down'){
+                player.frame = 8;
             }
         }
         
