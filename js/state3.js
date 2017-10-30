@@ -144,85 +144,9 @@ demo.state3.prototype = {
         player2.body.velocity.x = 0;
         player2.body.velocity.y = 0;
 
-        //Player1's control
-        if (cursors.up.isDown)
-        {
-            player.body.velocity.y = -150;
-            lastPress = 'up';
-            player.animations.play('up');
-        }
-        else if (cursors.down.isDown)
-        {
-            player.body.velocity.y = 150;
-            lastPress = 'down';
-            player.animations.play('down');
-        }
-        else if (cursors.left.isDown)
-        {
-            player.body.velocity.x = -150;
-            lastPress = 'left';
-            player.animations.play('left');
-        }
-        else if (cursors.right.isDown)
-        {
-            player.body.velocity.x = 150;
-            lastPress = 'right';
-            player.animations.play('right');
-        }
-        else {
-            player.animations.stop();
-             if (lastPress == 'right'){
-                player.frame = 0;
-             }
-            if (lastPress == 'left'){
-                player.frame = 4;
-            }
-            else if (lastPress == 'up'){
-                player.frame = 12;
-            }
-            else if (lastPress == 'down'){
-                player.frame = 8;
-            }
-        }
-        
-        //Player2's control
-        if (w.isDown)
-        {
-            player2.body.velocity.y = -150;
-            lastPress2 = 'up';
-            player2.animations.play('up');
-        }
-        else if (s.isDown)
-        {
-            player2.body.velocity.y = 150;
-            lastPress2 = 'down';
-            player2.animations.play('down');
-        }
-        else if (a.isDown)
-        {
-            player2.body.velocity.x = -150;
-            lastPress2 = 'left';
-            player2.animations.play('left');
-        }
-        else if (d.isDown)
-        {
-            player2.body.velocity.x = 150;
-            lastPress2 = 'right';
-            player2.animations.play('right');
-        }
-        else {
-            player2.animations.stop();
-            player2.frame = 8;
-            if (lastPress2 == 'left'){
-                player2.frame = 12;
-            }
-            else if (lastPress2 == 'up'){
-                player2.frame = 0;
-            }
-            else if (lastPress2 == 'down'){
-                player2.frame = 4;
-            }
-        }
+        //Player control
+        playerControl1();
+        playerControl2();
         
         //Attack
         if (attack.isDown && player.visible)
