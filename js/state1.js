@@ -1,5 +1,5 @@
 var demo = {};
-demo.state1 = function(){};
+demo.state1 = function () {};
 
 //declare all the variables here
 var map;
@@ -10,9 +10,8 @@ var player;
 
 
 var bullets;
-var fireRate = 1000;
-var nextFire = 0;
 var attack;
+var attack2;
 var lastPress = 'right';
 var lastPress2 = 'right';
 var enemies;
@@ -30,11 +29,15 @@ var key;
 var boulder;
 var potions;
 var health_potion;
-
+var fx;
 var hintText;
+var w;
+var a;
+var s;
+var d;
 
 demo.state1.prototype = {
-    preload: function(){
+    preload: function () {
         game.load.tilemap('room1', 'assets/maps/room1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tileset1', 'assets/maps/tileset1.png');
         game.load.image('bullet', 'assets/fireball.png');
@@ -45,20 +48,20 @@ demo.state1.prototype = {
         game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
         game.load.spritesheet('player2', 'assets/char2.png', 48, 48, 16);
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
-        game.load.audio('dungeon',['assets/ogg/dungeon3_loop.mp3','assets/ogg/dungeon3_loop.ogg']);
+        game.load.audio('dungeon', ['assets/ogg/dungeon3_loop.mp3', 'assets/ogg/dungeon3_loop.ogg']);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
-        game.load.spritesheet('boulder','assets/boulder.png', 32,32,4);
+        game.load.spritesheet('boulder', 'assets/boulder.png', 32, 32, 4);
         
 //        game.load.tilemap('room1', 'assets/MapSet1/map1.json', null, Phaser.Tilemap.TILED_JSON);
 //        game.load.image('tileset1', 'assets/MapSet1/newLevel1.png');
     },
-    create: function(){
+    create: function () {
         map = game.add.tilemap('room1');
 
         map.addTilesetImage('tileset1');
     
     
-        layer2 = map.createLayer('noCollide')
+        layer2 = map.createLayer('noCollide');
         layer = map.createLayer('collide');
     
         layer.resizeWorld();
@@ -86,12 +89,15 @@ demo.state1.prototype = {
         player.body.bounce.set(0);
         player.body.tilePadding.set(32);
         player.body.collideWorldBounds = true;
-        player.animations.add('right', [0,1,2,3], 10, true);
-        player.animations.add('left', [4,5,6,7], 10, true);
-        player.animations.add('up', [12,13,14,15], 10, true);
-        player.animations.add('down', [8,9,10,11], 10, true);
+        player.animations.add('right', [0, 1, 2, 3], 10, true);
+        player.animations.add('left', [4, 5, 6, 7], 10, true);
+        player.animations.add('up', [12, 13, 14, 15], 10, true);
+        player.animations.add('down', [8, 9, 10, 11], 10, true);
         player.id=1;
         player.damage = 50;
+        player.fireRate = 100;
+        player.nextFire = 0;
+        player.body.stopVelocityOnCollide = true;
   
         player2 = game.add.sprite(250, 70, 'player2');
         game.physics.arcade.enable(player2);
@@ -100,12 +106,15 @@ demo.state1.prototype = {
         player2.body.bounce.set(0);
         player2.body.tilePadding.set(32);
         player2.body.collideWorldBounds = true;
-        player2.animations.add('up', [0,1,2,3], 10, true);
-        player2.animations.add('down', [4,5,6,7], 10, true);
-        player2.animations.add('left', [12,13,14,15], 10, true);
-        player2.animations.add('right', [8,9,10,11], 10, true);
+        player2.animations.add('up', [0, 1, 2, 3], 10, true);
+        player2.animations.add('down', [4, 5, 6, 7], 10, true);
+        player2.animations.add('left', [12, 13, 14, 15], 10, true);
+        player2.animations.add('right', [8, 9, 10, 11], 10, true);
         player2.id = 2;
         player2.damage =50;
+        player2.fireRate = 100;
+        player2.nextFire = 0;
+        player2.body.stopVelocityOnCollide = true;
         
         game.camera.follow(player);
         //player stats
@@ -140,7 +149,7 @@ demo.state1.prototype = {
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(100, 'bullet', 0, false);
+//        bullets.createMultiple(100, 'bullet', 0, false);
         bullets.setAll('anchor.x', 0.5);
         bullets.setAll('anchor.y', 0.5);
         bullets.setAll('outOfBoundsKill', true);
@@ -225,11 +234,13 @@ demo.state1.prototype = {
         //Attack
         if (attack.isDown && player.visible)
         {
-            fire(player);
+//            fire(player);
+            fire();
         }
         if (attack2.isDown && player2.visible)
         {
-            fire(player2);
+//            fire(player2);
+            fire2();
         }
         
         //Enemy handler
@@ -317,37 +328,54 @@ demo.state1.prototype = {
         }
     }
 };
-
-function fire (p) {
-    if ((game.time.now > nextFire) && (bullets.countDead() > 0))
+function fire () {
+    if (game.time.now > player.nextFire)
     {
-        nextFire = game.time.now + fireRate;
-
-        var bullet = bullets.getFirstExists(false);
+        player.nextFire = game.time.now + player.fireRate;
+        var bullet = game.add.sprite(player.x, player.y, 'bullet');
+        bullets.add(bullet);
         bullet.enableBody =true;
         bullet.physicsBodyType = Phaser.Physics.ARCADE;
         bullet.body.setSize(16, 16);
-        var i = (p.id==1)?lastPress:lastPress2;
-        switch(i){
+        switch(lastPress){
             case 'up':
-                bullet.reset(p.x+30, p.y+30);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 1000);break;              
+                bullet.reset(player.x+8, player.y+30);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 1000);break;
             case 'down':
-                bullet.reset(p.x+30, p.y+30);
+                bullet.reset(player.x+40, player.y+30);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 1000);break;
             case 'left':
-                bullet.reset(p.x+20, p.y+32);
+                bullet.reset(player.x+20, player.y+44);
                 bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 1000);break;
             case 'right':
-                bullet.reset(p.x+22, p.y+32);
-                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+500, bullet.body.position.y, 1000, 1000);break;
+                bullet.reset(player.x+22, player.y+14);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+ 500, bullet.body.position.y, 1000, 1000);break;
         }
-        bullets.forEachAlive(function(bullet){
-            if (bullet.visible && bullet.inCamera){
-                game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
-            }
-            
-        });
+    }
+}
+function fire2 () {
+    if (game.time.now > player2.nextFire)
+    {
+        player2.nextFire = game.time.now + player2.fireRate;
+        var bullet = game.add.sprite(player2.x, player2.y, 'bullet');
+        bullets.add(bullet);
+        bullet.enableBody =true;
+        bullet.physicsBodyType = Phaser.Physics.ARCADE;
+        bullet.body.setSize(16, 16);
+        switch(lastPress2){
+            case 'up':
+                bullet.reset(player2.x+8, player2.y+30);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y-500, 1000, 1000);break;
+            case 'down':
+                bullet.reset(player2.x+40, player2.y+30);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x, bullet.body.position.y+500, 1000, 1000);break;
+            case 'left':
+                bullet.reset(player2.x+20, player2.y+44);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x-500, bullet.body.position.y, 1000, 1000);break;
+            case 'right':
+                bullet.reset(player2.x+22, player2.y+12);
+                bullet.rotation = game.physics.arcade.moveToXY(bullet, bullet.body.position.x+ 500, bullet.body.position.y, 1000, 1000);break;
+        }
     }
 }
 function hitEnemy(enemy, bullet){
