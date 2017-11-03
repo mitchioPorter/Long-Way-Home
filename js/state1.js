@@ -82,39 +82,9 @@ demo.state1.prototype = {
        
 
         //create the player with animation
-        player = game.add.sprite(200, 70, 'sprite');
-        game.physics.arcade.enable(player);
-        player.body.setSize(16, 32, 16, 16);
-        player.enableBody = true;
-        player.body.bounce.set(0);
-        player.body.tilePadding.set(32);
-        player.body.collideWorldBounds = true;
-        player.animations.add('right', [0, 1, 2, 3], 10, true);
-        player.animations.add('left', [4, 5, 6, 7], 10, true);
-        player.animations.add('up', [12, 13, 14, 15], 10, true);
-        player.animations.add('down', [8, 9, 10, 11], 10, true);
-        player.id=1;
-        player.damage = 50;
-        player.fireRate = 100;
-        player.nextFire = 0;
-        player.body.stopVelocityOnCollide = true;
-  
-        player2 = game.add.sprite(250, 70, 'player2');
-        game.physics.arcade.enable(player2);
-        player2.body.setSize(16, 32, 16, 16);
-        player2.enableBody = true;
-        player2.body.bounce.set(0);
-        player2.body.tilePadding.set(32);
-        player2.body.collideWorldBounds = true;
-        player2.animations.add('up', [0, 1, 2, 3], 10, true);
-        player2.animations.add('down', [4, 5, 6, 7], 10, true);
-        player2.animations.add('left', [12, 13, 14, 15], 10, true);
-        player2.animations.add('right', [8, 9, 10, 11], 10, true);
-        player2.id = 2;
-        player2.damage =50;
-        player2.fireRate = 100;
-        player2.nextFire = 0;
-        player2.body.stopVelocityOnCollide = true;
+
+        createPlayer(200,70);
+        createPlayer2(250, 70);
         
         game.camera.follow(player);
         //player stats
@@ -150,10 +120,10 @@ demo.state1.prototype = {
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
 //        bullets.createMultiple(100, 'bullet', 0, false);
-        bullets.setAll('anchor.x', 0.5);
-        bullets.setAll('anchor.y', 0.5);
-        bullets.setAll('outOfBoundsKill', true);
-        bullets.setAll('checkWorldBounds', true);
+//        bullets.setAll('anchor.x', 0.5);
+//        bullets.setAll('anchor.y', 0.5);
+//        bullets.setAll('outOfBoundsKill', true);
+//        bullets.setAll('checkWorldBounds', true);
     
         // Door and Keys
         doors = game.add.group();
@@ -234,12 +204,10 @@ demo.state1.prototype = {
         //Attack
         if (attack.isDown && player.visible)
         {
-//            fire(player);
             fire();
         }
         if (attack2.isDown && player2.visible)
         {
-//            fire(player2);
             fire2();
         }
         
@@ -283,12 +251,18 @@ demo.state1.prototype = {
         
         //Player killed
         if (player.HP <= 0 || player2.HP <=0){
-            playerKilled(player);
-            player2.kill();        
+            player.kill();
+            player2.kill();
+            gameOver();
         }
         
-        //updating HP of the player
+        //update HP of the player
         HPText.text = 'HP1: ' + player.HP+'\nHP2: '+player2.HP ;
+        
+        //Update hintText
+        if (hasKey){
+            hintText.text = 'Please open the door';
+        }
         
         //Pick up items in the world
         game.physics.arcade.overlap(player, health_potion, pickupHealth, null, this);
@@ -321,13 +295,55 @@ demo.state1.prototype = {
             player2.HP-=1;
             fx.play("player_hit");
         }
-        
-        //Update hintText
-        if (hasKey){
-            hintText.text = 'Please open the door';
-        }
     }
 };
+function createPlayer (posX, posY) {
+    player = game.add.sprite(posX, posY, 'sprite');       
+    game.physics.arcade.enable(player);
+    player.body.setSize(16, 32, 16, 16);
+    player.enableBody = true;
+    player.body.bounce.set(0);
+    player.body.tilePadding.set(32);
+    player.body.collideWorldBounds = true;
+    player.animations.add('right', [0, 1, 2, 3], 10, true);
+    player.animations.add('left', [4, 5, 6, 7], 10, true);
+    player.animations.add('up', [12, 13, 14, 15], 10, true);
+    player.animations.add('down', [8, 9, 10, 11], 10, true);
+    player.id=1;
+    player.damage = 50;
+    player.fireRate = 1000;
+    player.nextFire = 0;
+}
+function createPlayer2 (posX, posY){
+    player2 = game.add.sprite(posX, posY, 'player2');
+    game.physics.arcade.enable(player2);
+    player2.body.setSize(16, 32, 16, 16);
+    player2.enableBody = true;
+    player2.body.bounce.set(0);
+    player2.body.tilePadding.set(32);
+    player2.body.collideWorldBounds = true;
+    player2.animations.add('up', [0, 1, 2, 3], 10, true);
+    player2.animations.add('down', [4, 5, 6, 7], 10, true);
+    player2.animations.add('left', [12, 13, 14, 15], 10, true);
+    player2.animations.add('right', [8, 9, 10, 11], 10, true);
+    player2.id = 2;
+    player2.damage =50;
+    player2.fireRate = 100;
+    player2.nextFire = 0;
+}
+function createEnemy (posX, posY, id){
+    var enemy = game.add.sprite(posX, posY, 'enemy');
+    enemies.add(enemy);
+    enemy.enableBody = true;
+    enemy.body.collideWorldBounds = true;
+    enemy.animations.add('left', [0,1,2,3], 10, true);
+    enemy.animations.add('right', [4,5,6,7], 10, true);
+    game.physics.enable(enemy);
+    enemy.body.bounce.set(0.6);
+    enemy.body.tilePadding.set(32);
+    enemy.HP = 100;
+    enemy.i = id;
+}
 function fire () {
     if (game.time.now > player.nextFire)
     {
@@ -379,7 +395,8 @@ function fire2 () {
     }
 }
 function hitEnemy(enemy, bullet){
-    enemy.HP = enemy.HP-(1*player.damage);
+    enemy.HP = enemy.HP-(player.damage);
+    bullet.kill();
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
@@ -388,12 +405,12 @@ function hitEnemy(enemy, bullet){
 }
 function playerAttacked(player, enemy){
     enemy.kill();
+    enemyNum=enemyNum-1;
     fx.play("player_hit");
     player.HP -= 1;
     lastAttackTime = game.time.now;
 }
-function playerKilled(player){
-    player.kill();
+function gameOver(){
     enemies.forEachAlive(function(enemy){
         enemy.kill();
     });
@@ -406,25 +423,10 @@ function bulletKilled (bullet, layer){
 function updateHP (text, HP){
     text = 'HP: ' + HP;
 }
-function createEnemy (posX, posY, id){
-    var enemy = game.add.sprite(posX, posY, 'enemy');
-    enemies.add(enemy);
-    enemy.enableBody = true;
-    enemy.body.collideWorldBounds = true;
-    enemy.animations.add('left', [0,1,2,3], 10, true);
-    enemy.animations.add('right', [4,5,6,7], 10, true);
-    game.physics.enable(enemy);
-    enemy.body.bounce.set(0.6);
-    enemy.body.tilePadding.set(32);
-    enemy.HP = 100;
-    enemy.i = id;
-}
-
 function pickupHealth(player, health_potion){
     health_potion.kill();
     player.HP += 1;
 }
-
 function pickupKey(player, key){
     key.kill();
     hasKey = true;
