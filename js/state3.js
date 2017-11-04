@@ -11,228 +11,25 @@ var tinyGems;
 var boss;
 demo.state3.prototype = {
     preload: function(){
-        game.load.tilemap('room2_1', 'assets/maps/room2_1.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tileset22', 'assets/maps/tileset22.png');
-        game.load.image('bullet', 'assets/fireball.png');
-        game.load.image('door', 'assets/door.png');
-        game.load.image('key', 'assets/key.png');
-        game.load.spritesheet('enemy', 'assets/enemy.png', 48, 48, 8);
-        game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
-        game.load.spritesheet('char2', 'assets/char2.png', 48, 48, 16);
-        game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
-        game.load.audio('dungeon',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
-        game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
-        game.load.image('tinyGem', 'assets/tinygem.png');
+       
+        assetLoader();
     },
     create: function(){
-        map = game.add.tilemap('room2_1');
-
-        map.addTilesetImage('tileset22');
-    
-    
-        layer2 = map.createLayer('noCollide')
-        layer = map.createLayer('collide');
-    
-        layer.resizeWorld();
-        map.setCollisionBetween(1, 2000, true, 'collide');
-        // Sound
-        fx = game.add.audio('crunch');
-        fx.allowMultiple = true;
-        fx.addMarker('player_hit', 0, 0.5);
-        // Music
-        music = game.add.audio('dungeon');
-        music.loop = true;
-        music.play();
-        
+        backgroundCreate(game,'room2_1','tileset22');
+        sound('dungeon2');
 
         //create the player with animation
 
 
         //create the player with animation
-        createPlayer(200, 70);
-        createPlayer2(200, 150);
+        player1Create(game,150,100);
+        player2Create(game,200,150);
         
-        game.camera.follow(player);
-        player.HP = 2;
-        player2.HP = 2;
+        hud();
         
-        //Create a group of enemies
-        enemies = game.add.group();
-        enemies.enableBody = true;
-        enemyNum = 1;
-        
-        //Create a boss
-//        boss = game.add.sprite(380, 360, 'boss');
-//        enemies.add(boss);
-//        boss.enableBody = true;
-//        boss.body.collideWorldBounds = true;
-//        boss.animations.add('left', [0,1], 10, true);
-//        boss.animations.add('right', [0,1], 10, true);
-//        game.physics.enable(boss);
-//        boss.body.bounce.set(0.6);
-//        boss.body.tilePadding.set(32);
-//        boss.HP = 100;
-        
-        //  Our bullet group
-        bullets = game.add.group();
-        bullets.enableBody = true;
-        bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(3, 'bullet', 0, false);
-        bullets.setAll('anchor.x', 0.5);
-        bullets.setAll('anchor.y', 0.5);
-        bullets.setAll('outOfBoundsKill', true);
-        bullets.setAll('checkWorldBounds', true);
-        
-        tinyGems = game.add.group();
-        tinyGems.enableBody = true;
-        tinyGems.physicsBodyType = Phaser.Physics.ARCADE;
-        tinyGems.createMultiple(30, 'tinyGem', 0, false);
-        tinyGems.setAll('anchor.x', 0.5);
-        tinyGems.setAll('anchor.y', 0.5);
-        tinyGems.setAll('outOfBoundsKill', true);
-        tinyGems.setAll('checkWorldBounds', true);
-    
-        HPText = game.add.text(game.camera.x, game.camera.y, 'HP: ' + player.HP, { fontSize: '32px', fill: '#fff' } );
-        HPText.fixedToCamera = true;
-
-        //Access the keyboard input
-        cursors = game.input.keyboard.createCursorKeys();
-        w = game.input.keyboard.addKey(Phaser.Keyboard.W);
-        a = game.input.keyboard.addKey(Phaser.Keyboard.A);
-        s = game.input.keyboard.addKey(Phaser.Keyboard.S);
-        d = game.input.keyboard.addKey(Phaser.Keyboard.D);
-        attack = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        attack2 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
     update: function(){
-        //Check collisions
-        game.physics.arcade.collide(player, layer);
-        game.physics.arcade.collide(player2, layer);
-        game.physics.arcade.collide(player, player2);
-        
-        //  Un-comment these to gain full control over the sprite
-        player.body.velocity.x = 0;
-        player.body.velocity.y = 0;
-        player2.body.velocity.x = 0;
-        player2.body.velocity.y = 0;
-
-        //Player control
-        playerControl1();
-        playerControl2();
-        
-        //Attack
-        if (attack.isDown && player.visible)
-        {
-            fire(player);
-        }
-        if (attack2.isDown && player2.visible)
-        {
-            fire(player2);
-        }        
-
-        //Enemy handler
-        enemies.forEachAlive(function(enemy){
-            if (enemy.visible && enemy.inCamera) {
-                if (game.physics.arcade.distanceBetween(player, enemy) > 30){
-                    game.physics.arcade.moveToObject(enemy, player, 30);
-                    if(enemy.body.velocity.x>0){
-                        enemy.animations.play('right');
-                    }
-                    else {
-                        enemy.animations.play('left');
-                    }
-                }
-                else {
-                    enemy.body.velocity.x = 0;
-                    enemy.body.velocity.y = 0;
-                }
-            }
-            if (enemy.visible && enemy.inCamera) {
-                if (game.physics.arcade.distanceBetween(player2, enemy) > 30){
-                    game.physics.arcade.moveToObject(enemy, player2, 100);
-                    if(enemy.body.velocity.x>0){
-                        enemy.animations.play('right');
-                    }
-                    else {
-                        enemy.animations.play('left');
-                    }
-                }
-                else {
-                    enemy.body.velocity.x = 0;
-                    enemy.body.velocity.y = 0;
-                }
-            }
-            
-            game.physics.arcade.collide(enemy, layer);
-            game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this);
-
-        });
-        
-        //Player attacked
-        game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
-        game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
-        
-        //Bullet handler
-        bullets.forEachAlive(function(bullet){
-            if (bullet.visible && bullet.inCamera){
-                game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
-            }
-        });
-        
-        //Player killed
-        if (player.HP <= 0 || player2.HP <=0){
-            player.kill();
-            player2.kill();
-            gameOver();
-        }
-        
-        //Update HP of the player
-        HPText.text = 'HP1: ' + player.HP+'\nHP2: '+player2.HP ;
-
-        //Boss handler
-        if (boss.visible && boss.inCamera){
-            fireGem ();
-        }
-        boss.body.velocity.x = 0;
-        game.physics.arcade.overlap(player, tinyGems, hitByGem, null, this);
-        game.physics.arcade.overlap(player2, tinyGems, hitByGem, null, this);
-        tinyGems.forEachAlive(function(gem){
-            if (gem.visible && gem.inCamera){
-                game.physics.arcade.overlap(gem, layer, gemKilled, null, this);
-            }
-        });
-        
-        //Win the game
-        if (enemyNum <= 0){
-            //endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + //game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
-            //player.kill();
-            //player2.kill();
-        }
+        playerUpdate();
+        HUDUpdate();
     }
 };
-function fireGem (){
-    if (game.time.now > lastGemTime + 2000){
-        var gem = tinyGems.getFirstExists(false);
-        gem.enableBody =true;
-        gem.physicsBodyType = Phaser.Physics.ARCADE;
-        //left
-        if (boss.body.velocity.x < 0){
-            gem.reset(boss.x, boss.y+55);
-            gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x-500, gem.body.position.y, 1000, 5000);
-        }
-        //right
-        else if (boss.body.velocity.x >= 0){
-            gem.reset(boss.x, boss.y+55);
-            gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x+500, gem.body.position.y, 1000, 5000);
-        }
-        lastGemTime = game.time.now;
-    }
-}
-function hitByGem(player, gem){
-    player.HP -=1;
-    fx.play("player_hit");
-    gem.kill();
-}
-function gemKilled (bullet, layer){
-    bullet.kill();
-}
