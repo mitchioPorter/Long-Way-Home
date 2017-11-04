@@ -40,7 +40,7 @@ player1Create = function(game, posX,posY){
         player1.body.stopVelocityOnCollide = true;
   
         game.camera.follow(player1);
-        game.camera.deadzone = new Phaser.Rectangle(300,260,1,1);
+        game.camera.deadzone = new Phaser.Rectangle(300,200,1,1);
         //player1.stats
         player1.HP = 3;
     

@@ -8,8 +8,6 @@ lastAttackTime = 0;
 hasKey = false;
 
 
-
-
 demo.state2.prototype = {
     preload: function(){
         assetLoader();
@@ -36,9 +34,6 @@ demo.state2.prototype = {
         createGemBoss(game,380,360);
         
         
-        
-       
-        
         hud();
     
         
@@ -49,10 +44,6 @@ demo.state2.prototype = {
         HUDUpdate();
         
      
-       
-      
-        
-        
         //Win the game
         if (enemyNum <= 0){
            // endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
