@@ -2,7 +2,7 @@
         var timer;
         var daggers;
 
-        player2Create = function(game, x,y){
+player2Create = function(game, x,y){
          //Access the keyboard input
         
         w = game.input.keyboard.addKey(Phaser.Keyboard.W);

@@ -64,7 +64,7 @@ function enemyUpdate(){
             }
             
             game.physics.arcade.collide(enemy, layer);
-            game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this);  game.physics.arcade.overlap(enemy, daggers, hitEnemy, null, this);
+            game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this); game.physics.arcade.overlap(enemy, daggers, hitEnemy, null, this);
         });
     
     
@@ -82,6 +82,8 @@ function enemyUpdate(){
                 game.physics.arcade.overlap(gem, layer, gemKilled, null, this);
             }
         });
+            
+        
         }
 }
 
@@ -121,8 +123,6 @@ function createGemBoss(game,x,y){
         var boss;
     
     
-    // boss bullets
-    
     
 }
 
@@ -145,6 +145,7 @@ function fireGem (){
         lastGemTime = game.time.now;
     }
 }
+
 
 function gemKilled (bullet, layer){
     bullet.kill();
