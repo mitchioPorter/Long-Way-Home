@@ -1,3 +1,4 @@
+var lastAttackTime_enemy;
 function enemiesCreate(){
     enemies = game.add.group();
     enemies.enableBody = true;
@@ -21,17 +22,22 @@ function enemiesCreate(){
 function hitEnemy(enemy, bullet){
     dagger.kill();
     enemy.HP = enemy.HP-(1*player1.damage);
+    lastAttackTime_enemy = game.time.now;
+    enemy.tint =  0xff0000;
     
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
     }
+    
     //enemy.reset(enemy.body.position.x+20,enemy.body.position.y);
 }
 
 function hitEnemy(enemy, dagger){
     dagger.kill();
     enemy.HP = enemy.HP-(1*player2.damage);
+    lastAttackTime_enemy = game.time.now;
+    enemy.tint =  0xff0000;
    
     if (enemy.HP<=0){
         enemy.kill();
@@ -64,8 +70,12 @@ function enemyUpdate(){
             
             game.physics.arcade.collide(enemy, layer);
             game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this); game.physics.arcade.overlap(enemy, daggers, hitEnemy, null, this);
+         
+             if (game.time.now > lastAttackTime_enemy+100) {
+                enemy.tint = 0xFFFFFF;
+            }
         });
-    
+
     
     
     

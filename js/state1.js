@@ -63,6 +63,8 @@ demo.state1.prototype = {
         createSlime(200, 1240, 2);
         createSlime(200, 1640, 3);
         createSlime(200, 1740, 4);
+        
+        enemyNum = 7;
 
         
         door(game,1120, 880,);
