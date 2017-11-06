@@ -23,8 +23,8 @@ demo.state2.prototype = {
         
 
         //load the players
-        player2Create(game,100,100);
-        player1Create(game,250,70);
+        player2Create(game,150,100);
+        player1Create(game,150,150);
         
         
         //Create a group of enemies
@@ -32,15 +32,14 @@ demo.state2.prototype = {
         
         enemyNum = 1;
         createGemBoss(game,380,360);
-        
-        
         hud();
     
         
     },
     update: function(){
         playerUpdate();
-        enemyUpdate();
+        gemBossUpdater ();
+        enemyUpdate ();
         HUDUpdate();
         
      

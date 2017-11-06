@@ -78,7 +78,6 @@ demo.state1.prototype = {
     
     
     update: function(){
-        
         //calls the update function
             playerUpdate();
             enemyUpdate();

@@ -1,14 +1,16 @@
 demo.state3 = function(){};
 
 
-
-
 lastPress = 'right';
 lastAttackTime = 0;
 hasKey = false;
 var lastGemTime = 0;
 var tinyGems;
 var boss;
+
+
+
+
 demo.state3.prototype = {
     preload: function(){
        
@@ -28,7 +30,9 @@ demo.state3.prototype = {
         hud();
         
     },
+    
     update: function(){
+        
         playerUpdate();
         HUDUpdate();
     }

@@ -1,9 +1,26 @@
-function playerAttacked(player, enemy){
-    enemy.kill();
-    fx.play("player_hit");
-    player1.HP -= 1;
-    lastAttackTime = game.time.now;
+function playerAttacked(player, enemy) {
+    
+    if (game.time.now > lastAttackTime+1000) {
+        fx.play("player_hit");
+        player.HP -= 1;
+        lastAttackTime = game.time.now;
+        player1.tint =  0xff00ff;
+        player2.tint = 0xff00ff;
+        
+        if (enemy.body.position.x > player.body.position.x && enemy.body.position.x < player.body.position.x+60){
+            enemy.body.position.x += + 60;
+        }else if (enemy.body.position.x < player.body.position.x && enemy.body.position.x > player.body.position.x-60){
+            enemy.body.position.x -= 60;
+        }
+        if (player.body.position.y > player.body.position.y && enemy.body.position.y < player.body.position.y+60 ){
+            enemy.body.y.position += 60;
+        }else if (player.body.position.y < player.body.position.y && enemy.body.position.y > player.body.position.y-60){
+            enemy.body.position.y -=  - 60;
+        }
 }
+
+}
+
 
 function playerKilled(player){
     player.kill();
@@ -15,6 +32,39 @@ function playerKilled(player){
 }
 
 function playerUpdate(){
+        
+    
+ //this fixes the camera not stopping when character2 might go off sccreen
+    if(player2.body.position.x < game.camera.x - game.camera.width /2){
+        player2.body.position.x = game.camera.x - game.camera.width /2+150;
+        player1.body.position.x = player1.body.position.x;
+        
+    }
+    
+     else if(player2.body.position.x > game.camera.x + game.camera.width /2+150){
+         player2.body.position.x = game.camera.x + game.camera.width /2 +150;
+         player1.body.position.x = player1.body.position.x;
+    }
+    
+    if(player2.body.position.y < game.camera.y - game.camera.height /2){
+        player2.body.position.y = game.camera.y - game.camera.height /2+150;
+        
+        
+    }
+    
+     else if(player2.body.position.y > game.camera.y + game.camera.height /2+50){
+         player2.body.position.y = game.camera.y + game.camera.height /2 +50;
+    }
+
+    
+    //this resets the tint after a time
+    
+    if (game.time.now > lastAttackTime+1000) {
+        player1.tint = 0xFFFFFF;
+        player2.tint = 0xFFFFFF;
+    }
+    
+    
     
             
         //Escape from attack for 3 seconds after being attacked once
@@ -22,7 +72,7 @@ function playerUpdate(){
 //            game.physics.arcade.overlap(player, enemies, playerAttacked, null, this);
 //        }
     
-        if (!hasKey){
+        if (!hasKey) {
             game.physics.arcade.collide(player1, door);
             game.physics.arcade.collide(player2, door);
         }
@@ -37,20 +87,18 @@ function playerUpdate(){
         player2.body.velocity.x = 0;
         player2.body.velocity.y = 0;        
 
-        //Player control
+        //Player controler
         player1Control();
         playerControl2();
         
         //Attack
         if (attack.isDown && player1.visible)
         {
-//          fire(player);
             fire1();
         }
         
         if (attack2.isDown && player2.visible)
         {
-//          fire(player2);
             fire2();
         }
     
@@ -64,7 +112,7 @@ function playerUpdate(){
         game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
     
     
-     game.physics.arcade.overlap(player1, health_potion, pickupHealth, null, this);
+        game.physics.arcade.overlap(player1, health_potion, pickupHealth, null, this);
         game.physics.arcade.overlap(player2, health_potion, pickupHealth, null, this);
         game.physics.arcade.overlap(player1, key, pickupKey,null, this);
         game.physics.arcade.overlap(player2, key, pickupKey,null, this);
@@ -90,12 +138,21 @@ function playerUpdate(){
     
     
         if (hitplayer){
-            player1.HP-=1;
-            fx.play("player_hit");
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player1.HP -= 1;
+                lastAttackTime = game.time.now;player1.tint =  0xff00ff;
+                player2.tint = 0xff00ff;
+            }
         }
         if (hitplayer2){
-            player2.HP-=1;
-            fx.play("player_hit");
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player2.HP -= 1;
+                lastAttackTime = game.time.now;
+                player1.tint =  0xff00ff;
+                player2.tint = 0xff00ff;
+            }
         }
         
     

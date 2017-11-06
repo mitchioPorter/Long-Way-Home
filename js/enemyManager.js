@@ -16,9 +16,21 @@ function enemiesCreate(){
        
 }
 
+//this is player 1 attacks enemy
+
 function hitEnemy(enemy, bullet){
     dagger.kill();
     enemy.HP = enemy.HP-(1*player1.damage);
+    if (enemy.body.position.x > bullet.body.position.x && enemy.body.position.x < bullet.body.position.x+60){
+            enemy.body.position.x += + 60;
+        }else if (enemy.body.position.x < bullet.body.position.x && enemy.body.position.x > bullet.body.position.x-60){
+            enemy.body.position.x -= 60;
+        }
+        if (bullet.body.position.y > bullet.body.position.y && enemy.body.position.y < bullet.body.position.y+60 ){
+            enemy.body.y.position += 60;
+        }else if (bullet.body.position.y < bullet.body.position.y && enemy.body.position.y > bullet.body.position.y-60){
+            enemy.body.position.y -=  - 60;
+        }
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
@@ -29,6 +41,16 @@ function hitEnemy(enemy, bullet){
 function hitEnemy(enemy, dagger){
     dagger.kill();
     enemy.HP = enemy.HP-(1*player2.damage);
+    if (enemy.body.position.x > dagger.body.position.x && enemy.body.position.x < dagger.body.position.x+60){
+            enemy.body.position.x += + 60;
+        }else if (enemy.body.position.x < dagger.body.position.x && enemy.body.position.x > dagger.body.position.x-60){
+            enemy.body.position.x -= 60;
+        }
+        if (dagger.body.position.y > dagger.body.position.y && enemy.body.position.y < dagger.body.position.y+60 ){
+            enemy.body.y.position += 60;
+        }else if (dagger.body.position.y < dagger.body.position.y && enemy.body.position.y > dagger.body.position.y-60){
+            enemy.body.position.y -=  - 60;
+        }
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
@@ -69,24 +91,8 @@ function enemyUpdate(){
     
     
     
-    //Boss handler
-        if(boss != undefined){
-        if (boss.visible && boss.inCamera){
-            fireGem ();
-        }
-        boss.body.velocity.x = 0;
-        game.physics.arcade.overlap(player, tinyGems, hitByGem, null, this);
-        game.physics.arcade.overlap(player2, tinyGems, hitByGem, null, this);
-        tinyGems.forEachAlive(function(gem){
-            if (gem.visible && gem.inCamera){
-                game.physics.arcade.overlap(gem, layer, gemKilled, null, this);
-            }
-        });
-            
-        
-        }
+    
 }
-
 
 
 function createSlime (posX, posY, id){
@@ -104,6 +110,28 @@ function createSlime (posX, posY, id){
 }
 
 
+function gemBossUpdater (){
+    //Boss handler
+        if(boss != undefined){
+        if (boss.visible && boss.inCamera){
+            fireGem ();
+        }
+        boss.body.velocity.x = 0;
+        game.physics.arcade.overlap(player, tinyGems, hitByGem, null, this);
+        game.physics.arcade.overlap(player2, tinyGems, hitByGem, null, this);
+        tinyGems.forEachAlive(function(gem){
+            if (gem.visible && gem.inCamera){
+                game.physics.arcade.overlap(gem, layer, gemKilled, null, this);
+            }
+        });
+            
+            
+        
+        }
+    
+}
+
+
 function createGemBoss(game,x,y){
     //Create a boss
         boss = game.add.sprite(380, 360, 'boss');
@@ -115,20 +143,18 @@ function createGemBoss(game,x,y){
         game.physics.enable(boss);
         boss.body.bounce.set(0.6);
         boss.body.tilePadding.set(32);
-        boss.HP = 100;
+        boss.HP = 300;
     
     
         var lastGemTime = 0;
         var tinyGems;
         var boss;
-    
-    
-    
+ 
 }
 
 
 function fireGem (){
-    if (game.time.now > lastGemTime + 2000){
+    if (game.time.now > lastGemTime + 1000){
         var gem = tinyGems.getFirstExists(false);
         gem.enableBody =true;
         gem.physicsBodyType = Phaser.Physics.ARCADE;

@@ -12,7 +12,7 @@ player1Create = function(game, posX,posY){
         
 
     
-        //set attackButton
+//set attackButton
         cursors = game.input.keyboard.createCursorKeys();
         attack = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     
@@ -38,9 +38,9 @@ player1Create = function(game, posX,posY){
     
     
         player1.body.stopVelocityOnCollide = true;
-  
+
     
-        //camera stuff
+//camera stuff
         
         game.camera.follow(player1);
         game.camera.deadzone = new Phaser.Rectangle(300,200,1,1);
@@ -49,13 +49,13 @@ player1Create = function(game, posX,posY){
     
     
     
-    //bullet stuff
+//bullet stuff
     
     //  Our bullet group
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
-//        bullets.createMultiple(100, 'bullet', 0, false);
+//      bullets.createMultiple(100, 'bullet', 0, false);
         bullets.setAll('anchor.x', 0.5);
         bullets.setAll('anchor.y', 0.5);
         bullets.setAll('outOfBoundsKill', true);
@@ -121,6 +121,7 @@ function player1Control(){
 
 
 function fire1 () {
+    
     if (game.time.now > player1.nextFire)
     {
         player1.nextFire = game.time.now + player1.fireRate;
