@@ -4,8 +4,7 @@ function playerAttacked(player, enemy) {
         fx.play("player_hit");
         player.HP -= 1;
         lastAttackTime = game.time.now;
-        player1.tint =  0xff0000;
-        player2.tint = 0xff0000;
+        player.tint = 0xff0000;
         
         if (enemy.body.position.x > player.body.position.x && enemy.body.position.x < player.body.position.x+60){
             enemy.body.position.x += + 60;
@@ -141,8 +140,8 @@ function playerUpdate(){
             if(game.time.now > lastAttackTime+1000){
                 fx.play("player_hit");
                 player1.HP -= 1;
-                lastAttackTime = game.time.now;player1.tint =  0xff00ff;
-                player2.tint = 0xff00ff;
+                lastAttackTime = game.time.now;
+                player1.tint = 0xff00ff;
             }
         }
         if (hitplayer2){
@@ -150,7 +149,6 @@ function playerUpdate(){
                 fx.play("player_hit");
                 player2.HP -= 1;
                 lastAttackTime = game.time.now;
-                player1.tint =  0xff00ff;
                 player2.tint = 0xff00ff;
             }
         }
