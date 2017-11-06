@@ -44,16 +44,11 @@ function hitEnemy(enemy, dagger){
 function enemyUpdate(){
         
      enemies.forEachAlive(function(enemy){
-         var temp  =  game.rnd.integerInRange(0, 200);
-         var playerName;
-         if(temp <=100){
-             playerName = player1;
-         }else{
-             playerName = player2;
-         }
+         
+         
             if (enemy.visible && enemy.inCamera) {
-                if (game.physics.arcade.distanceBetween(playerName, enemy) > 30){
-                    game.physics.arcade.moveToObject(enemy, playerName, 100);
+                if (game.physics.arcade.distanceBetween(enemy.target, enemy) > 30){
+                    game.physics.arcade.moveToObject(enemy, enemy.target, 100);
                     if(enemy.body.velocity.x >0){
                         enemy.animations.play('right');
                     }
@@ -88,6 +83,16 @@ function createSlime (posX, posY, id){
     enemy.body.bounce.set(0.6);
     enemy.body.tilePadding.set(40);
     enemy.HP = 100;
+   
+    var temp  =  game.rnd.integerInRange(0, 200);
+    var playerName;
+         if(temp <=100){
+             playerName = player1;
+         }else{
+             playerName = player2;
+         }
+     enemy.target = playerName;
+    
     enemy.i = id;
 }
 

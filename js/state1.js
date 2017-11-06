@@ -41,6 +41,10 @@ demo.state1.prototype = {
         
         
         backgroundCreate(game,'room1','tileset1');
+        ////create the player here
+        player2Create(game,100,100);
+        player1Create(game,250,70);
+        
         enemiesCreate();
         sound('dungeon');
         
@@ -64,9 +68,7 @@ demo.state1.prototype = {
         //Potion
         potion(game,800,200);
         
-        ////create the player here
-        player2Create(game,100,100);
-        player1Create(game,250,70);
+        
         
         
         //debugging stuff

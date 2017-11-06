@@ -17,14 +17,18 @@ demo.state2.prototype = {
     create: function(){
         //load the bg
         backgroundCreate(game,'BossRoom', 'tileset1');
+        
+        //load the players
+        player2Create(game,150,100);
+        player1Create(game,150,150);
+        
+        
+        
         enemiesCreate();
         //load the sound/music
         sound('dungeonBoss');
         
 
-        //load the players
-        player2Create(game,150,100);
-        player1Create(game,150,150);
         
         
         //Create a group of enemies
