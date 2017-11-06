@@ -3,7 +3,7 @@
 
 function door(game,x,y){
         doors = game.add.group();
-        door = game.add.sprite(1120, 880, 'door');
+        door = game.add.sprite(x, y, 'door');
         doors.add(door);
         door.anchor.setTo(0.5, 1);
         game.physics.enable(door);

@@ -20,6 +20,10 @@ var hasKey = false;
 
 var doors;
 var door;
+
+var plates;
+var pressurePlate;
+
 var keys;
 var key;
 var boulder;
