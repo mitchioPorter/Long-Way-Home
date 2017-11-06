@@ -32,6 +32,7 @@ demo.state3.prototype = {
     },
     
     update: function(){
+        state = 3;
         
         playerUpdate();
         HUDUpdate();

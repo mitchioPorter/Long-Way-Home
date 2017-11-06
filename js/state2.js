@@ -41,6 +41,8 @@ demo.state2.prototype = {
         
     },
     update: function(){
+        state =2;
+        
         playerUpdate();
         gemBossUpdater ();
         enemyUpdate ();

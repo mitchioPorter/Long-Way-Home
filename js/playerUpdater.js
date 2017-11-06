@@ -26,7 +26,9 @@ function playerKilled(player){
     enemies.forEachAlive(function(enemy){
         enemy.kill();
     });
-    boulder.kill();
+    if (state == 1){boulder.kill();}
+    
+
     endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Lose!', { fontSize: '32px', fill: '#fff' });
 }
 

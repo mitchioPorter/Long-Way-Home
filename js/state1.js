@@ -36,6 +36,8 @@ var a;
 var s;
 var d;
 
+var state;
+
 demo.state1.prototype = {
     preload: function () {
         assetLoader();
@@ -89,6 +91,8 @@ demo.state1.prototype = {
     
     
     update: function(){
+        
+        state = 1;
         //calls the update function
             playerUpdate();
             enemyUpdate();
