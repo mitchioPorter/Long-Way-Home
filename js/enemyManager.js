@@ -21,16 +21,7 @@ function enemiesCreate(){
 function hitEnemy(enemy, bullet){
     dagger.kill();
     enemy.HP = enemy.HP-(1*player1.damage);
-    if (enemy.body.position.x > bullet.body.position.x && enemy.body.position.x < bullet.body.position.x+60){
-            enemy.body.position.x += + 60;
-        }else if (enemy.body.position.x < bullet.body.position.x && enemy.body.position.x > bullet.body.position.x-60){
-            enemy.body.position.x -= 60;
-        }
-        if (bullet.body.position.y > bullet.body.position.y && enemy.body.position.y < bullet.body.position.y+60 ){
-            enemy.body.y.position += 60;
-        }else if (bullet.body.position.y < bullet.body.position.y && enemy.body.position.y > bullet.body.position.y-60){
-            enemy.body.position.y -=  - 60;
-        }
+    
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
@@ -41,16 +32,7 @@ function hitEnemy(enemy, bullet){
 function hitEnemy(enemy, dagger){
     dagger.kill();
     enemy.HP = enemy.HP-(1*player2.damage);
-    if (enemy.body.position.x > dagger.body.position.x && enemy.body.position.x < dagger.body.position.x+60){
-            enemy.body.position.x += + 60;
-        }else if (enemy.body.position.x < dagger.body.position.x && enemy.body.position.x > dagger.body.position.x-60){
-            enemy.body.position.x -= 60;
-        }
-        if (dagger.body.position.y > dagger.body.position.y && enemy.body.position.y < dagger.body.position.y+60 ){
-            enemy.body.y.position += 60;
-        }else if (dagger.body.position.y < dagger.body.position.y && enemy.body.position.y > dagger.body.position.y-60){
-            enemy.body.position.y -=  - 60;
-        }
+   
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
@@ -62,7 +44,7 @@ function hitEnemy(enemy, dagger){
 function enemyUpdate(){
         
      enemies.forEachAlive(function(enemy){
-         var temp  =  game.rnd.integerInRange(100, 200);
+         var temp  =  game.rnd.integerInRange(0, 200);
          var playerName;
          if(temp <=100){
              playerName = player1;
@@ -104,7 +86,7 @@ function createSlime (posX, posY, id){
     enemy.animations.add('right', [4,5,6,7], 10, true);
     game.physics.enable(enemy);
     enemy.body.bounce.set(0.6);
-    enemy.body.tilePadding.set(32);
+    enemy.body.tilePadding.set(40);
     enemy.HP = 100;
     enemy.i = id;
 }

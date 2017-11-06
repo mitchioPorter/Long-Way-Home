@@ -67,7 +67,7 @@ player1Create = function(game, posX,posY){
 function player1Control(){
     if (cursors.up.isDown)
     {
-        if (player1.body.y<game.camera.view.y+560){
+        if (player1.body.y<game.camera.view.y+560 && player2.body.y>game.camera.view.y && player2.body.y<game.camera.view.y +560){
             player1.body.velocity.y = -150;
         }
         lastPress = 'up';
@@ -75,7 +75,7 @@ function player1Control(){
     }
     else if (cursors.down.isDown)
     {
-        if (player1.body.y>game.camera.view.y){
+        if (player1.body.y>game.camera.view.y && player2.body.y>game.camera.view.y && player2.body.y<game.camera.view.y +560){
             player1.body.velocity.y = 150;
         }
         lastPress = 'down';
@@ -83,7 +83,7 @@ function player1Control(){
     }
     else if (cursors.left.isDown)
     {
-        if (player1.body.x<game.camera.view.x+760){
+        if (player1.body.x<game.camera.view.x+760 && player2.body.x>game.camera.view.x && player2.body.x<game.camera.view.x+760){
             player1.body.velocity.x = -150;
         }
         lastPress = 'left';
@@ -91,7 +91,7 @@ function player1Control(){
     }
     else if (cursors.right.isDown)
     {
-        if (player1.body.x>game.camera.view.x){
+        if (player1.body.x>game.camera.view.x && player2.body.x<game.camera.view.x+760  && player2.body.x>game.camera.view.x){
             player1.body.velocity.x = 150;
         }
         lastPress = 'right';

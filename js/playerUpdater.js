@@ -4,8 +4,8 @@ function playerAttacked(player, enemy) {
         fx.play("player_hit");
         player.HP -= 1;
         lastAttackTime = game.time.now;
-        player1.tint =  0xff00ff;
-        player2.tint = 0xff00ff;
+        player1.tint =  0xff0000;
+        player2.tint = 0xff0000;
         
         if (enemy.body.position.x > player.body.position.x && enemy.body.position.x < player.body.position.x+60){
             enemy.body.position.x += + 60;
@@ -32,28 +32,28 @@ function playerKilled(player){
 }
 
 function playerUpdate(){
-        
+    
     
  //this fixes the camera not stopping when character2 might go off sccreen
-    if(player2.body.position.x < game.camera.x - game.camera.width /2){
-        player2.body.position.x = game.camera.x - game.camera.width /2+150;
-        player1.body.position.x = player1.body.position.x;
+    if(player2.body.position.x < game.camera.x - game.camera.width){
+        player2.body.position.x = game.camera.x - game.camera.width;
+       
         
     }
     
-     else if(player2.body.position.x > game.camera.x + game.camera.width /2+150){
-         player2.body.position.x = game.camera.x + game.camera.width /2 +150;
-         player1.body.position.x = player1.body.position.x;
+     else if(player2.body.position.x > game.camera.x + game.camera.width ){
+         player2.body.position.x = game.camera.x + game.camera.width;
+        
     }
     
-    if(player2.body.position.y < game.camera.y - game.camera.height /2){
-        player2.body.position.y = game.camera.y - game.camera.height /2+150;
+    if(player2.body.position.y < game.camera.y - game.camera.height){
+        player2.body.position.y = game.camera.y - game.camera.height;
         
         
     }
     
-     else if(player2.body.position.y > game.camera.y + game.camera.height /2+50){
-         player2.body.position.y = game.camera.y + game.camera.height /2 +50;
+     else if(player2.body.position.y > game.camera.y + game.camera.height){
+         player2.body.position.y = game.camera.y + game.camera.heighdt;
     }
 
     
