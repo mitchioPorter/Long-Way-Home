@@ -136,6 +136,15 @@ function createGemBoss(game,x,y){
         var lastGemTime = 0;
         var tinyGems;
         var boss;
+    
+        var temp  =  game.rnd.integerInRange(0, 200);
+        var playerName;
+         if(temp <=100){
+             playerName = player1;
+         }else{
+             playerName = player2;
+         }
+        boss.target = playerName;
  
 }
 
