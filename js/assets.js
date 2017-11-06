@@ -9,6 +9,7 @@ function assetLoader(){
      backgroundPreload(game,'room1','assets/maps/room1.json','tileset1', 'assets/maps/tileset1.png');
      game.load.tilemap('room2_1', 'assets/maps/room2_1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tileset22', 'assets/maps/tileset22.png');
+        game.load.spritesheet('pressurePlate', 'assets/button.png', 48, 48, 2);
         
         
         

@@ -45,6 +45,9 @@ demo.state1.prototype = {
         
         
         backgroundCreate(game,'room1','tileset1');
+        pressurePlate(game,200,200)
+        
+        
         ////create the player here
         player2Create(game,100,100);
         player1Create(game,250,70);
@@ -89,6 +92,7 @@ demo.state1.prototype = {
             enemyUpdate();
             trapUpdate()
             HUDUpdate();
+            pressurePlateUpdater();
     }
         
 };
