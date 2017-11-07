@@ -96,6 +96,10 @@ function createSlime (posX, posY, id){
     enemy.i = id;
 }
 
+//function createSlime (posX, posY, id){
+    
+//}
+
 
 function gemBossUpdater (){
     //Boss handler

@@ -37,6 +37,7 @@ function pressurePlate(game,x,y){
         pressurePlate.lastPressed = 0;
  
 }
+
 function pressurePlateUpdater(){
     plates.forEachAlive(function(press){
         if (press.visible && press.inCamera){
