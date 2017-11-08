@@ -6,7 +6,9 @@ demo.state2 = function(){};
 lastPress = 'right';
 lastAttackTime = 0;
 hasKey = false;
-
+var lastGemTime = 0;
+var tinyGems;
+var boss;
 
 demo.state2.prototype = {
     preload: function(){

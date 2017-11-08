@@ -2,19 +2,19 @@ function playerAttacked(player, enemy) {
     
     if (game.time.now > lastAttackTime+1000) {
         fx.play("player_hit");
-        player.HP -= 1;
+        //player.HP -= 1;
         lastAttackTime = game.time.now;
         player.tint = 0xff0000;
         
         if (enemy.body.position.x > player.body.position.x && enemy.body.position.x < player.body.position.x+60){
-            enemy.body.position.x += + 60;
+            enemy.body.position.x += 30;
         }else if (enemy.body.position.x < player.body.position.x && enemy.body.position.x > player.body.position.x-60){
-            enemy.body.position.x -= 60;
+            enemy.body.position.x -= 30;
         }
-        if (player.body.position.y > player.body.position.y && enemy.body.position.y < player.body.position.y+60 ){
-            enemy.body.y.position += 60;
-        }else if (player.body.position.y < player.body.position.y && enemy.body.position.y > player.body.position.y-60){
-            enemy.body.position.y -=  - 60;
+        if (enemy.body.position.y > player.body.position.y && enemy.body.position.y < player.body.position.y+60 ){
+            enemy.body.y.position += 30;
+        }else if (enemy.body.position.y < player.body.position.y && enemy.body.position.y > player.body.position.y-60){
+            enemy.body.position.y -=  30;
         }
 }
 

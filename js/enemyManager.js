@@ -114,7 +114,7 @@ function gemBossUpdater (){
             fireGem ();
         }
         boss.body.velocity.x = 0;
-        game.physics.arcade.overlap(player, tinyGems, hitByGem, null, this);
+        game.physics.arcade.overlap(player1, tinyGems, hitByGem, null, this);
         game.physics.arcade.overlap(player2, tinyGems, hitByGem, null, this);
         tinyGems.forEachAlive(function(gem){
             if (gem.visible && gem.inCamera){
@@ -143,9 +143,6 @@ function createGemBoss(game,x,y){
         boss.HP = 300;
     
     
-        var lastGemTime = 0;
-        var tinyGems;
-        var boss;
     
         var temp  =  game.rnd.integerInRange(0, 200);
         var playerName;
@@ -155,6 +152,15 @@ function createGemBoss(game,x,y){
              playerName = player2;
          }
         boss.target = playerName;
+    
+        tinyGems = game.add.group();
+        tinyGems.enableBody = true;
+        tinyGems.physicsBodyType = Phaser.Physics.ARCADE;
+        tinyGems.createMultiple(30, 'tinyGem', 0, false);
+        tinyGems.setAll('anchor.x', 0.5);
+        tinyGems.setAll('anchor.y', 0.5);
+        tinyGems.setAll('outOfBoundsKill', true);
+        tinyGems.setAll('checkWorldBounds', true);
  
 }
 
@@ -179,6 +185,6 @@ function fireGem (){
 }
 
 
-function gemKilled (bullet, layer){
-    bullet.kill();
+function gemKilled (gem, layer){
+    gem.kill();
 }
