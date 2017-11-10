@@ -152,9 +152,13 @@ function bulletKilled (bullet, layer){
 }
 
 
-function hitByGem(player1, gem){
-    player1.HP -=1;
-    fx.play("player_hit");
+function hitByGem(player, gem){
+    if (game.time.now > lastAttackTime+1000){
+        player.HP -=1;
+        fx.play("player_hit");
+        lastAttackTime = game.time.now;
+        player.tint = 0xff0000;
+    }
     gem.kill();
 }
 

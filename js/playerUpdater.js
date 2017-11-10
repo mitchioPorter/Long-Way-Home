@@ -2,7 +2,7 @@ function playerAttacked(player, enemy) {
     
     if (game.time.now > lastAttackTime+1000) {
         fx.play("player_hit");
-        //player.HP -= 1;
+        player.HP -= 1;
         lastAttackTime = game.time.now;
         player.tint = 0xff0000;
         

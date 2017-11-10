@@ -133,9 +133,4 @@ function daggerKilled (dagger, layer){
     }
 }
 
-function hitByGem(player2, gem){
-    player2.HP -=1;
-    fx.play("player_hit");
-    gem.kill();
-}
 
