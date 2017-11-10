@@ -171,12 +171,12 @@ function fireGem (){
         gem.enableBody =true;
         gem.physicsBodyType = Phaser.Physics.ARCADE;
         //left
-        if (boss.body.velocity.x < 0){
+        if (boss.body.position.x > boss.target.body.position.x){
             gem.reset(boss.x, boss.y+55);
             gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x-500, gem.body.position.y, 1000, 5000);
         }
         //right
-        else if (boss.body.velocity.x >= 0){
+        else if (boss.body.position.x < boss.target.body.position.x){
             gem.reset(boss.x, boss.y+55);
             gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x+500, gem.body.position.y, 1000, 5000);
         }
