@@ -19,12 +19,12 @@ function enemiesCreate(){
 
 //this is player 1 attacks enemy
 
-function hitEnemy(enemy, bullet){
-    dagger.kill();
+function hitEnemy1(enemy, bullet){
+    bullet.kill();
     enemy.HP = enemy.HP-(1*player1.damage);
     lastAttackTime_enemy = game.time.now;
     enemy.tint =  0xff0000;
-    
+    enemy.target = player1;
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
@@ -33,12 +33,12 @@ function hitEnemy(enemy, bullet){
     //enemy.reset(enemy.body.position.x+20,enemy.body.position.y);
 }
 
-function hitEnemy(enemy, dagger){
+function hitEnemy2(enemy, dagger){
     dagger.kill();
     enemy.HP = enemy.HP-(1*player2.damage);
     lastAttackTime_enemy = game.time.now;
     enemy.tint =  0xff0000;
-   
+    enemy.target = player2;
     if (enemy.HP<=0){
         enemy.kill();
         enemyNum=enemyNum-1;
@@ -69,7 +69,7 @@ function enemyUpdate(){
             }
             
             game.physics.arcade.collide(enemy, layer);
-            game.physics.arcade.overlap(enemy, bullets, hitEnemy, null, this); game.physics.arcade.overlap(enemy, daggers, hitEnemy, null, this);
+            game.physics.arcade.overlap(enemy, bullets, hitEnemy1, null, this); game.physics.arcade.overlap(enemy, daggers, hitEnemy2, null, this);
          
              if (game.time.now > lastAttackTime_enemy+100) {
                 enemy.tint = 0xFFFFFF;
