@@ -12,11 +12,13 @@ function potion(game,x,y){
 function pickupHealth(player1, health_potion){
     health_potion.kill();
     player1.HP += 1;
+    addLife(player1);
 }
 
 function pickupHealth(player2, health_potion){
     health_potion.kill();
     player2.HP += 1;
+     addLife(player2);
 }
 
 //key stuff

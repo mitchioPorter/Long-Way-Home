@@ -26,3 +26,13 @@ function hud(){
         lives2.create(game.camera.x + (535+30*i), game.camera.y + 15, 'heart').anchor.set(0.5);
     }
 }
+
+function addLife(player){
+    if(player == player1){
+    lives1.create((lives1.getTop().x+30), lives1.getTop().y, 'heart').anchor.set(0.5);
+    }
+    else{
+    lives2.create((lives2.getTop().x+30), lives2.getTop().y, 'heart').anchor.set(0.5);
+    }
+    
+}
