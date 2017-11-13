@@ -26,7 +26,6 @@ var pressurePlate;
 
 var keys;
 var key;
-var boulder;
 var potions;
 var health_potion;
 var fx;
@@ -74,10 +73,12 @@ demo.state1.prototype = {
         key(game,860, 240);
         
         //Create a boulder
-        boulder(game,240,420);
+        boulder(game);
     
         //Potion
         potion(game,800,200);
+        potion(game,115,800);
+//        potion(game,167,250);
         
         
         
@@ -97,7 +98,6 @@ demo.state1.prototype = {
             playerUpdate();
             enemyUpdate();
             trapUpdate()
-            HUDUpdate();
             pressurePlateUpdater();
     }
         

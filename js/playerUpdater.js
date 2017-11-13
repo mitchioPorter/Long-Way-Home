@@ -16,8 +16,7 @@ function playerAttacked(player, enemy) {
         }else if (enemy.body.position.y < player.body.position.y && enemy.body.position.y > player.body.position.y-60){
             enemy.body.position.y -=  30;
         }
-}
-
+    }
 }
 
 
@@ -26,7 +25,7 @@ function playerKilled(player){
     enemies.forEachAlive(function(enemy){
         enemy.kill();
     });
-    if (state == 1){boulder.kill();}
+    if (state == 1){boulder1.kill();boulder2.kill();}
     
 
     endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Lose!', { fontSize: '32px', fill: '#fff' });
@@ -132,9 +131,9 @@ function playerUpdate(){
     
         
         //boulder handler
-        game.physics.arcade.collide(boulder, layer);
-        var hitplayer = game.physics.arcade.collide(player1, boulder);
-        var hitplayer2 = game.physics.arcade.collide(player2, boulder);
+        game.physics.arcade.collide(boulder1, layer);
+        var hitplayer = game.physics.arcade.collide(player1, boulder1);
+        var hitplayer2 = game.physics.arcade.collide(player2, boulder1);
         
     
     
@@ -142,6 +141,7 @@ function playerUpdate(){
             if(game.time.now > lastAttackTime+1000){
                 fx.play("player_hit");
                 player1.HP -= 1;
+                lives1.getTop().destroy();
                 lastAttackTime = game.time.now;
                 player1.tint = 0xff00ff;
             }
@@ -150,6 +150,7 @@ function playerUpdate(){
             if(game.time.now > lastAttackTime+1000){
                 fx.play("player_hit");
                 player2.HP -= 1;
+                lives2.getTop().destroy();
                 lastAttackTime = game.time.now;
                 player2.tint = 0xff00ff;
             }
