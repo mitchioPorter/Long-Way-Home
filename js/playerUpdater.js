@@ -5,6 +5,11 @@ function playerAttacked(player, enemy) {
         player.HP -= 1;
         lastAttackTime = game.time.now;
         player.tint = 0xff0000;
+        if(player == player1){
+            lives1.getTop().destroy();
+        }else{
+            lives2.getTop().destroy();
+        }
         
         if (enemy.body.position.x > player.body.position.x && enemy.body.position.x < player.body.position.x+60){
             enemy.body.position.x += 30;
@@ -112,8 +117,8 @@ function playerUpdate(){
         game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
     
     
-        game.physics.arcade.overlap(player1, health_potion, pickupHealth, null, this);
-        game.physics.arcade.overlap(player2, health_potion, pickupHealth, null, this);
+        game.physics.arcade.overlap(player1, health_potion, pickupHealth1, null, this);
+        game.physics.arcade.overlap(player2, health_potion, pickupHealth2, null, this);
         game.physics.arcade.overlap(player1, key, pickupKey,null, this);
         game.physics.arcade.overlap(player2, key, pickupKey,null, this);
         game.physics.arcade.overlap(player1, door, openDoor,

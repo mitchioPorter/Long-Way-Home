@@ -1,7 +1,7 @@
 var player1;
 var bullets;
 var attack;
-
+var maxHP;
 
 function player1Preload(game) {
     game.load.spritesheet('sprite', 'assets/sprite.png', 48, 48, 16);
@@ -33,6 +33,7 @@ player1Create = function(game, posX,posY){
         player1.damage = 50;
         player1.fireRate = 1000;
         player1.nextFire = 0;
+        player1.maxHP = 5;
 
     
     
@@ -45,7 +46,7 @@ player1Create = function(game, posX,posY){
         game.camera.follow(player1);
         game.camera.deadzone = new Phaser.Rectangle(300,200,1,1);
         //player1.stats
-        player1.HP = 3;
+        player1.HP = 5;
     
     
     

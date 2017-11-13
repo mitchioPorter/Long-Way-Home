@@ -9,16 +9,21 @@ function potion(game,x,y){
     health_potion.body.allowGravity = false;    
 }
 
-function pickupHealth(player1, health_potion){
+function pickupHealth1(player, health_potion){
+    if(player1.HP < player1.maxHP){
     health_potion.kill();
     player1.HP += 1;
     addLife(player1);
+    }
 }
 
-function pickupHealth(player2, health_potion){
+function pickupHealth2(player, health_potion){
+    if(player2.HP < player2.maxHP){
     health_potion.kill();
     player2.HP += 1;
      addLife(player2);
+     }
+    
 }
 
 //key stuff
