@@ -71,6 +71,10 @@ demo.state1.prototype = {
         createSlime(200, 1640, 3);
         createSlime(200, 1740, 4);
         
+        
+        //createGhost(200, 250, 0);
+        
+        
         enemyNum = 7;
 
         

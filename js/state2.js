@@ -25,12 +25,10 @@ demo.state2.prototype = {
         player1Create(game,150,150);
         
         
-        
         enemiesCreate();
         //load the sound/music
         sound('dungeonBoss');
         
-
         
         
         //Create a group of enemies

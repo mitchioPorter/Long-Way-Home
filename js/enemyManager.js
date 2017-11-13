@@ -1,4 +1,6 @@
 var lastAttackTime_enemy;
+
+
 function enemiesCreate(){
     enemies = game.add.group();
     enemies.enableBody = true;
@@ -14,7 +16,8 @@ function enemiesCreate(){
     
     
         //Enemy handler
-       
+    ghostEnemies = game.add.group();
+    ghostEnemies.enableBody = true;
 }
 
 //this is player 1 attacks enemy
@@ -75,6 +78,33 @@ function enemyUpdate(){
                 enemy.tint = 0xFFFFFF;
             }
         });
+        
+    ghostEnemies.forEachAlive(function(enemy){
+         
+         
+            if (enemy.visible && enemy.inCamera) {
+                if(Math.abs(enemy.body.position.x - enemy.targetX )> 30 ||Math.abs(enemy.body.position.y - enemy.targetY) > 30){
+                    game.physics.arcade.moveToXY(enemy, enemy.targetX, enemy.targetY,100);
+                   }
+                if(enemy.nextMoveSwitch < game.time.now){
+                enemy.nextMoveSwitch = game.time.now + game.rnd.integerInRange(1000,4000);
+                enemy.targetX = enemy.body.position.x + game.rnd.integerInRange(-300,300);
+                enemy.targetY = enemy.body.position.y + game.rnd.integerInRange(-200,200);
+                }
+                
+                        enemy.animations.play('left');
+                    
+                }
+                
+            
+            
+            //game.physics.arcade.collide(enemy, layer);
+            game.physics.arcade.overlap(enemy, bullets, hitEnemy1, null, this); game.physics.arcade.overlap(enemy, daggers, hitEnemy2, null, this);
+         
+             if (game.time.now > lastAttackTime_enemy+100) {
+                enemy.tint = 0xFFFFFF;
+            }
+        });
 
     
     
@@ -94,6 +124,32 @@ function createSlime (posX, posY, id){
     enemy.body.tilePadding.set(40);
     enemy.HP = 100;
    
+   
+    var playerName;
+         if(game.rnd.integerInRange(1, 100) <=50){
+             playerName = player1;
+         }else{
+             playerName = player2;
+         }
+     enemy.target = playerName;
+    
+    enemy.i = id;
+}
+
+function createGhost (posX, posY, id){
+    var enemy = game.add.sprite(posX, posY, 'ghosty');
+    ghostEnemies.add(enemy);
+    enemy.enableBody = true;
+    enemy.body.collideWorldBounds = true;
+    enemy.animations.add('left', [0,1,2,3], 10, true);
+    enemy.animations.add('right', [4,5,6,7], 10, true);
+    game.physics.enable(enemy);
+    enemy.body.bounce.set(0.6);
+    enemy.body.tilePadding.set(40);
+    enemy.HP = 100;
+    enemy.nextMoveSwitch = game.time.now + game.rnd.integerInRange(1000,4000);
+    enemy.targetX = enemy.body.position.x + game.rnd.integerInRange(-300,300);
+    enemy.targetY = enemy.body.position.y + game.rnd.integerInRange(-200,200);
    
     var playerName;
          if(game.rnd.integerInRange(1, 100) <=50){

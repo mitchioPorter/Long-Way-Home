@@ -22,6 +22,7 @@ function assetLoader(){
     
     
         game.load.spritesheet('slime', 'assets/enemy.png', 48, 48, 8);
+        game.load.spritesheet('ghosty', 'assets/ghosty.png', 48, 48, 2);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
     
         //sound

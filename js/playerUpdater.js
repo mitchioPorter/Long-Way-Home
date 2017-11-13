@@ -115,6 +115,8 @@ function playerUpdate(){
         //Player attacked
         game.physics.arcade.overlap(player1, enemies, playerAttacked, null, this);
         game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
+        game.physics.arcade.overlap(player1, ghostEnemies, playerAttacked, null, this);
+        game.physics.arcade.overlap(player2, ghostEnemies, playerAttacked, null, this);
     
     
         game.physics.arcade.overlap(player1, potions, pickupHealth1, null, this);
