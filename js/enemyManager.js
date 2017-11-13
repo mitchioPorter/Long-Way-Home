@@ -94,9 +94,9 @@ function createSlime (posX, posY, id){
     enemy.body.tilePadding.set(40);
     enemy.HP = 100;
    
-    var temp  =  game.rnd.integerInRange(0, 200);
+   
     var playerName;
-         if(temp <=100){
+         if(game.rnd.integerInRange(1, 100) <=50){
              playerName = player1;
          }else{
              playerName = player2;

@@ -15,6 +15,7 @@ demo.state3.prototype = {
         assetLoader();
     },
     create: function(){
+        groupInitializer();
         backgroundCreate(game,'room2_1','tileset22');
         sound('dungeon2');
 

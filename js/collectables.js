@@ -1,12 +1,15 @@
 //potion stuff
 
-function potion(game,x,y){
-    potions = game.add.group();
+function createPotion(game,x,y){
+    
     health_potion = game.add.sprite(x,y,'potion');
     potions.add(health_potion)
     health_potion.anchor.setTo(0.5, 1);
     game.physics.enable(health_potion);
-    health_potion.body.allowGravity = false;    
+    game.physics.enable(health_potion);
+        health_potion.body.allowGravity = false;
+        health_potion.body.immovable = true;
+        health_potion.body.moves = false;  
 }
 
 function pickupHealth1(player, health_potion){

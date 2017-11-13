@@ -20,9 +20,10 @@ function openDoor (player, door){
     changeState2();
 }
 
-function interactablesCreate(){
+function groupInitializer(){
     
     plates = game.add.group();
+    potions = game.add.group();
 }
 function createPressurePlate(game,x,y){
         

@@ -46,7 +46,7 @@ demo.state1.prototype = {
         
         
         backgroundCreate(game,'room1','tileset1');
-        interactablesCreate();
+        groupInitializer();
         enemiesCreate();
         
         createPressurePlate(game,260,200);
@@ -82,8 +82,8 @@ demo.state1.prototype = {
         boulder(game);
     
         //Potion
-        potion(game,800,200);
-        potion(game,115,800);
+        createPotion(game,800,200);
+        createPotion(game,115,800);
 //        potion(game,167,250);
         
         
