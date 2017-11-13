@@ -20,9 +20,12 @@ function openDoor (player, door){
     changeState2();
 }
 
-
-function pressurePlate(game,x,y){
-        plates = game.add.group();
+function interactablesCreate(){
+    
+    plates = game.add.group();
+}
+function createPressurePlate(game,x,y){
+        
         pressurePlate = game.add.sprite(x, y, 'pressurePlate');
         plates.add(pressurePlate);
         pressurePlate.anchor.setTo(0.5, 1);
@@ -42,6 +45,7 @@ function pressurePlateUpdater(){
         if (press.visible && press.inCamera){
                 game.physics.arcade.overlap(press, player1, pressedPlate, null, this);
                 game.physics.arcade.overlap(press, player2, pressedPlate, null, this);
+            game.physics.arcade.overlap(press, enemies, pressedPlate, null, this);
             }
         if(game.time.now > press.lastPressed + 50){
             press.animations.play('off');

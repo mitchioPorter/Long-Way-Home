@@ -48,7 +48,7 @@ demo.state2.prototype = {
         playerUpdate();
         gemBossUpdater ();
         enemyUpdate ();
-        HUDUpdate();
+        
         
      
         //Win the game

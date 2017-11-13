@@ -46,14 +46,20 @@ demo.state1.prototype = {
         
         
         backgroundCreate(game,'room1','tileset1');
-        pressurePlate(game,200,200)
+        interactablesCreate();
+        enemiesCreate();
         
+        createPressurePlate(game,260,200);
+        createPressurePlate(game,550,120);
+        createPressurePlate(game,300,400);
+        createPressurePlate(game,120,400);
         
         ////create the player here
         player2Create(game,100,100);
         player1Create(game,250,70);
         
-        enemiesCreate();
+        
+        
         sound('dungeon');
         
         //create the game objects
