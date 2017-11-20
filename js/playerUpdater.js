@@ -64,6 +64,10 @@ function playerUpdate(){
     }
 
     
+    
+    //plate interactes with door
+    
+    
     //this resets the tint after a time
     
     if (game.time.now > lastAttackTime+1000) {
@@ -172,6 +176,13 @@ function playerUpdate(){
         if (hasKey){
             hintText.text = 'Please open the door';
         }
+    
+    //manage collide for gates
+        if(plateActive == false){
+        game.physics.arcade.collide(player1, gates);
+        game.physics.arcade.collide(player2, gates);
+        
+    }
     
 
 

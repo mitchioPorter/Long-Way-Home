@@ -23,6 +23,7 @@ var door;
 
 var plates;
 var pressurePlate;
+var plateTime;
 
 var keys;
 var key;
@@ -39,6 +40,10 @@ var s;
 var d;
 
 var state;
+var gates;
+
+
+var plateActive;
 
 demo.state1.prototype = {
     preload: function () {
@@ -46,7 +51,7 @@ demo.state1.prototype = {
         
     },
     create: function () {
-        
+        plateActive = false;
         
         backgroundCreate(game,'room1','tileset1');
         groupInitializer();
@@ -55,7 +60,11 @@ demo.state1.prototype = {
         createPressurePlate(game,260,200);
         createPressurePlate(game,550,120);
         createPressurePlate(game,300,400);
+        
         createPressurePlate(game,120,400);
+        
+        createGate(game,215,300);
+        createGate(game,170,300);
         
         ////create the player here
         player2Create(game,100,100);

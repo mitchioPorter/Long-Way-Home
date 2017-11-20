@@ -25,7 +25,24 @@ function groupInitializer(){
     plates = game.add.group();
     potions = game.add.group();
     coins = game.add.group();
+    gates = game.add.group();
 }
+
+function createGate(game,x,y){
+        gate = game.add.sprite(x, y, 'gate');
+        gates.add(gate);
+        gate.anchor.setTo(0.5, 1);
+        game.physics.enable(gate);
+        gate.body.allowGravity = false;
+        gate.body.immovable = true;
+        gate.body.moves = false;
+        gate.body.setSize(48,48);
+        gate.animations.add('closed', [0], 10, true);
+        gate.animations.add('open', [1], 10, true);
+        gate.animations.play('closed');
+    
+}
+
 function createPressurePlate(game,x,y){
         
         pressurePlate = game.add.sprite(x, y, 'pressurePlate');
@@ -42,16 +59,31 @@ function createPressurePlate(game,x,y){
         pressurePlate.lastPressed = 0;
  
 }
+
 function pressurePlateUpdater(){
     plates.forEachAlive(function(press){
         if (press.visible && press.inCamera){
                 game.physics.arcade.overlap(press, player1, pressedPlate, null, this);
                 game.physics.arcade.overlap(press, player2, pressedPlate, null, this);
-            game.physics.arcade.overlap(press, enemies, pressedPlate, null, this);
+                game.physics.arcade.overlap(press, enemies, pressedPlate, null, this);
             }
         if(game.time.now > press.lastPressed + 50){
             press.animations.play('off');
-            
+           
+        }
+    });
+    if(game.time.now > plateTime + 5){
+            plateActive =false;
+           
+        }
+    gates.forEachAlive(function(gate){
+        if (gate.visible && gate.inCamera){
+          if(plateActive == true){
+              gate.animations.play('open');
+          }
+        else{
+            gate.animations.play('closed');
+        }
         }
     });
     
@@ -60,5 +92,7 @@ function pressurePlateUpdater(){
 function pressedPlate(press,player){
     press.lastPressed = game.time.now;
     press.animations.play('on');
+    plateActive = true;
+    plateTime = game.time.now;
     
 }
