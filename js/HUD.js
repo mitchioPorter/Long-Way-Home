@@ -51,8 +51,13 @@ function addLife(player){
 
 function addCoin1(){
     player1.coins += 1;
+        coin1X.text =  player1.coins;
+
 }
 
 function addCoin2(){
+
     player2.coins += 1;
+            coin2X.text =  player2.coins;
+
 }

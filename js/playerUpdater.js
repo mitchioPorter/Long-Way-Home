@@ -1,3 +1,4 @@
+
 function playerAttacked(player, enemy) {
     
     if (game.time.now > lastAttackTime+1000) {
@@ -38,6 +39,7 @@ function playerKilled(player){
 
 function playerUpdate(){
     
+   
     
  //this fixes the camera not stopping when character2 might go off sccreen
     if(player2.body.position.x < game.camera.x - game.camera.width){
