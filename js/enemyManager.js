@@ -44,6 +44,7 @@ function hitEnemy2(enemy, dagger){
     enemy.tint =  0xff0000;
     enemy.target = player2;
     if (enemy.HP<=0){
+        createCoin(game,enemy.position.x,enemy.position.y);
         enemy.kill();
         enemyNum=enemyNum-1;
     }
