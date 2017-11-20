@@ -28,6 +28,7 @@ player2Create = function(game, x,y){
         player2.damage =50;
         player2.fireRate = 300;
         player2.nextFire = 0;
+        player2.coins = 0;
         player2.body.stopVelocityOnCollide = true;
         //player stats
         player2.HP = 4;

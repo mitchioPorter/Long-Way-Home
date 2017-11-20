@@ -25,6 +25,18 @@ function hud(){
     for(i = 0; i < player2.HP; i++) {
         lives2.create(game.camera.x + (535+30*i), game.camera.y + 15, 'heart').anchor.set(0.5);
     }
+    
+    coin1 = game.add.group();
+    coin1.create(game.camera.x + 20, game.camera.y + 55, 'coin').anchor.set(0.5);
+    coin1.fixedToCamera = true;
+    coin1X = game.add.text(game.camera.x + 45, game.camera.y + 40, 'x ' + player1.coins, { fontSize: '32px', fill: '#fff' } );
+    coin1X.fixedToCamera = true;
+    
+    coin2 = game.add.group();
+    coin2.create(game.camera.x + 420, game.camera.y + 55, 'coin').anchor.set(0.5);
+    coin2.fixedToCamera = true;
+    coin2X = game.add.text(game.camera.x + 445, game.camera.y + 40, 'x ' + player2.coins, { fontSize: '32px', fill: '#fff' } );
+    coin2X.fixedToCamera = true;
 }
 
 function addLife(player){
@@ -35,4 +47,12 @@ function addLife(player){
     lives2.create((lives2.getTop().x+30), lives2.getTop().y, 'heart').anchor.set(0.5);
     }
     
+}
+
+function addCoin1(){
+    player1.coins += 1;
+}
+
+function addCoin2(){
+    player2.coins += 1;
 }

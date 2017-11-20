@@ -24,6 +24,7 @@ function groupInitializer(){
     
     plates = game.add.group();
     potions = game.add.group();
+    coins = game.add.group();
 }
 function createPressurePlate(game,x,y){
         

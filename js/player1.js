@@ -34,6 +34,7 @@ player1Create = function(game, posX,posY){
         player1.fireRate = 1000;
         player1.nextFire = 0;
         player1.maxHP = 5;
+        player1.coins = 0;
 
     
     

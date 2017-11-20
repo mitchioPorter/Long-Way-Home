@@ -29,6 +29,7 @@ function hitEnemy1(enemy, bullet){
     enemy.tint =  0xff0000;
     enemy.target = player1;
     if (enemy.HP<=0){
+        createCoin(game,enemy.position.x,enemy.position.y);
         enemy.kill();
         enemyNum=enemyNum-1;
     }

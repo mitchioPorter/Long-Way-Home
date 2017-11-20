@@ -12,6 +12,17 @@ function createPotion(game,x,y){
         health_potion.body.moves = false;  
 }
 
+function createCoin(game,x,y){
+    coin = game.add.sprite(x,y,'coin');
+    coins.add(coin)
+    coin.anchor.setTo(0.5, 1);
+    game.physics.enable(coin);
+    game.physics.enable(coin);
+    coin.body.allowGravity = false;
+    coin.body.immovable = true;
+    coin.body.moves = false; 
+}
+
 function pickupHealth1(player, health_potion){
     if(player1.HP < player1.maxHP){
     health_potion.kill();
@@ -27,6 +38,16 @@ function pickupHealth2(player, health_potion){
      addLife(player2);
      }
     
+}
+
+function pickupCoin1(player, coin){
+    coin.kill();
+    addCoin1();
+}
+
+function pickupCoin2(player, coin){
+    coin.kill();
+    addCoin2();
 }
 
 //key stuff

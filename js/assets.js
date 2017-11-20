@@ -19,6 +19,7 @@ function assetLoader(){
         game.load.image('door', 'assets/door.png');
         game.load.image('key', 'assets/key.png');
         game.load.image('potion', 'assets/potion.png');
+        game.load.image('coin', 'assets/coin.png');
     
     
         game.load.spritesheet('slime', 'assets/enemy.png', 48, 48, 8);
