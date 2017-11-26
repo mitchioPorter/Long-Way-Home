@@ -26,6 +26,7 @@ function groupInitializer(){
     potions = game.add.group();
     coins = game.add.group();
     gates = game.add.group();
+    boulders = game.add.group();
 }
 
 function createGate(game,x,y){

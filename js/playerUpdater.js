@@ -31,7 +31,7 @@ function playerKilled(player){
     enemies.forEachAlive(function(enemy){
         enemy.kill();
     });
-    if (state == 1){boulder1.kill();boulder2.kill();}
+    if (state == 1){boulder1.kill();boulder2.kill();boulder3.kill();boulder4.kill();boulder5.kill();}
     
 
     endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Lose!', { fontSize: '32px', fill: '#fff' });
@@ -147,12 +147,33 @@ function playerUpdate(){
         
         //boulder handler
         game.physics.arcade.collide(boulder1, layer);
-        var hitplayer = game.physics.arcade.collide(player1, boulder1);
-        var hitplayer2 = game.physics.arcade.collide(player2, boulder1);
+        game.physics.arcade.collide(boulder2, layer);
+        game.physics.arcade.collide(boulder3, layer);
+        game.physics.arcade.collide(boulder4, layer);
+        game.physics.arcade.collide(boulder5, layer);
+        game.physics.arcade.collide(boulder6, layer);
+        game.physics.arcade.collide(boulder7, layer);
+        game.physics.arcade.collide(boulder8, layer);
+        var hitplayer11 = game.physics.arcade.collide(player1, boulder1);
+        var hitplayer12 = game.physics.arcade.collide(player2, boulder1);
+        var hitplayer21 = game.physics.arcade.collide(player1, boulder2);
+        var hitplayer22 = game.physics.arcade.collide(player2, boulder2);
+        var hitplayer31 = game.physics.arcade.collide(player1, boulder3);
+        var hitplayer32 = game.physics.arcade.collide(player2, boulder3);
+        var hitplayer41 = game.physics.arcade.collide(player1, boulder4);
+        var hitplayer42 = game.physics.arcade.collide(player2, boulder4);
+        var hitplayer51 = game.physics.arcade.collide(player1, boulder5);
+        var hitplayer52 = game.physics.arcade.collide(player2, boulder5);
+        var hitplayer61 = game.physics.arcade.collide(player1, boulder6);
+        var hitplayer62 = game.physics.arcade.collide(player2, boulder6);
+        var hitplayer71 = game.physics.arcade.collide(player1, boulder7);
+        var hitplayer72 = game.physics.arcade.collide(player2, boulder7);
+        var hitplayer81 = game.physics.arcade.collide(player1, boulder8);
+        var hitplayer82 = game.physics.arcade.collide(player2, boulder8);
         
     
     
-        if (hitplayer){
+        if (hitplayer11){
             if(game.time.now > lastAttackTime+1000){
                 fx.play("player_hit");
                 player1.HP -= 1;
@@ -161,7 +182,79 @@ function playerUpdate(){
                 player1.tint = 0xff00ff;
             }
         }
-        if (hitplayer2){
+        if (hitplayer12){
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player2.HP -= 1;
+                lives2.getTop().destroy();
+                lastAttackTime = game.time.now;
+                player2.tint = 0xff00ff;
+            }
+        }
+        if (hitplayer21){
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player1.HP -= 1;
+                lives1.getTop().destroy();
+                lastAttackTime = game.time.now;
+                player1.tint = 0xff00ff;
+            }
+        }
+        if (hitplayer22){
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player2.HP -= 1;
+                lives2.getTop().destroy();
+                lastAttackTime = game.time.now;
+                player2.tint = 0xff00ff;
+            }
+        }
+        if (hitplayer31){
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player1.HP -= 1;
+                lives1.getTop().destroy();
+                lastAttackTime = game.time.now;
+                player1.tint = 0xff00ff;
+            }
+        }
+        if (hitplayer32){
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player2.HP -= 1;
+                lives2.getTop().destroy();
+                lastAttackTime = game.time.now;
+                player2.tint = 0xff00ff;
+            }
+        }
+        if (hitplayer41){
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player1.HP -= 1;
+                lives1.getTop().destroy();
+                lastAttackTime = game.time.now;
+                player1.tint = 0xff00ff;
+            }
+        }
+        if (hitplayer42){
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player2.HP -= 1;
+                lives2.getTop().destroy();
+                lastAttackTime = game.time.now;
+                player2.tint = 0xff00ff;
+            }
+        }
+        if (hitplayer51){
+            if(game.time.now > lastAttackTime+1000){
+                fx.play("player_hit");
+                player1.HP -= 1;
+                lives1.getTop().destroy();
+                lastAttackTime = game.time.now;
+                player1.tint = 0xff00ff;
+            }
+        }
+        if (hitplayer52){
             if(game.time.now > lastAttackTime+1000){
                 fx.play("player_hit");
                 player2.HP -= 1;
