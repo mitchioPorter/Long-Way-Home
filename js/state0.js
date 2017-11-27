@@ -14,14 +14,11 @@ demo.state0.prototype = {
     }
 }
 function menuStart () {
-
     game.state.start('state1');
-
 }
 function refresh1 () {
     music.stop();
     game.state.start('state1');
-
 }
 function refresh2 () {
     music.stop();

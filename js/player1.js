@@ -160,6 +160,11 @@ function hitByGem(player, gem){
         fx.play("player_hit");
         lastAttackTime = game.time.now;
         player.tint = 0xff0000;
+        if(player == player1){
+            lives1.getTop().destroy();
+        }else{
+            lives2.getTop().destroy();
+        }
     }
     gem.kill();
 }

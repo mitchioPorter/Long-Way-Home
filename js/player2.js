@@ -31,7 +31,7 @@ player2Create = function(game, x,y){
         player2.coins = 0;
         player2.body.stopVelocityOnCollide = true;
         //player stats
-        player2.HP = 4;
+        player2.HP = 5;
         attack2 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
          player2.maxHP = 5;
             
