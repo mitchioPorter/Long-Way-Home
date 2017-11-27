@@ -68,6 +68,7 @@ demo.state1.prototype = {
         
         createGate(game,215,300);
         createGate(game,170,300);
+        
         createGate(game,860,300);
         createGate(game,820,260);
         createGate(game,860,220);

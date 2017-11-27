@@ -123,7 +123,7 @@ function playerUpdate(){
         game.physics.arcade.overlap(player2, enemies, playerAttacked, null, this);
         game.physics.arcade.overlap(player1, ghostEnemies, playerAttacked, null, this);
         game.physics.arcade.overlap(player2, ghostEnemies, playerAttacked, null, this);
-    
+        
     
         game.physics.arcade.overlap(player1, potions, pickupHealth1, null, this);
         game.physics.arcade.overlap(player2, potions, pickupHealth2, null, this);
@@ -154,9 +154,11 @@ function playerUpdate(){
         game.physics.arcade.collide(boulder6, layer);
         game.physics.arcade.collide(boulder7, layer);
         game.physics.arcade.collide(boulder8, layer);
-    if(game.time.now > lastAttackTime+1000){
-        var hitplayer11 = game.physics.arcade.overlap(player1, boulders);
-        var hitplayer12 = game.physics.arcade.overlap(player2, boulders);
+   
+    
+        if(game.time.now > lastAttackTime+1000){
+            var hitplayer11 = game.physics.arcade.overlap(player1, boulders);
+            var hitplayer12 = game.physics.arcade.overlap(player2, boulders);
         }
         
     
