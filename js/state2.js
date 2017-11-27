@@ -19,7 +19,6 @@ demo.state2.prototype = {
     create: function(){
         //load the bg
         backgroundCreate(game,'BossRoom', 'tileset1');
-        
         //load the players
         player2Create(game,150,100);
         player1Create(game,150,150);
@@ -37,7 +36,8 @@ demo.state2.prototype = {
         enemyNum = 1;
         createGemBoss(game,380,360);
         hud();
-    
+        refresh = game.add.button(750, 0, 'refresh', refresh2, this, 0, 0, 0);
+        refresh.fixedToCamera = true;
         
     },
     update: function(){

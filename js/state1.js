@@ -1,4 +1,3 @@
-var demo = {};
 demo.state1 = function () {};
 
 //declare all the variables here
@@ -45,6 +44,8 @@ var gates;
 
 var plateActive;
 
+var refresh;
+
 demo.state1.prototype = {
     preload: function () {
         assetLoader();
@@ -90,7 +91,7 @@ demo.state1.prototype = {
         enemyNum = 7;
 
         
-        door(game,1120, 880,);
+        door(game,1120, 880);
 
         key(game,860, 240);
         
@@ -101,15 +102,15 @@ demo.state1.prototype = {
         createPotion(game,800,200);
         createPotion(game,115,800);
 //        potion(game,167,250);
-        
-        
-        
-        
+             
         //debugging stuff
         game.input.keyboard.addKey(Phaser.Keyboard.TWO).onDown.add(changeState2, null, null, 2);
 
         hud();
         
+        //Un-comment this to add a refresh button in state1
+        //refresh = game.add.button(750, 0, 'refresh', refresh1, this, 0, 0, 0);
+        //refresh.fixedToCamera = true;
     },
     
     
@@ -127,10 +128,9 @@ demo.state1.prototype = {
 
 function changeState2(){
     //console.log(i);
-    
-    music.stop();
-    game.state.start('state2');
-    
-
+    if (state == 1||state==2){
+        music.stop();
+        game.state.start('state2');
+    }
 }
 

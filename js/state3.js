@@ -34,7 +34,8 @@ demo.state3.prototype = {
     }       
         
         hud();
-        
+        refresh = game.add.button(750, 0, 'refresh', refresh3, this, 0, 0, 0);
+        refresh.fixedToCamera = true;
     },
     
     update: function(){
