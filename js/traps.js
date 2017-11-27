@@ -91,10 +91,10 @@ function boulder(game,x,y){
 }
 
 function trapUpdate(){
-    /*boulder1.body.velocity.x=0;
-    if (boulder1.body.velocity.y!=-150){
-        boulder1.body.velocity.y=150;
-    }
+    boulder1.body.velocity.x=0;
+//    if (boulder1.body.velocity.y!=-150){
+//        boulder1.body.velocity.y=150;
+//    }
     if (boulder1.body.y > 1165){
         boulder1.body.velocity.y=-150;
     }
@@ -103,36 +103,35 @@ function trapUpdate(){
     }
 
     boulder2.body.velocity.x=0;
-    if (boulder2.body.velocity.y!=-150){
-        boulder2.body.velocity.y=150;
-    }
+//    if (boulder2.body.velocity.y!=-150){
+//        boulder2.body.velocity.y=150;
+//    }
     if (boulder2.body.y < 765){
         boulder2.body.velocity.y=150;
     }
-    boulder3.body.velocity.y=0;
-    if (boulder3.body.velocity.x!=-300){
-        boulder3.body.velocity.x=300;
-    }
-    boulder4.body.velocity.y=0;
-    if (boulder4.body.velocity.x!=-300){
-        boulder4.body.velocity.x=300;
-    } 
-    boulder5.body.velocity.y=0;
-    if (boulder5.body.velocity.x!=-300){
-        boulder5.body.velocity.x=300;
-    }
-    boulder6.body.velocity.y=0;
-    if (boulder6.body.velocity.x!=-300){
-        boulder6.body.velocity.x=300;
-    }
-    boulder7.body.velocity.y=0;
-    if (boulder7.body.velocity.x!=-300){
-        boulder7.body.velocity.x=300;
-    } 
-    boulder8.body.velocity.y=0;
-    if (boulder8.body.velocity.x!=-300){
-        boulder8.body.velocity.x=300;
-    } 
-    */
+//    boulder3.body.velocity.y=0;
+//    if (boulder3.body.velocity.x!=-300){
+//        boulder3.body.velocity.x=300;
+//    }
+//    boulder4.body.velocity.y=0;
+//    if (boulder4.body.velocity.x!=-300){
+//        boulder4.body.velocity.x=300;
+//    } 
+//    boulder5.body.velocity.y=0;
+//    if (boulder5.body.velocity.x!=-300){
+//        boulder5.body.velocity.x=300;
+//    }
+//    boulder6.body.velocity.y=0;
+//    if (boulder6.body.velocity.x!=-300){
+//        boulder6.body.velocity.x=300;
+//    }
+//    boulder7.body.velocity.y=0;
+//    if (boulder7.body.velocity.x!=-300){
+//        boulder7.body.velocity.x=300;
+//    } 
+//    boulder8.body.velocity.y=0;
+//    if (boulder8.body.velocity.x!=-300){
+//        boulder8.body.velocity.x=300;
+//    } 
 
 }
