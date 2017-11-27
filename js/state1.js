@@ -59,19 +59,22 @@ demo.state1.prototype = {
         enemiesCreate();
         
         createPressurePlate(game,260,200);
-        createPressurePlate(game,550,120);
         createPressurePlate(game,300,400);
-        
-        createPressurePlate(game,120,400);
+        createPressurePlate(game,1020,150);
+        createPressurePlate(game,1020,380);
+        createPressurePlate(game,700,150);
+        createPressurePlate(game,700,380);
         
         createGate(game,215,300);
         createGate(game,170,300);
+        createGate(game,860,300);
+        createGate(game,820,260);
+        createGate(game,860,220);
+        createGate(game,900,260);
         
         ////create the player here
         player2Create(game,100,100);
         player1Create(game,250,70);
-        
-        
         
         sound('dungeon');
         
@@ -99,7 +102,7 @@ demo.state1.prototype = {
         boulder(game);
     
         //Potion
-        createPotion(game,800,200);
+        createPotion(game,700,200);
         createPotion(game,115,800);
 //        potion(game,167,250);
              
