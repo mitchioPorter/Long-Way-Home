@@ -19,6 +19,7 @@ var hasKey = false;
 
 var doors;
 var door;
+var boulders;
 
 var plates;
 var pressurePlate;

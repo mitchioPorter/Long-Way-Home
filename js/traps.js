@@ -78,10 +78,20 @@ function boulder(game,x,y){
     boulder8.animations.add('boulder-r', [3,2,1,0], 10, true);
     boulder8.body.velocity.x=300;
     boulder8.immoveable=true;
+    
+    
+     boulders.add(boulder1);
+     boulders.add(boulder2);
+     boulders.add(boulder3);
+     boulders.add(boulder4);
+     boulders.add(boulder5);
+     boulders.add(boulder6);
+     boulders.add(boulder7);
+     boulders.add(boulder8);
 }
 
 function trapUpdate(){
-    boulder1.body.velocity.x=0;
+    /*boulder1.body.velocity.x=0;
     if (boulder1.body.velocity.y!=-150){
         boulder1.body.velocity.y=150;
     }
@@ -123,5 +133,6 @@ function trapUpdate(){
     if (boulder8.body.velocity.x!=-300){
         boulder8.body.velocity.x=300;
     } 
+    */
 
 }
