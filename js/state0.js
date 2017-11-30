@@ -7,7 +7,8 @@ demo.state0.prototype = {
         
     },
     create: function (){
-        startButton = game.add.button(220, 100, 'start', menuStart, this, 0, 0, 0);
+        var bg = game.add.sprite(0,0, 'bg');  
+        startButton = game.add.button(300, 300, 'start', menuStart, this, 0, 0, 0);
     },
     update: function (){
         state=0;

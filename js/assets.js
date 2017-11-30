@@ -13,7 +13,7 @@ function assetLoader(){
         game.load.spritesheet('gate', 'assets/gate.png',48, 48, 2);
         
         
-        
+        game.load.image('bg', 'assets/TitleScreen.png');
         game.load.image('bullet', 'assets/fireball.png');
         game.load.image('dagger', 'assets/dagger.png');
         game.load.image('door', 'assets/door.png');
@@ -24,6 +24,7 @@ function assetLoader(){
     
         game.load.image('cannonball', 'assets/cannonball.png');
         game.load.spritesheet('topTank','assets/topTank.png', 200, 150, 6);
+    
     
         game.load.spritesheet('slime', 'assets/enemy.png', 48, 48, 8);
         game.load.spritesheet('ghosty', 'assets/ghosty.png', 48, 48, 2);
@@ -43,7 +44,7 @@ function assetLoader(){
     
         game.load.image('heart', heartURI,48,48);
     
-        game.load.spritesheet('start', 'assets/start.png', 343, 147);
+        game.load.spritesheet('start', 'assets/StartButton.png', 200, 100,3);
         game.load.spritesheet('refresh', 'assets/refresh.png', 50, 50);
     
 }

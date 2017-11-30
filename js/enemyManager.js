@@ -345,6 +345,6 @@ function damageBoss(boss,dagger){
         //Load WIN SCREEN HERe
     }
     }
-}
+
     
 
