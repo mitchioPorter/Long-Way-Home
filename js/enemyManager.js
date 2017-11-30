@@ -105,8 +105,8 @@ function enemyUpdate(){
          
              if (game.time.now > lastAttackTime_enemy+100) {
                 enemy.tint = 0xFFFFFF;
-            }
-        });
+                }
+            });
 
     
     
@@ -193,8 +193,8 @@ function createGemBoss(game,x,y){
         enemies.add(boss);
         boss.enableBody = true;
         boss.body.collideWorldBounds = true;
-        boss.animations.add('left', [0,1], 10, true);
-        boss.animations.add('left', [0,1], 10, true);
+        boss.animations.add('left', [0,1,2], 10, true);
+        //boss.animations.add('left', [0,1], 10, true);
         game.physics.enable(boss);
         boss.body.bounce.set(0.6);
         boss.body.tilePadding.set(32);
@@ -245,4 +245,27 @@ function fireGem (){
 
 function gemKilled (gem, layer){
     gem.kill();
+}
+
+function createTopTank (posX, posY){
+        boss = game.add.sprite(380, 360, 'topTank');
+        enemies.add(boss);
+        boss.enableBody = true;
+        boss.body.collideWorldBounds = true;
+    boss.animations.add('left', [3,4,5], 10, true);
+        boss.animations.add('right', [0,1,2], 10, true);
+        
+        //boss.animations.add('left', [0,1], 10, true);
+        game.physics.enable(boss);
+        boss.body.bounce.set(0.6);
+        boss.body.tilePadding.set(32);
+        boss.HP = 1000;
+        
+   
+        boss.firing = false;
+}
+
+function topTankManager(){
+    boss.animations.play('left');
+    
 }

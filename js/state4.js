@@ -1,4 +1,4 @@
-demo.state2 = function(){};
+demo.state4 = function(){};
 
 
 
@@ -6,11 +6,10 @@ demo.state2 = function(){};
 lastPress = 'right';
 lastAttackTime = 0;
 hasKey = false;
-var lastGemTime = 0;
-var tinyGems;
 var topTank;
+var boss;
 
-demo.state2.prototype = {
+demo.state4.prototype = {
     preload: function(){
         assetLoader();
 
@@ -34,30 +33,25 @@ demo.state2.prototype = {
         
         
         enemyNum = 1;
-        createGemBoss(game,380,360);
+       
         hud();
         refresh = game.add.button(750, 0, 'refresh', refresh2, this, 0, 0, 0);
         refresh.fixedToCamera = true;
+        createTopTank(200,200);
         
     },
     update: function(){
-        state =2;
+        state =4;
         groupInitializer();
         playerUpdate();
-        gemBossUpdater ();
-        enemyUpdate ();
+
+        topTankManager();
         
         
      
         //Win the game
-        if (enemyNum <= 0){
-           // endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Win!', { fontSize: '32px', fill: '#fff' });
-           // player.kill();
-            //player2.kill();
-            music.stop();
-            game.state.start('state3');
+
             
         }
-    }
+    
 };
-

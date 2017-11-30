@@ -69,6 +69,7 @@ demo.state1.prototype = {
         createGate(game,215,300);
         createGate(game,170,300);
         
+      
         createGate(game,860,300);
         createGate(game,820,260);
         createGate(game,860,220);
@@ -110,6 +111,7 @@ demo.state1.prototype = {
              
         //debugging stuff
         game.input.keyboard.addKey(Phaser.Keyboard.TWO).onDown.add(changeState2, null, null, 2);
+        game.input.keyboard.addKey(Phaser.Keyboard.FOUR).onDown.add(changeState4, null, null, 2);
 
         hud();
         
@@ -139,3 +141,10 @@ function changeState2(){
     }
 }
 
+function changeState4(){
+    //console.log(i);
+    if (state == 1||state==2){
+        music.stop();
+        game.state.start('state4');
+    }
+}

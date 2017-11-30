@@ -22,6 +22,9 @@ function assetLoader(){
         game.load.image('coin', 'assets/coin.png');
     
     
+        game.load.image('cannonball', 'assets/cannonball.png');
+        game.load.spritesheet('topTank','assets/topTank.png', 200, 150, 6);
+    
         game.load.spritesheet('slime', 'assets/enemy.png', 48, 48, 8);
         game.load.spritesheet('ghosty', 'assets/ghosty.png', 48, 48, 2);
         game.load.spritesheet('boss', 'assets/gem.png', 96, 96, 3);
