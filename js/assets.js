@@ -20,7 +20,7 @@ function assetLoader(){
         game.load.image('key', 'assets/key.png');
         game.load.image('potion', 'assets/potion.png');
         game.load.image('coin', 'assets/coin.png');
-    
+        game.load.image('red','assets/red.png');
     
         game.load.image('cannonball', 'assets/cannonball.png');
         game.load.spritesheet('topTank','assets/topTank.png', 200, 150, 6);

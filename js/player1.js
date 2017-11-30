@@ -31,7 +31,7 @@ player1Create = function(game, posX,posY){
         
         player1.id=1;
         player1.damage = 50;
-        player1.fireRate = 1000;
+        player1.fireRate = 500;
         player1.nextFire = 0;
         player1.maxHP = 5;
         player1.coins = 0;
@@ -167,6 +167,21 @@ function hitByGem(player, gem){
         }
     }
     gem.kill();
+}
+
+function hitByCannon(player, cannon){
+    if (game.time.now > lastAttackTime+1000){
+        player.HP -=1;
+        fx.play("player_hit");
+        lastAttackTime = game.time.now;
+        player.tint = 0xff0000;
+        if(player == player1){
+            lives1.getTop().destroy();
+        }else{
+            lives2.getTop().destroy();
+        }
+    }
+    cannon.kill();
 }
 
 

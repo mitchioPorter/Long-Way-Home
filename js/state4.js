@@ -8,6 +8,9 @@ lastAttackTime = 0;
 hasKey = false;
 var topTank;
 var boss;
+var firing = false;
+var healthBar;
+var cannons;
 
 demo.state4.prototype = {
     preload: function(){
@@ -21,8 +24,8 @@ demo.state4.prototype = {
         //load the players
         player2Create(game,150,100);
         player1Create(game,150,150);
-        
-        
+        music.stop();
+
         enemiesCreate();
         //load the sound/music
         sound('dungeonBoss');
@@ -37,21 +40,21 @@ demo.state4.prototype = {
         hud();
         refresh = game.add.button(750, 0, 'refresh', refresh2, this, 0, 0, 0);
         refresh.fixedToCamera = true;
-        createTopTank(200,200);
+        createTopTank(550,1195);
+
         
     },
     update: function(){
         state =4;
         groupInitializer();
         playerUpdate();
-
+        
         topTankManager();
-        
-        
+      
      
         //Win the game
 
             
+        
         }
-    
 };

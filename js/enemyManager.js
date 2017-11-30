@@ -1,5 +1,5 @@
 var lastAttackTime_enemy;
-
+var healthbar;
 
 function enemiesCreate(){
     enemies = game.add.group();
@@ -248,11 +248,12 @@ function gemKilled (gem, layer){
 }
 
 function createTopTank (posX, posY){
-        boss = game.add.sprite(380, 360, 'topTank');
+    
+        boss = game.add.sprite(posX, posY, 'topTank');
         enemies.add(boss);
         boss.enableBody = true;
         boss.body.collideWorldBounds = true;
-    boss.animations.add('left', [3,4,5], 10, true);
+        boss.animations.add('left', [3,4,5], 10, true);
         boss.animations.add('right', [0,1,2], 10, true);
         
         //boss.animations.add('left', [0,1], 10, true);
@@ -260,12 +261,67 @@ function createTopTank (posX, posY){
         boss.body.bounce.set(0.6);
         boss.body.tilePadding.set(32);
         boss.HP = 1000;
-        
+        boss.lastFired = game.time.now;
+        boss.nextFire = game.rnd.realInRange(300, 800);
    
         boss.firing = false;
+        
+        //  healthbar.scale.x = value;
+    
+            healthbar = game.add.sprite(posX,posY+200,'red');
+            healthbar.scale.setTo(boss.HP/1000*20,1);
+        cannons = game.add.group();
+        cannons.enableBody = true;
+        cannons.physicsBodyType = Phaser.Physics.ARCADE;
+//      
+        cannons.setAll('anchor.x', 0.5);
+        cannons.setAll('anchor.y', 0.5);
+        cannons.setAll('outOfBoundsKill', true);
+        cannons.setAll('checkWorldBounds', true);
 }
 
+
 function topTankManager(){
-    boss.animations.play('left');
+    
+    healthbar.scale.setTo(boss.HP/1000*20,1);
+    game.physics.arcade.overlap(boss, bullets, damageBoss, null, this);
+        game.physics.arcade.overlap(boss, daggers, damageBoss, null, this);
+    if(! firing){
+        boss.animations.play('left');
+        } else{
+            boss.animations.play('right') ;  
+    }
+    
+    if (boss.visible && boss.inCamera){
+            bulletHell ();
+        }
+    cannons.forEachAlive(function(cannon){
+            if (cannon.visible && cannon.inCamera){
+                game.physics.arcade.overlap(cannon, layer, bulletKilled, null, this);
+                game.physics.arcade.overlap(cannon, player1, hitByCannon, null, this);
+                game.physics.arcade.overlap(cannon, player2, hitByCannon, null, this);
+
+            }
+        });
     
 }
+        
+
+function bulletHell(){
+    if(game.time.now > boss.lastFired+boss.nextFire){
+        firing = true;
+        boss.lastFired = game.time.now;
+        //cannons.createMultiple(20, 'cannonball', 0, false);
+    
+    }else if(game.time.now > boss.lastFired +500){
+        firing = false;
+    }
+    
+}
+
+function damageBoss(boss,dagger){
+    boss.HP-=5;
+    dagger.kill(); 
+}
+    
+
