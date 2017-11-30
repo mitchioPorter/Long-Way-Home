@@ -339,6 +339,12 @@ function bulletHell(){
 function damageBoss(boss,dagger){
     boss.HP-=5;
     dagger.kill(); 
+    if(boss.HP <=0){
+        boss.kill();
+        
+        //Load WIN SCREEN HERe
+    }
+    }
 }
     
 
