@@ -169,7 +169,7 @@ function hitByGem(player, gem){
     gem.kill();
 }
 
-function hitByCannon(player, cannon){
+function hitByCannon( cannon, player){
     if (game.time.now > lastAttackTime+1000){
         player.HP -=1;
         fx.play("player_hit");

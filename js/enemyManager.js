@@ -263,7 +263,8 @@ function createTopTank (posX, posY){
         boss.HP = 1000;
         boss.lastFired = game.time.now;
         boss.nextFire = game.rnd.realInRange(300, 800);
-   
+        boss.posX =posX;
+        boss.posY = posY;
         boss.firing = false;
         
         //  healthbar.scale.x = value;
@@ -278,11 +279,12 @@ function createTopTank (posX, posY){
         cannons.setAll('anchor.y', 0.5);
         cannons.setAll('outOfBoundsKill', true);
         cannons.setAll('checkWorldBounds', true);
+    
 }
 
 
 function topTankManager(){
-    
+    //boss.body.position = boss.posX,boss.posY;
     healthbar.scale.setTo(boss.HP/1000*20,1);
     game.physics.arcade.overlap(boss, bullets, damageBoss, null, this);
         game.physics.arcade.overlap(boss, daggers, damageBoss, null, this);
@@ -300,7 +302,11 @@ function topTankManager(){
                 game.physics.arcade.overlap(cannon, layer, bulletKilled, null, this);
                 game.physics.arcade.overlap(cannon, player1, hitByCannon, null, this);
                 game.physics.arcade.overlap(cannon, player2, hitByCannon, null, this);
-
+                cannon.body.velocity.y = cannon.xSpeed;
+                cannon.body.velocity.x = cannon.ySpeed;
+               /* if(cannon.time < game.time.now+2000){
+                    cannon.kill();
+                }*/
             }
         });
     
@@ -311,9 +317,20 @@ function bulletHell(){
     if(game.time.now > boss.lastFired+boss.nextFire){
         firing = true;
         boss.lastFired = game.time.now;
+        for(var i = 0; i <  game.rnd.realInRange(5, 20); i++){
+            var cannon = game.add.sprite(boss.x+110, boss.y+70, 'cannonball');
+            cannon.xSpeed = -1 * game.rnd.realInRange(-40, 300);
+            cannon.ySpeed = -1 * game.rnd.realInRange(-40, 300);
+            cannon.time = game.time.now;
+            cannons.add(cannon);
+            cannon.enableBody =true;
+            cannon.physicsBodyType = Phaser.Physics.ARCADE;
+            cannon.body.setSize(16, 16);
+            };
+        
         //cannons.createMultiple(20, 'cannonball', 0, false);
-    
-    }else if(game.time.now > boss.lastFired +500){
+        boss.nextFire = game.rnd.realInRange(1500, 2500);
+    }else if(game.time.now > boss.lastFired +300){
         firing = false;
     }
     
