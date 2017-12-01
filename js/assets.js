@@ -45,6 +45,10 @@ function assetLoader(){
         game.load.image('heart', heartURI,48,48);
     
         game.load.spritesheet('start', 'assets/StartButton.png', 200, 100,3);
+        game.load.spritesheet('back', 'assets/backButton.png', 200, 100,3);
+        game.load.spritesheet('instructions', 'assets/HowToPLayButton.png', 200, 100,3);
+        game.load.spritesheet('creditButton', 'assets/CreditsButton.png', 200, 100,3);
+        game.load.image('credits', 'assets/credits.png', 200, 100,3);
         game.load.spritesheet('refresh', 'assets/refresh.png', 50, 50);
     
 }
