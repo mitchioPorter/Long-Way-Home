@@ -32,6 +32,7 @@ function hitEnemy1(enemy, bullet){
         createCoin(game,enemy.position.x,enemy.position.y);
         enemy.kill();
         enemyNum=enemyNum-1;
+        enemy.target =player1;
     }
     
     //enemy.reset(enemy.body.position.x+20,enemy.body.position.y);
@@ -47,6 +48,7 @@ function hitEnemy2(enemy, dagger){
         createCoin(game,enemy.position.x,enemy.position.y);
         enemy.kill();
         enemyNum=enemyNum-1;
+        enemy.target =player2;
     }
     //enemy.reset(enemy.body.position.x+20,enemy.body.position.y);
 }
@@ -184,6 +186,7 @@ function gemBossUpdater (){
         
         }
     
+    
 }
 
 
@@ -231,12 +234,14 @@ function fireGem (){
         //left
         if (boss.body.position.x > boss.target.body.position.x){
             gem.reset(boss.x, boss.y+55);
-            gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x-500, gem.body.position.y, 1000, 5000);
+            gem.rotation = game.physics.arcade.moveToXY(gem, boss.target.body.position.x, boss.target.body.position.y, 300);
+            //gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x-500, gem.body.position.y, 1000, 5000);
         }
         //right
         else if (boss.body.position.x < boss.target.body.position.x){
             gem.reset(boss.x, boss.y+55);
-            gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x+500, gem.body.position.y, 1000, 5000);
+           gem.rotation = game.physics.arcade.moveToXY(gem, boss.target.body.position.x, boss.target.body.position.y, 300);
+            // gem.rotation = game.physics.arcade.moveToXY(gem, gem.body.position.x+500, gem.body.position.y, 1000, 5000);
         }
         lastGemTime = game.time.now;
     }
@@ -318,9 +323,11 @@ function bulletHell(){
         firing = true;
         boss.lastFired = game.time.now;
         for(var i = 0; i <  game.rnd.realInRange(5, 20); i++){
-            var cannon = game.add.sprite(boss.x+110, boss.y+70, 'cannonball');
-            cannon.xSpeed = -1 * game.rnd.realInRange(-40, 300);
-            cannon.ySpeed = -1 * game.rnd.realInRange(-40, 300);
+            var cannon = game.add.sprite(boss.x+110, boss.y+68, 'cannonball');
+            
+                cannon.xSpeed = -1 * game.rnd.realInRange(-40, 300);
+                cannon.ySpeed = -1 * game.rnd.realInRange(-40, 300);
+            
             cannon.time = game.time.now;
             cannons.add(cannon);
             cannon.enableBody =true;

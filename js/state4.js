@@ -11,6 +11,7 @@ var boss;
 var firing = false;
 var healthBar;
 var cannons;
+var state4 = false;
 
 demo.state4.prototype = {
     preload: function(){
@@ -20,6 +21,7 @@ demo.state4.prototype = {
     },
     create: function(){
         //load the bg
+        
         backgroundCreate(game,'BossRoom', 'tileset1');
         //load the players
         player2Create(game,150,100);
@@ -52,9 +54,7 @@ demo.state4.prototype = {
         topTankManager();
       
      
-        //Win the game
-
-            
+        
         
         }
 };

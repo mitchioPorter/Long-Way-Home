@@ -42,7 +42,7 @@ function assetLoader(){
         game.load.spritesheet('boulder', 'assets/boulder.png', 32, 32, 4);
         game.load.image('tinyGem', 'assets/tinygem.png');
     
-        game.load.image('heart', heartURI,48,48);
+        game.load.image('heart', 'assets/heart.png',48,48);
     
         game.load.spritesheet('start', 'assets/StartButton.png', 200, 100,3);
         game.load.spritesheet('back', 'assets/backButton.png', 200, 100,3);

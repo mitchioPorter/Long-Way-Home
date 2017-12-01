@@ -8,14 +8,13 @@ hasKey = false;
 
 
 
-
 demo.state3.prototype = {
     preload: function(){
        
         assetLoader();
     },
     create: function(){
-        
+        state4 = true;
         backgroundCreate(game,'room2_1','tileset22');
         groupInitializer();
         enemiesCreate();2
@@ -28,9 +27,10 @@ demo.state3.prototype = {
         player1Create(game,150,100);
         player2Create(game,200,150);
         
-        var limit = game.rnd.integerInRange(1, 50);
+        var limit = game.rnd.integerInRange(10, 40);
+        enemyNum = limit/2;
         for(var i = 0; i < limit; i++){
-            createGhost(game.rnd.integerInRange(0,game.width),game.rnd.integerInRange(0,game.height), i);
+            createGhost(game.rnd.integerInRange(0,2000),game.rnd.integerInRange(0,2000), i);
     }       
         
         hud();
@@ -45,6 +45,16 @@ demo.state3.prototype = {
         enemyUpdate();
         trapUpdate()
         pressurePlateUpdater();
+        //Win the game
+        hintText.text = 'Enemies Remaining: ' + enemyNum;
+      
+            
         
+         if(enemyNum <= 0){
+        music.stop();
+        game.state.start('state4');
+    
+            }       
     }
+   
 };

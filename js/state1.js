@@ -112,7 +112,8 @@ demo.state1.prototype = {
         //debugging stuff
         game.input.keyboard.addKey(Phaser.Keyboard.TWO).onDown.add(changeState2, null, null, 2);
         game.input.keyboard.addKey(Phaser.Keyboard.FOUR).onDown.add(changeState4, null, null, 2);
-
+        game.input.keyboard.addKey(Phaser.Keyboard.THREE).onDown.add(changeState3, null, null, 2);
+        
         hud();
         
         //Un-comment this to add a refresh button in state1
@@ -138,6 +139,13 @@ function changeState2(){
     if (state == 1||state==2){
         music.stop();
         game.state.start('state2');
+    }
+}
+function changeState3(){
+    //console.log(i);
+    if (state == 1||state==2){
+        music.stop();
+        game.state.start('state3');
     }
 }
 

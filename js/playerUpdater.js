@@ -200,12 +200,12 @@ function playerUpdate(){
 //this manages the bullets
 //Bullet handler
         bullets.forEachAlive(function(bullet){
-            if (bullet.visible && bullet.inCamera){
+            if (bullet.visible && bullet.inCamera && !state4){
                 game.physics.arcade.overlap(bullet, layer, bulletKilled, null, this);
             }
         });
         daggers.forEachAlive(function(dagger){
-            if (dagger.visible && dagger.inCamera){
+            if (dagger.visible && dagger.inCamera && !state4){
                 game.physics.arcade.overlap(dagger, layer, daggerKilled, null, this);
             }
         });
