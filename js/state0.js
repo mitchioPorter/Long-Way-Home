@@ -5,6 +5,8 @@ var creditButton;
 var credits;
 var CreditDisplay =false;
 var backButton;
+var instructions;
+var instructBool;
 demo.state0 = function(){};
 demo.state0.prototype = {
     preload: function (){
@@ -24,6 +26,7 @@ demo.state0.prototype = {
          
 
         credits = game.add.sprite(10000,0,'credits');
+        instructions = game.add.sprite(10000,0,'howTo');
         
         backButton = game.add.button(600, 500, 'back', back2, this, 0, 0, 0);
     },
@@ -33,13 +36,21 @@ demo.state0.prototype = {
         state=0;
         if(CreditDisplay){
             
+            
             credits.x= 0;
+            backButton.x=600;
+            backButton.y = 500;
+           
+        }else if(instructBool){
+            
+            instructions.x = 0;
             backButton.x=600;
             backButton.y = 500;
            
         }else{
             credits.x=10000;
             backButton.x=10000;
+            instructions.x = 10000;
             
             
                 
@@ -69,17 +80,18 @@ function refresh3 () {
 
 function creditRoll(){
     CreditDisplay = true;
-    credits = game.add.sprite(2000,0,'credits');
-    backButton = game.add.button(2000, 500, 'back', back2, this, 0, 0, 0);
+    
 }
 
 function back2(){
     CreditDisplay = false;
+     instructBool = false;
     credits.x=10000;
     backButton.x=10000;
+    instructions.x = 10000;
 }
 
 function howTo(){
-    
+    instructBool = true;
 }
 

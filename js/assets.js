@@ -49,6 +49,8 @@ function assetLoader(){
         game.load.spritesheet('instructions', 'assets/HowToPLayButton.png', 200, 100,3);
         game.load.spritesheet('creditButton', 'assets/CreditsButton.png', 200, 100,3);
         game.load.image('credits', 'assets/credits.png', 200, 100,3);
+        game.load.image('howTo', 'assets/howToPlay.png', 200, 100,3);
+    
         game.load.spritesheet('refresh', 'assets/refresh.png', 50, 50);
     
 }
