@@ -28,7 +28,7 @@ demo.state3.prototype = {
         player2Create(game,200,150);
         
         var limit = game.rnd.integerInRange(10, 40);
-        enemyNum = limit/2;
+        enemyNum = Math.floor(limit/2);
         for(var i = 0; i < limit; i++){
             createGhost(game.rnd.integerInRange(0,2000),game.rnd.integerInRange(0,2000), i);
     }       
@@ -36,10 +36,11 @@ demo.state3.prototype = {
         hud();
         refresh = game.add.button(750, 0, 'refresh', refresh3, this, 0, 0, 0);
         refresh.fixedToCamera = true;
+        state = 3;
     },
     
     update: function(){
-        state = 3;
+        
         
         playerUpdate();
         enemyUpdate();

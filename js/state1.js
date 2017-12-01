@@ -53,6 +53,7 @@ demo.state1.prototype = {
         
     },
     create: function () {
+        state = 1;
         plateActive = false;
         
         backgroundCreate(game,'room1','tileset1');
@@ -123,7 +124,7 @@ demo.state1.prototype = {
     
     
     update: function(){
-        state = 1;
+        
         //calls the update function
             playerUpdate();
             enemyUpdate();

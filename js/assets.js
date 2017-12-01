@@ -48,8 +48,14 @@ function assetLoader(){
         game.load.spritesheet('back', 'assets/backButton.png', 200, 100,3);
         game.load.spritesheet('instructions', 'assets/HowToPLayButton.png', 200, 100,3);
         game.load.spritesheet('creditButton', 'assets/CreditsButton.png', 200, 100,3);
+        game.load.spritesheet('retry', 'assets/retry.png', 200, 100,3);
+        game.load.spritesheet('continueB', 'assets/continueButton.png', 200, 100,3);
         game.load.image('credits', 'assets/credits.png', 200, 100,3);
-        game.load.image('howTo', 'assets/howToPlay.png', 200, 100,3);
+        game.load.image('howTo', 'assets/howToPlay.png',800,600);
+        game.load.image('FIN', 'assets/fin.png',800,600);
+    
+        game.load.image('win', 'assets/fin.png', 800,600);
+        game.load.image('lose', 'assets/gameOver.png', 800,600);
     
         game.load.spritesheet('refresh', 'assets/refresh.png', 50, 50);
     

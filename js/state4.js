@@ -44,10 +44,11 @@ demo.state4.prototype = {
         refresh.fixedToCamera = true;
         createTopTank(550,1195);
 
-        
+        hintText.text = 'Good Luck';
+        state = 4;
     },
     update: function(){
-        state =4;
+        
         groupInitializer();
         playerUpdate();
         
@@ -58,3 +59,9 @@ demo.state4.prototype = {
         
         }
 };
+
+function backToMenu(){
+    
+     music.stop();
+     game.state.start('state4');
+}

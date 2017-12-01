@@ -1,4 +1,4 @@
-
+var lose;
 function playerAttacked(player, enemy) {
     
     if (game.time.now > lastAttackTime+1000) {
@@ -35,6 +35,10 @@ function playerKilled(player){
     
 
     endText = game.add.text((game.camera.x + game.camera.width /2)-80, (game.camera.y + game.camera.height/2)-100, 'You Lose!', { fontSize: '32px', fill: '#fff' });
+    lose = game.add.sprite(game.camera.x,game.camera.y,'lose');
+    var retry = game.add.button(game.camera.x+600,game.camera.y+10, 'retry', reloadState, this, 0, 0, 0);
+       
+
 }
 
 function playerUpdate(){
@@ -211,4 +215,25 @@ function playerUpdate(){
         });
 }
 
+
+
+//game over stuff
+
+
+function reloadState(){
+    if(state == 1){
+        music.stop();
+        game.state.start('state1');
+    }else if(state == 2){
+        music.stop();
+        game.state.start('state2');
+    }else if(state == 3){
+        music.stop();
+        game.state.start('state3');
+    }else if(state == 4){
+        music.stop();
+        game.state.start('state4');
+    }
+
+}
 

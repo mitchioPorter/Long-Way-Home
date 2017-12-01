@@ -38,10 +38,10 @@ demo.state2.prototype = {
         hud();
         refresh = game.add.button(750, 0, 'refresh', refresh2, this, 0, 0, 0);
         refresh.fixedToCamera = true;
-        
+        state =2;
     },
     update: function(){
-        state =2;
+        
         groupInitializer();
         playerUpdate();
         gemBossUpdater ();

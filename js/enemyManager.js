@@ -1,5 +1,7 @@
 var lastAttackTime_enemy;
 var healthbar;
+var fin;
+var continueButton;
 
 function enemiesCreate(){
     enemies = game.add.group();
@@ -271,7 +273,7 @@ function createTopTank (posX, posY){
         boss.posX =posX;
         boss.posY = posY;
         boss.firing = false;
-        
+        //
         //  healthbar.scale.x = value;
     
             healthbar = game.add.sprite(posX,posY+200,'red');
@@ -350,8 +352,22 @@ function damageBoss(boss,dagger){
         boss.kill();
         
         //Load WIN SCREEN HERe
+        player1.kill();
+        player2.kill();
+        fin = game.add.sprite(game.camera.x,game.camera.y,'FIN');
+        continueButton = game.add.button(game.camera.x+600,game.camera.y+500, 'continueB', creditsEnd, this, 0, 0, 0);
     }
 }
 
     
+function creditsEnd(){
+        continueButton.kill(); 
+        credits = game.add.sprite(game.camera.x,game.camera.y,'credits');
+        backButton = game.add.button(game.camera.x+600,game.camera.y+ 500, 'back', returnToMainMenu, this, 0, 0, 0);
+    
+}
 
+function returnToMainMenu(){
+    music.stop();
+    game.state.start('state0');
+}
