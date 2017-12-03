@@ -33,6 +33,16 @@ demo.state3.prototype = {
             createGhost(game.rnd.integerInRange(0,2000),game.rnd.integerInRange(0,2000), i);
     }       
         
+        createGate(game,930,1005);
+        createPressurePlate(game,885,900);
+        createPressurePlate(game,1100,1005);
+        createGate(game,1600,1390);
+        createPressurePlate(game,1500,1350);
+        createPressurePlate(game,1710,1350);
+        createGate(game,1600,625);
+        createPressurePlate(game,1500,580);
+        createPressurePlate(game,1710,580);
+        
         hud();
         refresh = game.add.button(750, 0, 'refresh', refresh3, this, 0, 0, 0);
         refresh.fixedToCamera = true;
