@@ -273,6 +273,7 @@ function createTopTank (posX, posY){
         boss.posX =posX;
         boss.posY = posY;
         boss.firing = false;
+        boss.lastHit =  game.time.now;
         //
         //  healthbar.scale.x = value;
     
@@ -291,6 +292,10 @@ function createTopTank (posX, posY){
 
 
 function topTankManager(){
+     if(game.time.now > boss.lastHit + 100){
+        boss.tint = 0xFFFFFF;
+          
+    }
     //boss.body.position = boss.posX,boss.posY;
     healthbar.scale.setTo(boss.HP/1000*20,1);
     game.physics.arcade.overlap(boss, bullets, damageBoss, null, this);
@@ -346,6 +351,8 @@ function bulletHell(){
 }
 
 function damageBoss(boss,dagger){
+    boss.lastHit = game.time.now;
+    boss.tint = 0xff0000;
     boss.HP-=5;
     dagger.kill(); 
     if(boss.HP <=0){
