@@ -32,7 +32,7 @@ function assetLoader(){
     
         //sound
         game.load.audio('crunch', 'assets/ogg/Crunch.ogg');
-        game.load.audio('dungeon', ['assets/ogg/dungeon3_loop.mp3', 'assets/ogg/dungeon3_loop.ogg']);
+        game.load.audio('dungeon', ['assets/ogg/Dungeon3_loop.mp3', 'assets/ogg/Dungeon3_loop.ogg']);
         game.load.audio('dungeon2',['assets/ogg/dungeon2_1.mp3','assets/ogg/dungeon2.ogg']);
         
         game.load.audio('dungeonBoss',['assets/ogg/DungeonBoss.mp3','assets/ogg/DungeonBoss.ogg']);
@@ -46,7 +46,7 @@ function assetLoader(){
     
         game.load.spritesheet('start', 'assets/StartButton.png', 200, 100,3);
         game.load.spritesheet('back', 'assets/backButton.png', 200, 100,3);
-        game.load.spritesheet('instructions', 'assets/HowToPLayButton.png', 200, 100,3);
+        game.load.spritesheet('instructions', 'assets/HowToPlayButton.png', 200, 100,3);
         game.load.spritesheet('creditButton', 'assets/CreditsButton.png', 200, 100,3);
         game.load.spritesheet('retry', 'assets/retry.png', 200, 100,3);
         game.load.spritesheet('continueB', 'assets/continueButton.png', 200, 100,3);
